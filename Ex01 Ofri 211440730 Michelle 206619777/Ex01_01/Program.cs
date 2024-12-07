@@ -17,7 +17,7 @@ namespace Ex01_01
             decimalNumbers[2] = convertBinryToDecimal(binaryNumber3);
  
             Array.Sort(decimalNumbers);
-            Console.WriteLine("The decimal numbers are: {0}, {1}, {2}",decimalNumbers);
+            Console.WriteLine("The decimal numbers are: {0}, {1}, {2}", decimalNumbers[0], decimalNumbers[1], decimalNumbers[2]);
 
             double average = decimalNumbers.Average();
             Console.WriteLine("The average is : {0}", average);
@@ -27,10 +27,16 @@ namespace Ex01_01
             longestBitsSequences[1] = getLongestBitsSequence(binaryNumber2);
             longestBitsSequences[2] = getLongestBitsSequence(binaryNumber3);
             int maxBitSequence = longestBitsSequences.Max();
-            Console.WriteLine("The longest bit sequence is : {0}", maxBitSequence);
+            Console.WriteLine("The longest bits sequence is : {0}", maxBitSequence);
+
+            Console.WriteLine("The number of swaps in {0} are : {1}",binaryNumber1, getBitsSwapCount(binaryNumber1));
+            Console.WriteLine("The number of swaps in {0} are : {1}", binaryNumber2, getBitsSwapCount(binaryNumber2));
+            Console.WriteLine("The number of swaps in {0} are : {1}", binaryNumber3, getBitsSwapCount(binaryNumber3));
+
+            Console.WriteLine("The binary number with the most '0' is : {0}", 
+                getBinaryNumberWithMax0(binaryNumber1, binaryNumber2, binaryNumber3));
 
 
-            
         }
 
         private static string getBinaryNumberFromUser(int i_inputIndex)
@@ -82,11 +88,11 @@ namespace Ex01_01
                     {
                         globalMaxSequnce = localMaxSequence;
                     }
-                    globalMaxSequnce = 1;
+                    localMaxSequence = 1;
                 }
             }
 
-            return globalMaxSequnce;
+            return Math.Max(localMaxSequence, globalMaxSequnce);
         }
 
         private static int getBitsSwapCount(string i_binaryNumber)
@@ -102,5 +108,23 @@ namespace Ex01_01
 
             return numOfSwaps;
         }
+
+        private static string getBinaryNumberWithMax0(params string[] i_binaryNumbers)
+        {
+            string binaryNumberWithMax0 = i_binaryNumbers[0];
+            int numOfZeros;
+            int maxNumOfZeros = 0;
+            foreach(string binary in i_binaryNumbers)
+            {
+                numOfZeros = binary.Count(c => c == '0');
+                if(numOfZeros >= maxNumOfZeros)
+                {
+                    binaryNumberWithMax0 = binary;
+                    maxNumOfZeros = numOfZeros;
+                }
+            }
+            return binaryNumberWithMax0;
+        }
+
     }
 }
