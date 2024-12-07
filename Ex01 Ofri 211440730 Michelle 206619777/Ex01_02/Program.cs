@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 namespace Ex01_02
 {
-    class Program
+    public class Program
     {
         public static void Main()
         {
