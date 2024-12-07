@@ -8,7 +8,7 @@ namespace Ex01_02
     {
         public static void Main()
         {
-            printABCTree(100);
+            printABCTree();
         }
 
         public static void printABCTree(int i_treeHeight = 7)
@@ -29,7 +29,7 @@ namespace Ex01_02
                 StringBuilder lineToPrint = new StringBuilder();
                 lineToPrint.Append(i_lineNumber);
                 lineToPrint.Append(' ', spacesInLine);
-                lineToPrint.Append('|').Append(i_nextCharInLine).Append('|');
+                lineToPrint.Append(String.Format("|{0}|", i_nextCharInLine));
                 Console.WriteLine(lineToPrint);
                 printABCTreeHelper(i_treeHeight, i_lineNumber + 1, i_nextCharInLine);
             }
