@@ -10,11 +10,11 @@ namespace Ex01_05
             int[] digitsArray = getAndValidateUserInput();
 
             Console.WriteLine("The number of digits that are bigger then the units digit is : {0}", 
-                getNumOfDigitsGreaterThanUnitsDigit(ref digitsArray));
-            Console.WriteLine("The number of digits divided by 4 is : {0}", getNumOfDigitsDividedBy4(ref digitsArray));
+                getNumOfDigitsGreaterThanUnitsDigit(digitsArray));
+            Console.WriteLine("The number of digits divided by 4 is : {0}", getNumOfDigitsDividedBy4(digitsArray));
             Console.WriteLine("the ratio between the biggest digit and smallest digit is : {0}", 
-                getSmallestDigitBiggestDigitRatio(ref digitsArray));
-            Console.WriteLine("The number of pairs of the same digit is : {0}", getNumOfSameDigitPairs(ref digitsArray));
+                getSmallestDigitBiggestDigitRatio(digitsArray));
+            Console.WriteLine("The number of pairs of the same digit is : {0}", getNumOfSameDigitPairs(digitsArray));
         }
         
         private static int[] getAndValidateUserInput()
@@ -41,11 +41,11 @@ namespace Ex01_05
             return digitsArray;
         }
 
-        private static int getNumOfDigitsGreaterThanUnitsDigit(ref int[] io_DigitsArray)
+        private static int getNumOfDigitsGreaterThanUnitsDigit(int[] i_DigitsArray)
         {
             int numOfBiggerThenUnitsDig = 0;
-            int unitDigit = io_DigitsArray[0];
-            foreach(int digit in io_DigitsArray)
+            int unitDigit = i_DigitsArray[0];
+            foreach(int digit in i_DigitsArray)
             {
                 if (digit > unitDigit)
                 {
@@ -56,10 +56,10 @@ namespace Ex01_05
             return numOfBiggerThenUnitsDig;
         }
 
-        private static int getNumOfDigitsDividedBy4(ref int[] io_DigitsArray)
+        private static int getNumOfDigitsDividedBy4(int[] i_DigitsArray)
         {
             int numOfDigitsDividedBy4 = 0;
-            foreach(int digit in io_DigitsArray)
+            foreach(int digit in i_DigitsArray)
             {
                 if(digit % 4 == 0)
                 {
@@ -70,11 +70,11 @@ namespace Ex01_05
             return numOfDigitsDividedBy4;
         }
         
-        private static float getSmallestDigitBiggestDigitRatio(ref int[] io_DigitsArray)
+        private static float getSmallestDigitBiggestDigitRatio(int[] i_DigitsArray)
         {
-            int maxDigit = 0,minDigit = io_DigitsArray[0];
+            int maxDigit = 0,minDigit = i_DigitsArray[0];
             float ratio;
-            foreach(int digit in io_DigitsArray)
+            foreach(int digit in i_DigitsArray)
             {
                 if(digit > maxDigit)
                 {
@@ -98,12 +98,12 @@ namespace Ex01_05
 
             return ratio;
         }
-        private static int getNumOfSameDigitPairs(ref int[] io_DigitsArray)
+        private static int getNumOfSameDigitPairs(int[] i_DigitsArray)
         {
             int numOfPairs = 0;
             int[] digitCounter = new int[10];
             Array.Clear(digitCounter, 0, digitCounter.Length);
-            foreach(int num in io_DigitsArray)
+            foreach(int num in i_DigitsArray)
             {
                 digitCounter[num]++;
             }
@@ -121,9 +121,3 @@ namespace Ex01_05
     }
     
 }
-// TODO - talk with michelle about this 
-/*      
-        parseTestResult = int.TryParse(stringNumber, out tempNum);
-        //TODO - handle negative numbers
-        while (!parseTestResult && (tempNum < 0 && stringNumber.Length != 10) || stringNumber.Length != 9)
-*/
