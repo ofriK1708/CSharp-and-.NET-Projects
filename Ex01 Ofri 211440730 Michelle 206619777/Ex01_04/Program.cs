@@ -27,12 +27,12 @@ namespace Ex01_04
 
         private static string getInputFromUserAndValidate()
         {
-            Console.WriteLine("Please insert 10 chracters string that contains only letters in English or numbers");
+            Console.WriteLine("Please insert 10 chracters string that contains only letters in English or only numbers");
             string inputFromUser = Console.ReadLine();
 
             while (!isUserInputValid(inputFromUser))
             {
-                Console.WriteLine("The string must contain only letters in English or numbers, please try again");
+                Console.WriteLine("The string must be 10 characters long and contain only letters in English or only numbers, please try again");
                 inputFromUser = Console.ReadLine();
             }
 
