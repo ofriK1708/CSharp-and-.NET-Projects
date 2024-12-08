@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Ex01_05
 {
@@ -18,14 +19,11 @@ namespace Ex01_05
         
         private static int[] getAndValidateUserInput()
         {
-            Console.WriteLine("Hello! please enter a 9-digit number: ");
+            Console.WriteLine("Hello! please enter a 9-digit number: (only 0-9, no symbols please)");
             string digitString = Console.ReadLine();
             int[] digitsArray = new int[9];
             int index = 8;
-            int tempNum;
-            bool parseTest = int.TryParse(digitString, out tempNum);
-            //TODO - handle negative numbers
-            while (digitString.Length != 9 || !int.TryParse(digitString,out tempNum))
+            while (digitString.Length != 9 || !digitString.All(Char.IsDigit))
             {
                 Console.WriteLine("Invalid number, please enter a 9-digit number: ");
                 digitString = Console.ReadLine();
