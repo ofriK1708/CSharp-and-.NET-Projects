@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 namespace Ex01_02
 {
