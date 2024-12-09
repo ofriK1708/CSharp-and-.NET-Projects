@@ -6,7 +6,7 @@ namespace Ex01_02
     {
         public static void Main()
         {
-            printABCTree(14);
+            printABCTree();
         }
 
         public static void printABCTree(int i_TreeHeight = 7)
