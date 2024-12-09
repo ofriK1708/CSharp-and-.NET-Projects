@@ -39,9 +39,9 @@ namespace Ex01_01
 
         }
 
-        private static string getBinaryNumberFromUser(int i_inputIndex)
+        private static string getBinaryNumberFromUser(int i_InputIndex)
         {
-            Console.WriteLine("Please enter the #{0} binary number with 8 digits (and then press 'enter')", i_inputIndex);
+            Console.WriteLine("Please enter the #{0} binary number with 8 digits (and then press 'enter')", i_InputIndex);
             string binaryNumber = Console.ReadLine();
 
             while (!validateBinaryNumber(binaryNumber))
@@ -53,32 +53,32 @@ namespace Ex01_01
             return binaryNumber;
         }
 
-        private static bool validateBinaryNumber(string i_binaryNumberToCheck)
+        private static bool validateBinaryNumber(string i_BinaryNumberToCheck)
         {
-            bool validation = i_binaryNumberToCheck.Length == 8 && i_binaryNumberToCheck.All(c => c == '1' || c == '0');
+            bool validation = i_BinaryNumberToCheck.Length == 8 && i_BinaryNumberToCheck.All(c => c == '1' || c == '0');
 
             return validation;
         }
 
-        private static int convertBinryToDecimal(string i_binaryNumberToConvert)
+        private static int convertBinryToDecimal(string i_BinaryNumberToConvert)
         {
             int powerOf2 = 1;
             int decimalNumber = 0;
-            for(int i = i_binaryNumberToConvert.Length - 1; i >= 0; i--) 
+            for(int i = i_BinaryNumberToConvert.Length - 1; i >= 0; i--) 
             {
-                decimalNumber += int.Parse(i_binaryNumberToConvert[i].ToString()) * powerOf2;
+                decimalNumber += int.Parse(i_BinaryNumberToConvert[i].ToString()) * powerOf2;
                 powerOf2 *= 2;
             }
 
             return decimalNumber;
         }
 
-        private static int getLongestBitsSequence(string i_binaryNumber)
+        private static int getLongestBitsSequence(string i_BinaryNumber)
         {
             int localMaxSequence = 1,globalMaxSequnce = 1;
-            for(int i = 0; i < i_binaryNumber.Length-1; i++)
+            for(int i = 0; i < i_BinaryNumber.Length-1; i++)
             {
-                if (i_binaryNumber[i] == i_binaryNumber[i + 1]) 
+                if (i_BinaryNumber[i] == i_BinaryNumber[i + 1]) 
                 {
                     localMaxSequence++;
                 }
@@ -95,12 +95,12 @@ namespace Ex01_01
             return Math.Max(localMaxSequence, globalMaxSequnce);
         }
 
-        private static int getBitsSwapCount(string i_binaryNumber)
+        private static int getBitsSwapCount(string i_BinaryNumber)
         {
             int numOfSwaps = 0;
-            for (int i = 0; i < i_binaryNumber.Length - 1; i++)
+            for (int i = 0; i < i_BinaryNumber.Length - 1; i++)
             {
-                if (i_binaryNumber[i] != i_binaryNumber[i + 1])
+                if (i_BinaryNumber[i] != i_BinaryNumber[i + 1])
                 {
                     numOfSwaps++;
                 }
@@ -109,22 +109,22 @@ namespace Ex01_01
             return numOfSwaps;
         }
 
-        private static string getBinaryNumberWithMax0(params string[] i_binaryNumbers)
+        private static string getBinaryNumberWithMax0(params string[] i_BinaryNumbers)
         {
-            string binaryNumberWithMax0 = i_binaryNumbers[0];
+            string binaryNumberWithMax0 = i_BinaryNumbers[0];
             int numOfZeros;
             int maxNumOfZeros = 0;
-            foreach(string binary in i_binaryNumbers)
+            foreach (string binary in i_BinaryNumbers)
             {
                 numOfZeros = binary.Count(c => c == '0');
-                if(numOfZeros >= maxNumOfZeros)
+                if (numOfZeros >= maxNumOfZeros)
                 {
                     binaryNumberWithMax0 = binary;
                     maxNumOfZeros = numOfZeros;
                 }
             }
+
             return binaryNumberWithMax0;
         }
-
     }
 }

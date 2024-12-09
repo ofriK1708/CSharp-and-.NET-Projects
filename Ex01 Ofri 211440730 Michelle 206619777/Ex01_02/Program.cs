@@ -9,49 +9,49 @@ namespace Ex01_02
             printABCTree(14);
         }
 
-        public static void printABCTree(int i_treeHeight = 7)
+        public static void printABCTree(int i_TreeHeight = 7)
         {
-            printABCTreeHelper(i_treeHeight, 1, 'A');
+            printABCTreeHelper(i_TreeHeight, 1, 'A');
         }
 
-        private static void printABCTreeHelper(int i_treeHeight,int i_lineNumber,char i_nextCharInLine)
+        private static void printABCTreeHelper(int i_TreeHeight,int i_LineNumber,char i_NextCharInLine)
         {
-            if (i_lineNumber > i_treeHeight) 
+            if (i_LineNumber > i_TreeHeight) 
             {
                 return;
             }
 
-            if(i_lineNumber >= i_treeHeight - 1)
+            if(i_LineNumber >= i_TreeHeight - 1)
             {
-                int spacesInLine = i_treeHeight >= 10 ? i_treeHeight - 3 : i_treeHeight  - 2;
+                int spacesInLine = i_TreeHeight >= 10 ? i_TreeHeight - 3 : i_TreeHeight  - 2;
                 StringBuilder lineToPrint = new StringBuilder();
-                lineToPrint.Append(i_lineNumber);
+                lineToPrint.Append(i_LineNumber);
                 lineToPrint.Append(' ', spacesInLine);
-                lineToPrint.Append(String.Format("|{0}|", i_nextCharInLine));
+                lineToPrint.Append(String.Format("|{0}|", i_NextCharInLine));
                 Console.WriteLine(lineToPrint);
-                printABCTreeHelper(i_treeHeight, i_lineNumber + 1, i_nextCharInLine);
+                printABCTreeHelper(i_TreeHeight, i_LineNumber + 1, i_NextCharInLine);
             }
             
             else
             {
-                int charsInLine = (i_lineNumber * 2) - 1;
-                int spacesInLine = i_treeHeight - i_lineNumber;
-                spacesInLine -= i_lineNumber >= 10 ? 1 : 0;
+                int charsInLine = (i_LineNumber * 2) - 1;
+                int spacesInLine = i_TreeHeight - i_LineNumber;
+                spacesInLine -= i_LineNumber >= 10 ? 1 : 0;
                 StringBuilder lineToPrint = new StringBuilder();
-                lineToPrint.Append(i_lineNumber);
+                lineToPrint.Append(i_LineNumber);
                 lineToPrint.Append(' ', spacesInLine);
                 for (int i =0; i <charsInLine; i++)
                 {
-                    if(i_nextCharInLine > 'Z')
+                    if(i_NextCharInLine > 'Z')
                     {
-                        i_nextCharInLine = 'A';
+                        i_NextCharInLine = 'A';
                     }
-                    lineToPrint.Append(i_nextCharInLine);
-                    i_nextCharInLine++;
+                    lineToPrint.Append(i_NextCharInLine);
+                    i_NextCharInLine++;
                 }
 
                 Console.WriteLine(lineToPrint);
-                printABCTreeHelper(i_treeHeight, i_lineNumber + 1, i_nextCharInLine++);
+                printABCTreeHelper(i_TreeHeight, i_LineNumber + 1, i_NextCharInLine++);
             }
         }
     }
