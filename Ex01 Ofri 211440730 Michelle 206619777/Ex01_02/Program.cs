@@ -6,7 +6,7 @@ namespace Ex01_02
     {
         public static void Main()
         {
-            printABCTree();
+            printABCTree(14);
         }
 
         public static void printABCTree(int i_treeHeight = 7)
@@ -23,7 +23,7 @@ namespace Ex01_02
 
             if(i_lineNumber >= i_treeHeight - 1)
             {
-                int spacesInLine = i_treeHeight - 2;
+                int spacesInLine = i_treeHeight >= 10 ? i_treeHeight - 3 : i_treeHeight  - 2;
                 StringBuilder lineToPrint = new StringBuilder();
                 lineToPrint.Append(i_lineNumber);
                 lineToPrint.Append(' ', spacesInLine);
@@ -36,6 +36,7 @@ namespace Ex01_02
             {
                 int charsInLine = (i_lineNumber * 2) - 1;
                 int spacesInLine = i_treeHeight - i_lineNumber;
+                spacesInLine -= i_lineNumber >= 10 ? 1 : 0;
                 StringBuilder lineToPrint = new StringBuilder();
                 lineToPrint.Append(i_lineNumber);
                 lineToPrint.Append(' ', spacesInLine);
