@@ -15,6 +15,7 @@ namespace Ex01_03
             string treeHeightFromUser = Console.ReadLine();
             int treeHeight;
             bool isValidNum = int.TryParse(treeHeightFromUser, out treeHeight);
+
             while (!isValidNum || treeHeight > 15 || treeHeight < 2)
             {
                 Console.WriteLine("Invalid height (the height should be between 2 and 15)");

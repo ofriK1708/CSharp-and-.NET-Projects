@@ -23,6 +23,7 @@ namespace Ex01_05
             string digitString = Console.ReadLine();
             int[] digitsArray = new int[9];
             int index = 8;
+
             while (digitString.Length != 9 || !digitString.All(Char.IsDigit))
             {
                 Console.WriteLine("Invalid number, please enter a 9-digit number: ");
@@ -42,6 +43,7 @@ namespace Ex01_05
         {
             int numOfBiggerThenUnitsDig = 0;
             int unitDigit = i_DigitsArray[0];
+
             foreach(int digit in i_DigitsArray)
             {
                 if (digit > unitDigit)
@@ -56,6 +58,7 @@ namespace Ex01_05
         private static int getNumOfDigitsDividedBy4(int[] i_DigitsArray)
         {
             int numOfDigitsDividedBy4 = 0;
+
             foreach(int digit in i_DigitsArray)
             {
                 if(digit % 4 == 0)
@@ -71,6 +74,7 @@ namespace Ex01_05
         {
             int maxDigit = 0,minDigit = i_DigitsArray[0];
             float ratio;
+
             foreach(int digit in i_DigitsArray)
             {
                 if(digit > maxDigit)
@@ -84,14 +88,7 @@ namespace Ex01_05
                 }
             }
 
-            if(maxDigit == 0)
-            {
-                ratio = 0;
-            }
-            else
-            {
-                ratio = (float)maxDigit / minDigit;
-            }
+            ratio = maxDigit == 0 ? 0 : (float)maxDigit / minDigit;
 
             return ratio;
         }
@@ -99,6 +96,7 @@ namespace Ex01_05
         {
             int numOfPairs = 0;
             int[] digitCounter = new int[10];
+
             Array.Clear(digitCounter, 0, digitCounter.Length);
             foreach(int num in i_DigitsArray)
             {
@@ -115,6 +113,5 @@ namespace Ex01_05
 
             return numOfPairs;
         }
-    }
-    
+    }  
 }

@@ -25,6 +25,7 @@ namespace Ex01_02
             {
                 int spacesInLine = i_TreeHeight >= 10 ? i_TreeHeight - 3 : i_TreeHeight  - 2;
                 StringBuilder lineToPrint = new StringBuilder();
+
                 lineToPrint.Append(i_LineNumber);
                 lineToPrint.Append(' ', spacesInLine);
                 lineToPrint.Append(String.Format("|{0}|", i_NextCharInLine));
@@ -38,6 +39,7 @@ namespace Ex01_02
                 int spacesInLine = i_TreeHeight - i_LineNumber;
                 spacesInLine -= i_LineNumber >= 10 ? 1 : 0;
                 StringBuilder lineToPrint = new StringBuilder();
+
                 lineToPrint.Append(i_LineNumber);
                 lineToPrint.Append(' ', spacesInLine);
                 for (int i =0; i <charsInLine; i++)

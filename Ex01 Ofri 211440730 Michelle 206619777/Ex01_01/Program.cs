@@ -29,7 +29,7 @@ namespace Ex01_01
             int maxBitSequence = longestBitsSequences.Max();
             Console.WriteLine("The longest bits sequence is : {0}", maxBitSequence);
 
-            Console.WriteLine("The number of swaps in {0} are : {1}",binaryNumber1, getBitsSwapCount(binaryNumber1));
+            Console.WriteLine("The number of swaps in {0} are : {1}", binaryNumber1, getBitsSwapCount(binaryNumber1));
             Console.WriteLine("The number of swaps in {0} are : {1}", binaryNumber2, getBitsSwapCount(binaryNumber2));
             Console.WriteLine("The number of swaps in {0} are : {1}", binaryNumber3, getBitsSwapCount(binaryNumber3));
 
@@ -64,6 +64,7 @@ namespace Ex01_01
         {
             int powerOf2 = 1;
             int decimalNumber = 0;
+
             for(int i = i_BinaryNumberToConvert.Length - 1; i >= 0; i--) 
             {
                 decimalNumber += int.Parse(i_BinaryNumberToConvert[i].ToString()) * powerOf2;
@@ -76,6 +77,7 @@ namespace Ex01_01
         private static int getLongestBitsSequence(string i_BinaryNumber)
         {
             int localMaxSequence = 1,globalMaxSequnce = 1;
+
             for(int i = 0; i < i_BinaryNumber.Length-1; i++)
             {
                 if (i_BinaryNumber[i] == i_BinaryNumber[i + 1]) 
@@ -98,6 +100,7 @@ namespace Ex01_01
         private static int getBitsSwapCount(string i_BinaryNumber)
         {
             int numOfSwaps = 0;
+
             for (int i = 0; i < i_BinaryNumber.Length - 1; i++)
             {
                 if (i_BinaryNumber[i] != i_BinaryNumber[i + 1])
@@ -114,6 +117,7 @@ namespace Ex01_01
             string binaryNumberWithMax0 = i_BinaryNumbers[0];
             int numOfZeros;
             int maxNumOfZeros = 0;
+
             foreach (string binary in i_BinaryNumbers)
             {
                 numOfZeros = binary.Count(c => c == '0');

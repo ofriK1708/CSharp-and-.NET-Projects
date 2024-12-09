@@ -8,11 +8,11 @@ namespace Ex01_04
         public static void Main()
         {
             string userInput = getInputFromUserAndValidate();
-
             bool isPalindrom = isPalindrome(userInput, 0, userInput.Length - 1);
-            Console.WriteLine("The string {0} a palindrome", isPalindrom ? "is" : "is not");
 
+            Console.WriteLine("The string {0} a palindrome", isPalindrom ? "is" : "is not");
             bool isUserInputAnInt = int.TryParse(userInput, out int userInputAsInt);
+
             if (isUserInputAnInt)
             {
                 Console.WriteLine("The number {0} be devided by 4", userInputAsInt % 4 == 0 ? "can" : "can not");
