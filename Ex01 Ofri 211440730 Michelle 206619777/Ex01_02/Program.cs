@@ -14,7 +14,7 @@ namespace Ex01_02
             printABCTreeHelper(i_TreeHeight, 1, 'A');
         }
 
-        private static void printABCTreeHelper(int i_TreeHeight,int i_LineNumber,char i_NextCharInLine)
+        private static void printABCTreeHelper(int i_TreeHeight, int i_LineNumber, char i_NextCharInLine)
         {
             if (i_LineNumber > i_TreeHeight) 
             {
