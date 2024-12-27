@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex02
 {
-    internal class Program
+    internal class CheckersUI
     {
-        public static void Main()
-        {
-            
-        }
     }
 }

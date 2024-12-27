@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Ex02
 {
-    internal class Program
+    internal class CheckersPlayer
     {
-        public static void Main()
-        {
-            
-        }
+        private string 
     }
 }

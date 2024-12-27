@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Ex02
 {
-    internal class Program
+    internal class CheckersGame
     {
-        public static void Main()
+        private CheckersUI m_userInterface;
+        private CheckersBoard m_GameBoard;
+        internal void StartGame()
         {
             
         }

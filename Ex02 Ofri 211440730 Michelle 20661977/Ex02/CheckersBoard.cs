@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Ex02
 {
-    internal class Program
+    internal class CheckersBoard
     {
-        public static void Main()
-        {
-            
-        }
+        eCheckersBoardSizes m_Size;
+        eCheckersBoardPieces[,]? boar = null; 
     }
 }

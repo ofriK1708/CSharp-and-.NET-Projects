@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Ex02
 {
-    internal class Program
+    internal enum eCheckersBoardSizes
     {
-        public static void Main()
-        {
-            
-        }
+        size_6 = 6,
+        Size_8 = 8,
+        size_10 = 10
     }
 }
