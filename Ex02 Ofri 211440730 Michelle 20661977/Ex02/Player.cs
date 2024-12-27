@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Ex02
 {
-    internal class CheckersPlayer
+    internal class Player
     {
-        private string 
+        private string Name { get; set;}
+
+        public Player(string i_Name){
+            this.Name = i_Name;
+        }
     }
 }

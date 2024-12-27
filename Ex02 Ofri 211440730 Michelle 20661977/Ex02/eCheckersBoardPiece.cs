@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ex02
 {
-    internal enum eCheckersBoardPieces
+    internal enum eCheckersBoardPiece
     { 
        FirstPlayerRegularPiece = 'X',
        SecondPlayerRegularPiece = 'O',
