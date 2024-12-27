@@ -17,16 +17,14 @@ namespace Ex02
         internal void StartGame()
         {
            initGame();
-        
         }
 
         private void initGame()
         {
             CheckersUI.WelcomeMessage();
             m_Player1 = new Player(CheckersUI.GetPlayerName(), ePlayerType.Human);
-            eCheckersBoardSize size = CheckersUI.GetBoardSize(); //to do - create board
+            m_GameBoard = new CheckersBoard(CheckersUI.GetBoardSize());
             initSecondPlayer();
-            
         }
 
         private void initSecondPlayer()

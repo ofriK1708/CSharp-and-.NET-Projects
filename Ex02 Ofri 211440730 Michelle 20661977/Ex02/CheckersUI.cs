@@ -44,17 +44,13 @@ namespace Ex02
 
         public static ePlayerType GetSecondPlayerType()
         {
-            Console.WriteLine("Choose oponent: " +
-                "for Computer press 0" +
-                "for second player press 1");
+            Console.WriteLine("Choose oponent - for Computer press 0, for second player press 1");
 
             string playerType = getUserInput();
 
             while (!isInputPartOfIntEnum(playerType, typeof(ePlayerType)))
             {
-                Console.WriteLine("Player type is not valid, the options are:" +
-                    "for Computer press 0" +
-                    "for second player press 1");
+                Console.WriteLine("Player type is not valid - for Computer press 0, for second player press 1");
                 playerType = getUserInput();
             }
 

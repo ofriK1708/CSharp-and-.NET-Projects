@@ -11,7 +11,7 @@ namespace Ex02
         private string Name { get; set;}
         private ePlayerType m_PlayerType;
 
-        public Player(string i_Name, ePlayerType i_PlayerType){
+        internal Player(string i_Name, ePlayerType i_PlayerType){
             this.Name = i_Name;
             this.m_PlayerType = i_PlayerType;
         }
