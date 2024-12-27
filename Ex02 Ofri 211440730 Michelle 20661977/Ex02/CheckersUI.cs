@@ -16,7 +16,7 @@ namespace Ex02
 
         public static string GetPlayerName()
         {
-            Console.WriteLine("Please enter your name, without spaces and up to 20 characters");
+            Console.WriteLine("Please enter player name, without spaces and up to 20 characters");
             string userName = getUserInput();
 
             while (!isPlayerNameValid(userName))
@@ -33,14 +33,34 @@ namespace Ex02
             Console.WriteLine("Please enter board size, the options are 6, 8, or 10");
             string boardSize = getUserInput();
 
-            while (!isBoardSizeValid(boardSize))
+            while (!isInputPartOfIntEnum(boardSize, typeof(eCheckersBoardSize)))
             {
-                Console.WriteLine("Boasr size is not valid, the options are 6, 8, or 10");
+                Console.WriteLine("Boasd size is not valid, the options are 6, 8, or 10");
                 boardSize = getUserInput();
             }
 
             return (eCheckersBoardSize)Enum.Parse(typeof(eCheckersBoardSize), boardSize);
         }
+
+        public static ePlayerType GetSecondPlayerType()
+        {
+            Console.WriteLine("Choose oponent: " +
+                "for Computer press 0" +
+                "for second player press 1");
+
+            string playerType = getUserInput();
+
+            while (!isInputPartOfIntEnum(playerType, typeof(ePlayerType)))
+            {
+                Console.WriteLine("Player type is not valid, the options are:" +
+                    "for Computer press 0" +
+                    "for second player press 1");
+                playerType = getUserInput();
+            }
+
+            return (ePlayerType)Enum.Parse (typeof(ePlayerType), playerType);
+        }
+
 
         private static string getUserInput()
         {
@@ -59,12 +79,12 @@ namespace Ex02
             return !i_UserName.Contains(" ") && i_UserName.Length <= 20; //todo create consts 
         }
 
-        private static bool isBoardSizeValid(string i_BoardSize)
+        private static bool isInputPartOfIntEnum(string input, Type enumType)
         {
-            bool isValidSize = int.TryParse(i_BoardSize,out int size);
+            bool isValidSize = int.TryParse(input, out int size);
 
             if (isValidSize) {
-                isValidSize = Enum.IsDefined(typeof(eCheckersBoardSize), size);
+                isValidSize = Enum.IsDefined(enumType, size);
             }
 
             return isValidSize;
