@@ -8,7 +8,7 @@ namespace Ex02
 {
     internal class CheckersBoard
     {
-        eCheckersBoardSizes m_Size;
-        eCheckersBoardPieces[,]? boar = null; 
+        eCheckersBoardSize m_Size;
+        eCheckersBoardPiece[,] board;
     }
 }
