@@ -77,7 +77,7 @@ namespace Ex02
                 }
 
                 CheckersBoardMove validMove = move.GetValueOrDefault();
-                bool eatOpenetsPiece = m_GameBoard.playMove(validMove, m_ActivePlayer.CheckersBoardPiece);
+                bool eatOpenetsPiece = m_GameBoard.playMove(validMove);
                 if (eatOpenetsPiece)
                 {
                     validMoves = m_GameBoard.getValidMovesToEatFromPostions(validMove.To);
