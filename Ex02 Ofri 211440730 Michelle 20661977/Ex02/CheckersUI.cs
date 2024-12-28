@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 
 
@@ -9,6 +10,8 @@ namespace Ex02
         private const char invalidCharInName = ' ';
         private const int maxNameLength = 20;
         private const string boardStyle = "====";
+        private const char moveSplitChar = '>';
+        private const int moveSize = 5;
 
         internal static void PrintWelcomeMessage()
         {
@@ -98,12 +101,23 @@ namespace Ex02
             Console.WriteLine("Starting game number {0}: {1} against {2}, " , i_GameNumber, i_FirstPlayerName, i_SecondPlayerName);
         }
 
-        internal static void PrintPlayerTurn(string i_PlayerName)
+        internal static void PrintPlayerTurn(Player i_Player)
         {
-            Console.WriteLine("{}'s turn:", i_PlayerName);
+            Console.WriteLine("{0}'s turn ({1}):", i_Player.Name, i_Player.CheckersBoardPiece);
         }
 
-        
+        internal static CheckersMove GetMoveFromPlayer()
+        {
+            Console.WriteLine("Enter move");
+            string moveInput = getUserInput();
+            while (!isValidMoveInput(moveInput))
+            {
+                Console.WriteLine("Invalid move input!, move should have the be in the format ROWCol>ROWCol, for example Fc>Fb");
+                moveInput = getUserInput();
+            }
+
+            return new CheckersMove(moveInput);
+        }
 
         private static string getUserInput()
         {
@@ -132,6 +146,18 @@ namespace Ex02
             }
 
             return isValidSize;
+        }
+
+        private static bool isValidMoveInput(string i_MoveInput)
+        {
+            bool isValideMoveInput = i_MoveInput[2] == moveSplitChar && i_MoveInput.Length == moveSize;
+
+            if (isValideMoveInput)
+            {
+                isValideMoveInput = char.IsUpper(i_MoveInput[0]) && char.IsLower(i_MoveInput[1]) && char.IsUpper(i_MoveInput[3]) && char.IsLower(i_MoveInput[4]);
+            }
+
+            return isValideMoveInput;
         }
     }
 }
