@@ -12,7 +12,7 @@ namespace Ex02
         private const string boardStyle = "====";
         private const char moveSplitChar = '>';
         private const int moveSize = 5;
-        private const char quit = 'Q';
+        private const string quit = "Q";
 
         internal static void PrintWelcomeMessage()
         {
@@ -180,9 +180,9 @@ namespace Ex02
 
         private static bool isValidMoveInput(string i_MoveInput)
         {
-            bool isValideMoveInput = i_MoveInput.Length == moveSize && i_MoveInput[2] == moveSplitChar;
+            bool isValideMoveInput = ((i_MoveInput.Length == moveSize) && (i_MoveInput[2] == moveSplitChar)) || (i_MoveInput == quit);
 
-            if (isValideMoveInput)
+            if (isValideMoveInput && i_MoveInput != quit)
             {
                 isValideMoveInput = char.IsUpper(i_MoveInput[0]) && char.IsLower(i_MoveInput[1]) && char.IsUpper(i_MoveInput[3]) && char.IsLower(i_MoveInput[4]);
             }
