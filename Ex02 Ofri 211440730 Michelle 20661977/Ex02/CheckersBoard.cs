@@ -9,9 +9,9 @@ namespace Ex02
         internal eCheckersBoardSize Size { get; private set; }
         internal eCheckersBoardPiece[,] Board { get; private set; }
 
-        private List<BoardPosition> m_XPositions = new List<BoardPosition>();
+        private List<BoardPosition> m_Player1PiecePositions = new List<BoardPosition>();
 
-        private List<BoardPosition> m_OPositions = new List<BoardPosition>();
+        private List<BoardPosition> m_Player2PiecePositions = new List<BoardPosition>();
 
         internal CheckersBoard(eCheckersBoardSize i_size)
         {
@@ -31,12 +31,12 @@ namespace Ex02
                         if (j < (i_BoardSize - 2) / 2)
                         {
                             Board[i, j] = eCheckersBoardPiece.OPiece;
-                            m_OPositions.Add(new BoardPosition(i, j));
+                            m_Player2PiecePositions.Add(new BoardPosition(i, j));
                         }
                         else if (j > i_BoardSize / 2)
                         {
                             Board[i, j] = eCheckersBoardPiece.XPiece;
-                            m_XPositions.Add(new BoardPosition(i,j));
+                            m_Player1PiecePositions.Add(new BoardPosition(i,j));
                         }
                         else
                         {
