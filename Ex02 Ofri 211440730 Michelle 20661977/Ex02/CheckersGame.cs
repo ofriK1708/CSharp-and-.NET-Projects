@@ -103,7 +103,7 @@ namespace Ex02
                 bool eatOpenetsPiece = m_GameBoard.playMove(validMove);
                 if (eatOpenetsPiece)
                 {
-                    validMoves = m_GameBoard.getValidMovesFromPosition(validMove.To, m_ActivePlayer);
+                    validMoves = m_GameBoard.getValidMovesEatsFromPosition(validMove.To, m_ActivePlayer);
                     continueTurnForCurrentPlayer = validMoves.Count > 0 ? true : false;
                 }
                 else
