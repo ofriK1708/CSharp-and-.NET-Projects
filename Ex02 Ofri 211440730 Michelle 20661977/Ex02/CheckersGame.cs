@@ -106,6 +106,22 @@ namespace Ex02
             }
         }
 
+        private bool isPlayerWon(Player m_ActivePlayer)
+        {
+            bool isPlayerWon = false;
+            eCheckersBoardPiece checkersBoardPiece = m_ActivePlayer.CheckersBoardPiece;
+            if(checkersBoardPiece.Equals(eCheckersBoardPiece.XPiece) || checkersBoardPiece.Equals(Equals(eCheckersBoardPiece.XKingPiece)
+            {
+               isPlayerWon =  m_GameBoard.isAllPiecesRemoved(eCheckersBoardPiece.OPiece);
+            }
+            else
+            {
+                isPlayerWon = m_GameBoard.isAllPiecesRemoved(eCheckersBoardPiece.XPiece);
+            }
+
+            return isPlayerWon;
+        }
+
         private CheckersBoardMove? getNextMove(List<CheckersBoardMove> i_ValidMoves, out bool m_GameQuitedByPlayer)
         {
             CheckersBoardMove? move = CheckersUI.GetMoveFromPlayer(out m_GameQuitedByPlayer);

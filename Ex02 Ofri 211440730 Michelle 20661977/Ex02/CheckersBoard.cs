@@ -81,20 +81,8 @@ namespace Ex02
             Board[to.Row, to.Column] = toBoardPiece;
             Board[from.Row, from.Column] = eCheckersBoardPiece.EmptyPlace;
 
-            switch (fromBoardPiece)
-            {
-                case eCheckersBoardPiece.XPiece:
-                case eCheckersBoardPiece.XKingPiece:
-                    m_XPositions.Remove(from);
-                    m_XPositions.Add(to);
-                    break;
-                case eCheckersBoardPiece.OPiece:
-                case eCheckersBoardPiece.OKingPiece:
-                    m_OPositions.Remove(from);
-                    m_OPositions.Add(to);
-                    break;
-
-            }
+            removePieceFromBoard(from, fromBoardPiece);
+            addPieceToBoard(to, toBoardPiece);
 
             bool isEatOponent = false;
             int rowDiff = (int)Math.Abs(to.Row - from.Row);
@@ -102,14 +90,46 @@ namespace Ex02
             {
                 int colDiff = (int)Math.Abs(to.Column - from.Column) / 2;
                 rowDiff = rowDiff / 2;
+                eCheckersBoardPiece removedBoardPiece = Board[rowDiff, colDiff];
                 Board[rowDiff, colDiff] = eCheckersBoardPiece.EmptyPlace;
+                removePieceFromBoard(new BoardPosition(rowDiff, colDiff), removedBoardPiece);
                 isEatOponent = true;
             }
 
             return isEatOponent;
         }
 
-        private eCheckersBoardPiece getToBoardPiece(eCheckersBoardPiece i_FromBoardPiece, uint i_ToRow)
+        private void removePieceFromBoard(BoardPosition from,eCheckersBoardPiece boardPiece)
+        {
+            switch (boardPiece)
+            {
+                case eCheckersBoardPiece.XPiece:
+                case eCheckersBoardPiece.XKingPiece:
+                    m_XPositions.Remove(from);
+                    break;
+                case eCheckersBoardPiece.OPiece:
+                case eCheckersBoardPiece.OKingPiece:
+                    m_OPositions.Remove(from);
+                    break;
+            }
+        }
+
+        private void addPieceToBoard(BoardPosition to, eCheckersBoardPiece boardPiece)
+        {
+            switch (boardPiece)
+            {
+                case eCheckersBoardPiece.XPiece:
+                case eCheckersBoardPiece.XKingPiece:
+                    m_XPositions.Add(to);
+                    break;
+                case eCheckersBoardPiece.OPiece:
+                case eCheckersBoardPiece.OKingPiece:
+                    m_OPositions.Add(to);
+                    break;
+            }
+        }
+
+        private eCheckersBoardPiece getToBoardPiece(eCheckersBoardPiece i_FromBoardPiece, int i_ToRow)
         {
            eCheckersBoardPiece toBoardPiece;
 
@@ -133,6 +153,21 @@ namespace Ex02
         {
             //implement
            return new List<CheckersBoardMove>();
+        }
+
+        internal bool isAllPiecesRemoved(eCheckersBoardPiece boardPiece)
+        {
+            bool isAllPiecesRemoved = false;
+            if (boardPiece.Equals(eCheckersBoardPiece.XPiece))
+            {
+                isAllPiecesRemoved = m_XPositions.Count == 0;
+            }
+            else
+            {
+                isAllPiecesRemoved = m_OPositions.Count == 0;
+            }
+
+            return isAllPiecesRemoved;
         }
     }
 }
