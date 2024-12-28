@@ -4,16 +4,19 @@ namespace Ex02
 {
     internal struct BoardPosition
     {
-        internal Tuple<uint, uint> Position { get; }
+        internal uint Row { get; }
+        internal uint Column { get; }
 
         internal BoardPosition(char row, char col)
         {
-            this.Position = Tuple.Create((uint)(row - 'A'),(uint)(col - 'a'));
+            this.Row = (uint)(row - 'A');
+            this.Column = (uint)(col - 'a');
         }
 
         internal BoardPosition(uint row, uint col)
         {
-            this.Position = Tuple.Create(row, col);
+            this.Row = row;
+            this.Column = col;
         }
     }
 }

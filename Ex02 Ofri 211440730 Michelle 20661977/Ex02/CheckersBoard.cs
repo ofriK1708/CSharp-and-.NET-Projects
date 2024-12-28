@@ -75,6 +75,22 @@ namespace Ex02
             BoardPosition from = validMove.From;
             BoardPosition to = validMove.To;
 
+            eCheckersBoardPiece boardPiece = Board[from.Row, from.Column];
+            Board[to.Row, to.Column] = boardPiece;
+            Board[from.Row, from.Column] = eCheckersBoardPiece.EmptyPlace;
+
+            switch (boardPiece)
+            {
+                case eCheckersBoardPiece.XPiece:
+                    m_XPositions.Remove(from);
+                    m_XPositions.Add(to);
+                    break;
+                case eCheckersBoardPiece.OPiece:
+                    m_OPositions.Remove(from);
+                    m_OPositions.Add(to);
+                    break;
+            }
+
             return false;
         }
 
