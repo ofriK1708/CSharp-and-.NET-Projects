@@ -80,6 +80,7 @@ namespace Ex02
             foreach (BoardPosition position in PositionsToCheck)
             {
                 int newRow = position.Row + directionToMoveInRow;
+                bool isFoundEatingMove = false;
                 int newRowDouble = position.Row + directionToMoveInRow * 2;
                 int newColRight = position.Column + 1;
                 int newColLeft = position.Column - 1;
@@ -87,40 +88,50 @@ namespace Ex02
                 int newColLeftDouble = position.Column - 2;
                 int newKingRow = position.Row - directionToMoveInRow;
                 int newKingRowDouble = position.Row - directionToMoveInRow * 2;
-
-                if (isCellInRange(newRow, newColRight) && isCellEmpty(newRow, newColRight))
-                {
-                    validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newRow, newColRight)));
-                }
-                if (isCellInRange(newRow, newColLeft) && isCellEmpty(newRow, newColLeft))
-                {
-                    validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newRow, newColLeft)));
-                }
+   
                 if (isCellInRange(newRowDouble, newColRightDouble) && isCellEmpty(newRowDouble, newColRightDouble) && isOponentPiece(opponentPiece, newRow, newColRight))
                 {
                     validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newRowDouble, newColRightDouble)));
+                    isFoundEatingMove = true;
                 }
                 if (isCellInRange(newRowDouble, newColLeftDouble) && isCellEmpty(newRowDouble, newColLeftDouble) && isOponentPiece(opponentPiece, newRow, newColLeft))
                 {
                     validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newRowDouble, newColLeftDouble)));
+                    isFoundEatingMove = true;
+                }
+                if (!isFoundEatingMove)
+                {
+                    if (isCellInRange(newRow, newColRight) && isCellEmpty(newRow, newColRight))
+                    {
+                        validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newRow, newColRight)));
+                    }
+                    if (isCellInRange(newRow, newColLeft) && isCellEmpty(newRow, newColLeft))
+                    {
+                        validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newRow, newColLeft)));
+                    }
                 }
                 if (isPieceKing(position.Row, position.Column))
                 {
-                    if (isCellInRange(newKingRow, newColRight) && isCellEmpty(newKingRow, newColRight))
-                    {
-                        validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newKingRow, newColRight)));
-                    }
-                    if (isCellInRange(newKingRow, newColLeft) && isCellEmpty(newKingRow, newColLeft))
-                    {
-                        validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newKingRow, newColLeft)));
-                    }
                     if (isCellInRange(newKingRowDouble, newColRightDouble) && isCellEmpty(newKingRowDouble, newColRightDouble) && isOponentPiece(opponentPiece, newKingRow, newColRight))
                     {
                         validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newKingRowDouble, newColRightDouble)));
+                        isFoundEatingMove = true;
                     }
                     if (isCellInRange(newKingRowDouble, newColLeftDouble) && isCellEmpty(newKingRowDouble, newColLeftDouble) && isOponentPiece(opponentPiece, newKingRow, newColLeft))
                     {
                         validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newKingRowDouble, newColLeftDouble)));
+                        isFoundEatingMove = true;
+                    }
+                    if (!isFoundEatingMove)
+                    {
+                        if (isCellInRange(newKingRow, newColRight) && isCellEmpty(newKingRow, newColRight))
+                        {
+                            validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newKingRow, newColRight)));
+                        }
+                        if (isCellInRange(newKingRow, newColLeft) && isCellEmpty(newKingRow, newColLeft))
+                        {
+                            validBoardPositions.Add(new CheckersBoardMove(position, new BoardPosition(newKingRow, newColLeft)));
+                        }
                     }
                 }
             }
@@ -223,7 +234,7 @@ namespace Ex02
             return toBoardPiece;
         }
 
-        internal List<CheckersBoardMove> getValidMovesFromPosition(BoardPosition i_Position, Player i_ActivePlayer)
+        internal List<CheckersBoardMove> getValidMovesEatsFromPosition(BoardPosition i_Position, Player i_ActivePlayer)
         { 
             List<CheckersBoardMove> validBoardPositions = new List<CheckersBoardMove>();
             eCheckersBoardPiece opponentPiece = i_ActivePlayer.CheckersBoardPiece == eCheckersBoardPiece.XPiece ? eCheckersBoardPiece.OPiece : eCheckersBoardPiece.XPiece;
