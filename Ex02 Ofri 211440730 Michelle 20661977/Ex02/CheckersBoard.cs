@@ -22,6 +22,9 @@ namespace Ex02
         
         internal void resetBoard(int i_BoardSize)
         {
+            m_OPositions.Clear();
+            m_XPositions.Clear();
+
             for (int i = 0; i < i_BoardSize; i++)
             {
                 for (int j = 0; j < i_BoardSize; j++)
@@ -161,8 +164,8 @@ namespace Ex02
             {
                 int eatenColl = (to.Column + from.Column)/2;
                 int eatenRow = (to.Row + from.Row)  /2;
-                eCheckersBoardPiece removedBoardPiece = Board[rowDiff, eatenColl];
-                Board[rowDiff, eatenColl] = eCheckersBoardPiece.EmptyPlace;
+                eCheckersBoardPiece removedBoardPiece = Board[eatenRow, eatenColl];
+                Board[eatenRow, eatenColl] = eCheckersBoardPiece.EmptyPlace;
                 removePieceFromBoard(new BoardPosition(eatenRow, eatenColl), removedBoardPiece);
                 isEatOponent = true;
             }

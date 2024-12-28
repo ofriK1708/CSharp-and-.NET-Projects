@@ -19,6 +19,17 @@ namespace Ex02
         {
            initGame();
            playGame();
+           bool anotherGame = CheckersUI.GetFromUserIsContinueToAnotherGame();
+           while (anotherGame)
+           {
+             m_GameNumber++;
+             CheckersUI.PrintStartGameMessage(m_GameNumber, m_Player1.Name, m_Player2.Name);
+             m_GameBoard.resetBoard((int)m_GameBoard.Size);
+             m_ActivePlayer = m_Player1;
+             CheckersUI.PrintBoard(m_GameBoard.Board, m_GameBoard.Size);
+             playGame();
+             anotherGame = CheckersUI.GetFromUserIsContinueToAnotherGame();
+            }
         }
 
         private void initGame()

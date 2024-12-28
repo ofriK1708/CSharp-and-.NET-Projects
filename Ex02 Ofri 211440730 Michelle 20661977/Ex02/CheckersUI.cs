@@ -135,7 +135,8 @@ namespace Ex02
 
         internal static void PrintPlayedMove(CheckersBoardMove move, Player i_Player)
         {
-            Console.WriteLine("{0}'s move was ({1}): {2}>{3}", i_Player.Name, i_Player.CheckersBoardPiece, move.From.ToString(), move.To.ToString());
+            Console.WriteLine("{0}'s move was ({1}): {2}{3}>{4}{5}",
+                i_Player.Name, i_Player.CheckersBoardPiece, move.From.Row, move.From.Column, move.To.Row, move.To.Column);
         }
 
         internal static void PrintMoveInvalid()
@@ -199,6 +200,11 @@ namespace Ex02
         {
             Console.WriteLine("No one won :(,");
             printScore(i_Player1, i_Player2);
+        }
+
+        internal static bool GetFromUserIsContinueToAnotherGame()
+        {
+            return false;
         }
     }
 }
