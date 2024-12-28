@@ -22,9 +22,9 @@ namespace Ex02
         
         internal void resetBoard(int i_BoardSize)
         {
-            for (uint i = 0; i < i_BoardSize; i++)
+            for (int i = 0; i < i_BoardSize; i++)
             {
-                for (uint j = 0; j < i_BoardSize; j++)
+                for (int j = 0; j < i_BoardSize; j++)
                 {
                     if ((i + j) % 2 == 1) 
                     {
@@ -109,21 +109,21 @@ namespace Ex02
             return isEatOponent;
         }
 
-        private eCheckersBoardPiece getToBoardPiece(eCheckersBoardPiece fromBoardPiece, uint toRow)
+        private eCheckersBoardPiece getToBoardPiece(eCheckersBoardPiece i_FromBoardPiece, uint i_ToRow)
         {
            eCheckersBoardPiece toBoardPiece;
 
-           if (fromBoardPiece.Equals(eCheckersBoardPiece.XPiece) && toRow == 0)
+           if (i_FromBoardPiece.Equals(eCheckersBoardPiece.XPiece) && i_ToRow == 0)
             {
               toBoardPiece = eCheckersBoardPiece.XKingPiece;   
             }
-            else if (fromBoardPiece.Equals(eCheckersBoardPiece.OPiece) && Size.Equals(toRow))
+            else if (i_FromBoardPiece.Equals(eCheckersBoardPiece.OPiece) && Size.Equals(i_ToRow))
             {
               toBoardPiece = eCheckersBoardPiece.OKingPiece;
             }
             else
             {
-              toBoardPiece = fromBoardPiece;
+              toBoardPiece = i_FromBoardPiece;
             }
 
             return toBoardPiece;

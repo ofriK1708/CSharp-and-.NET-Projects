@@ -106,11 +106,11 @@ namespace Ex02
             }
         }
 
-        private CheckersBoardMove? getNextMove(List<CheckersBoardMove> validMoves, out bool m_GameQuitedByPlayer)
+        private CheckersBoardMove? getNextMove(List<CheckersBoardMove> i_ValidMoves, out bool m_GameQuitedByPlayer)
         {
             CheckersBoardMove? move = CheckersUI.GetMoveFromPlayer(out m_GameQuitedByPlayer);
 
-            while (!m_GameQuitedByPlayer && !isValidMove(validMoves, move.GetValueOrDefault()))
+            while (!m_GameQuitedByPlayer && !isValidMove(i_ValidMoves, move.GetValueOrDefault()))
             {
                 CheckersUI.PrintMoveInvalid();
                 move = CheckersUI.GetMoveFromPlayer(out m_GameQuitedByPlayer);
@@ -131,9 +131,9 @@ namespace Ex02
             }
         }
 
-        private bool isValidMove(List<CheckersBoardMove> valideMoves, CheckersBoardMove move)
+        private bool isValidMove(List<CheckersBoardMove> i_ValideMoves, CheckersBoardMove i_Move)
         {
-            return valideMoves.Contains(move);
+            return i_ValideMoves.Contains(i_Move);
         }
     }
 }
