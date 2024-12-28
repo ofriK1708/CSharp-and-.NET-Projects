@@ -43,7 +43,7 @@ namespace Ex02
             return (eCheckersBoardSize)Enum.Parse(typeof(eCheckersBoardSize), boardSize);
         }
 
-       internal static ePlayerType GetSecondPlayerType()
+        internal static ePlayerType GetSecondPlayerType()
         {
             Console.WriteLine("Choose opponent type - for Computer press 0, for second player press 1");
 
@@ -102,6 +102,8 @@ namespace Ex02
         {
             Console.WriteLine("{}'s turn:", i_PlayerName);
         }
+
+        
 
         private static string getUserInput()
         {
