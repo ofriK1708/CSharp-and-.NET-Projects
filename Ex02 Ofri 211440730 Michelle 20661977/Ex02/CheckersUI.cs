@@ -133,10 +133,15 @@ namespace Ex02
             return checkersMove;
         }
 
+        internal static void PrintComputerMessage()
+        {
+            Console.WriteLine("Computer’s Turn (press ‘enter’ to see it’s move)");
+            Console.ReadLine();
+        }
         internal static void PrintPlayedMove(CheckersBoardMove move, Player i_Player)
         {
             Console.WriteLine("{0}'s move was ({1}): {2}{3}>{4}{5}",
-                i_Player.Name, i_Player.CheckersBoardPiece, move.From.Row + 'A', move.From.Column + 'a', move.To.Row + 'A', move.To.Column + 'a');
+                i_Player.Name, i_Player.CheckersBoardPiece, (char)(move.From.Row + 'A'), (char)(move.From.Column + 'a'), (char)(move.To.Row + 'A'), (char)(move.To.Column + 'a'));
         }
 
         internal static void PrintMoveInvalid()

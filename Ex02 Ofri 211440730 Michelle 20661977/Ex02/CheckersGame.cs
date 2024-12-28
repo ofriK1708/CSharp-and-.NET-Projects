@@ -167,14 +167,25 @@ namespace Ex02
             return isPlayerWon;
         }
 
-        private CheckersBoardMove? getNextMove(List<CheckersBoardMove> i_ValidMoves, out bool m_GameQuitedByPlayer)
+        private CheckersBoardMove? getNextMove(List<CheckersBoardMove> i_ValidMoves, out bool o_GameQuitedByPlayer)
         {
-            CheckersBoardMove? move = CheckersUI.GetMoveFromPlayer(out m_GameQuitedByPlayer);
-
-            while (!m_GameQuitedByPlayer && !isValidMove(i_ValidMoves, move.GetValueOrDefault()))
+            CheckersBoardMove? move = null;
+            if (m_ActivePlayer.PlayerType == ePlayerType.Computer)
             {
-                CheckersUI.PrintMoveInvalid();
-                move = CheckersUI.GetMoveFromPlayer(out m_GameQuitedByPlayer);
+                CheckersUI.PrintComputerMessage();
+                o_GameQuitedByPlayer = false;
+                uint randomIndex = (uint)new Random().Next(i_ValidMoves.Count);
+                move = i_ValidMoves[(int)randomIndex];
+            }
+            else
+            {
+                move = CheckersUI.GetMoveFromPlayer(out o_GameQuitedByPlayer);
+
+                while (!m_GameQuitedByPlayer && !isValidMove(i_ValidMoves, move.GetValueOrDefault()))
+                {
+                    CheckersUI.PrintMoveInvalid();
+                    move = CheckersUI.GetMoveFromPlayer(out m_GameQuitedByPlayer);
+                }
             }
 
             return move;
