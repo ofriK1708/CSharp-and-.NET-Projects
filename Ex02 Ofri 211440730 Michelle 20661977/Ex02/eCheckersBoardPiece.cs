@@ -5,7 +5,7 @@ namespace Ex02
     { 
        XPiece = 'X',
        OPiece = 'O',
-       XKingPiece = 'k',
+       XKingPiece = 'K',
        OKingPiece = 'U',
        EmptyPlace = ' '
     }
