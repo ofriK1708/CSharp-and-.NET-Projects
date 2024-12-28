@@ -22,9 +22,9 @@ namespace Ex02
         
         internal void resetBoard(int i_BoardSize)
         {
-            for (uint i = 0; i < i_BoardSize; i++)
+            for (int i = 0; i < i_BoardSize; i++)
             {
-                for (uint j = 0; j < i_BoardSize; j++)
+                for (int j = 0; j < i_BoardSize; j++)
                 {
                     if ((i + j) % 2 == 1) 
                     {
@@ -70,34 +70,104 @@ namespace Ex02
             return validBoardPositions;
         }
 
-        internal bool playMove(CheckersBoardMove validMove)
+        internal bool playMove(CheckersBoardMove i_ValidMove)
         {
-            BoardPosition from = validMove.From;
-            BoardPosition to = validMove.To;
+            BoardPosition from = i_ValidMove.From;
+            BoardPosition to = i_ValidMove.To;
 
-            eCheckersBoardPiece boardPiece = Board[from.Row, from.Column];
-            Board[to.Row, to.Column] = boardPiece;
+            eCheckersBoardPiece fromBoardPiece = Board[from.Row, from.Column];
+            eCheckersBoardPiece toBoardPiece = getToBoardPiece(fromBoardPiece, to.Row);
+
+            Board[to.Row, to.Column] = toBoardPiece;
             Board[from.Row, from.Column] = eCheckersBoardPiece.EmptyPlace;
 
+            removePieceFromBoard(from, fromBoardPiece);
+            addPieceToBoard(to, toBoardPiece);
+
+            bool isEatOponent = false;
+            int rowDiff = (int)Math.Abs(to.Row - from.Row);
+            if (rowDiff == 2)
+            {
+                int colDiff = (int)Math.Abs(to.Column - from.Column) / 2;
+                rowDiff = rowDiff / 2;
+                eCheckersBoardPiece removedBoardPiece = Board[rowDiff, colDiff];
+                Board[rowDiff, colDiff] = eCheckersBoardPiece.EmptyPlace;
+                removePieceFromBoard(new BoardPosition(rowDiff, colDiff), removedBoardPiece);
+                isEatOponent = true;
+            }
+
+            return isEatOponent;
+        }
+
+        private void removePieceFromBoard(BoardPosition from,eCheckersBoardPiece boardPiece)
+        {
             switch (boardPiece)
             {
                 case eCheckersBoardPiece.XPiece:
+                case eCheckersBoardPiece.XKingPiece:
                     m_XPositions.Remove(from);
+                    break;
+                case eCheckersBoardPiece.OPiece:
+                case eCheckersBoardPiece.OKingPiece:
+                    m_OPositions.Remove(from);
+                    break;
+            }
+        }
+
+        private void addPieceToBoard(BoardPosition to, eCheckersBoardPiece boardPiece)
+        {
+            switch (boardPiece)
+            {
+                case eCheckersBoardPiece.XPiece:
+                case eCheckersBoardPiece.XKingPiece:
                     m_XPositions.Add(to);
                     break;
                 case eCheckersBoardPiece.OPiece:
-                    m_OPositions.Remove(from);
+                case eCheckersBoardPiece.OKingPiece:
                     m_OPositions.Add(to);
                     break;
             }
+        }
 
-            return false;
+        private eCheckersBoardPiece getToBoardPiece(eCheckersBoardPiece i_FromBoardPiece, int i_ToRow)
+        {
+           eCheckersBoardPiece toBoardPiece;
+
+           if (i_FromBoardPiece.Equals(eCheckersBoardPiece.XPiece) && i_ToRow == 0)
+            {
+              toBoardPiece = eCheckersBoardPiece.XKingPiece;   
+            }
+            else if (i_FromBoardPiece.Equals(eCheckersBoardPiece.OPiece) && Size.Equals(i_ToRow))
+            {
+              toBoardPiece = eCheckersBoardPiece.OKingPiece;
+            }
+            else
+            {
+              toBoardPiece = i_FromBoardPiece;
+            }
+
+            return toBoardPiece;
         }
 
         internal List<CheckersBoardMove> getValidMovesToEatFromPostions(BoardPosition position)
         {
             //implement
            return new List<CheckersBoardMove>();
+        }
+
+        internal bool isAllPiecesRemoved(eCheckersBoardPiece boardPiece)
+        {
+            bool isAllPiecesRemoved = false;
+            if (boardPiece.Equals(eCheckersBoardPiece.XPiece))
+            {
+                isAllPiecesRemoved = m_XPositions.Count == 0;
+            }
+            else
+            {
+                isAllPiecesRemoved = m_OPositions.Count == 0;
+            }
+
+            return isAllPiecesRemoved;
         }
     }
 }

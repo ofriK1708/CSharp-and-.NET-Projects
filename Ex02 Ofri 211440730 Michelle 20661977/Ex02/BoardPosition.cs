@@ -4,16 +4,16 @@ namespace Ex02
 {
     internal struct BoardPosition
     {
-        internal uint Row { get; }
-        internal uint Column { get; }
+        internal int Row { get; }
+        internal int Column { get; }
 
         internal BoardPosition(char row, char col)
         {
-            this.Row = (uint)(row - 'A');
-            this.Column = (uint)(col - 'a');
+            this.Row = (row - 'A');
+            this.Column = (col - 'a');
         }
 
-        internal BoardPosition(uint row, uint col)
+        internal BoardPosition(int row, int col)
         {
             this.Row = row;
             this.Column = col;

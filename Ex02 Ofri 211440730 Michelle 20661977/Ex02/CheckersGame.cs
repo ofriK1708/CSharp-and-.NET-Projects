@@ -63,7 +63,10 @@ namespace Ex02
                     validMoves = m_GameBoard.getAllValidMoves(m_ActivePlayer);
                     if (validMoves.Count <= 0)
                     {
+                        // check for teko
+
                         //player loose 
+                        m_GameFinished = true;
                         break;
                     }
                 }
@@ -93,16 +96,39 @@ namespace Ex02
 
                 if (!continueTurnForCurrentPlayer)
                 {
-                    switchActivePlayer();
+                    if (isPlayerWon(m_ActivePlayer))
+                    {
+                        // active won 
+                    }
+                    else
+                    {
+                        switchActivePlayer();
+                    }
                 }
             }
         }
 
-        private CheckersBoardMove? getNextMove(List<CheckersBoardMove> validMoves, out bool m_GameQuitedByPlayer)
+        private bool isPlayerWon(Player m_ActivePlayer)
+        {
+            bool isPlayerWon = false;
+            eCheckersBoardPiece checkersBoardPiece = m_ActivePlayer.CheckersBoardPiece;
+            if(checkersBoardPiece.Equals(eCheckersBoardPiece.XPiece) || checkersBoardPiece.Equals(eCheckersBoardPiece.XKingPiece))
+            {
+               isPlayerWon =  m_GameBoard.isAllPiecesRemoved(eCheckersBoardPiece.OPiece);
+            }
+            else
+            {
+                isPlayerWon = m_GameBoard.isAllPiecesRemoved(eCheckersBoardPiece.XPiece);
+            }
+
+            return isPlayerWon;
+        }
+
+        private CheckersBoardMove? getNextMove(List<CheckersBoardMove> i_ValidMoves, out bool m_GameQuitedByPlayer)
         {
             CheckersBoardMove? move = CheckersUI.GetMoveFromPlayer(out m_GameQuitedByPlayer);
 
-            while (!m_GameQuitedByPlayer && !isValidMove(validMoves, move.GetValueOrDefault()))
+            while (!m_GameQuitedByPlayer && !isValidMove(i_ValidMoves, move.GetValueOrDefault()))
             {
                 CheckersUI.PrintMoveInvalid();
                 move = CheckersUI.GetMoveFromPlayer(out m_GameQuitedByPlayer);
@@ -123,9 +149,9 @@ namespace Ex02
             }
         }
 
-        private bool isValidMove(List<CheckersBoardMove> valideMoves, CheckersBoardMove move)
+        private bool isValidMove(List<CheckersBoardMove> i_ValideMoves, CheckersBoardMove i_Move)
         {
-            return valideMoves.Contains(move);
+            return i_ValideMoves.Contains(i_Move);
         }
     }
 }
