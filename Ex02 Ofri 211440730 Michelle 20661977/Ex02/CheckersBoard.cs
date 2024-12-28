@@ -25,30 +25,30 @@ namespace Ex02
             m_OPositions.Clear();
             m_XPositions.Clear();
 
-            for (int i = 0; i < i_BoardSize; i++)
+            for (int row = 0; row < i_BoardSize; row++)
             {
-                for (int j = 0; j < i_BoardSize; j++)
+                for (int col = 0; col < i_BoardSize; col++)
                 {
-                    if ((i + j) % 2 == 1) 
+                    if ((row + col) % 2 == 1) 
                     {
-                        if (j < (i_BoardSize - 2) / 2)
+                        if (row < (i_BoardSize - 2) / 2)
                         {
-                            Board[i, j] = eCheckersBoardPiece.OPiece;
-                            m_OPositions.Add(new BoardPosition(i, j));
+                            Board[row, col] = eCheckersBoardPiece.OPiece;
+                            m_OPositions.Add(new BoardPosition(row, col));
                         }
-                        else if (j > i_BoardSize / 2)
+                        else if (row > i_BoardSize / 2)
                         {
-                            Board[i, j] = eCheckersBoardPiece.XPiece;
-                            m_XPositions.Add(new BoardPosition(i,j));
+                            Board[row, col] = eCheckersBoardPiece.XPiece;
+                            m_XPositions.Add(new BoardPosition(row,col));
                         }
                         else
                         {
-                            Board[i, j] = eCheckersBoardPiece.EmptyPlace;
+                            Board[row, col] = eCheckersBoardPiece.EmptyPlace;
                         }
                     }
                     else
                     {
-                        Board[i, j] = eCheckersBoardPiece.EmptyPlace;
+                        Board[row, col] = eCheckersBoardPiece.EmptyPlace;
                     }
                 }
             }

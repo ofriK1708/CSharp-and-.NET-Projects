@@ -65,7 +65,7 @@ namespace Ex02
         internal static void PrintBoard(eCheckersBoardPiece[,] i_Board, eCheckersBoardSize i_BoardSize)
         {
             Ex02.ConsoleUtils.Screen.Clear();
-            char rowLetter = 'A', colLetter = 'A';
+            char rowLetter = 'A', colLetter = 'a';
             for(int col= 0; col < (int)i_BoardSize; col++)
             {
                 Console.Write("   {0}", colLetter++);
@@ -90,7 +90,7 @@ namespace Ex02
                         {
                             Console.Write("{0}", rowLetter++);
                         }
-                        Console.Write("| {0} ", (char)i_Board[col, (row-1) / 2]);
+                        Console.Write("| {0} ", (char)i_Board[(row - 1) / 2, col]);
                     }
                 }
                 Console.WriteLine("{0}",row % 2 == 0 ? "=" : "|");
@@ -136,7 +136,7 @@ namespace Ex02
         internal static void PrintPlayedMove(CheckersBoardMove move, Player i_Player)
         {
             Console.WriteLine("{0}'s move was ({1}): {2}{3}>{4}{5}",
-                i_Player.Name, i_Player.CheckersBoardPiece, move.From.Row, move.From.Column, move.To.Row, move.To.Column);
+                i_Player.Name, i_Player.CheckersBoardPiece, move.From.Row + 'A', move.From.Column + 'a', move.To.Row + 'A', move.To.Column + 'a');
         }
 
         internal static void PrintMoveInvalid()
