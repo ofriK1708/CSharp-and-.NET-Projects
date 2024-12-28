@@ -204,7 +204,22 @@ namespace Ex02
 
         internal static bool GetFromUserIsContinueToAnotherGame()
         {
-            return false;
+            Console.WriteLine("Would you like to play another game? yes - press 1, no - press 0");
+            string anotherGameInput = getUserInput();
+            bool anotherGame = false;
+
+            while (anotherGameInput.Equals("1") || anotherGameInput.Equals("0"))
+            {
+                Console.WriteLine("Invalid input, Would you like to play another game? yes - press 1, no - press 0");
+                anotherGameInput = getUserInput();
+            }
+
+            if (anotherGameInput.Equals("1"))
+            {
+                anotherGame = true;
+            }
+         
+            return anotherGame;
         }
     }
 }
