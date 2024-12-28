@@ -25,12 +25,18 @@ namespace Ex02
                 {
                     if ((i + j) % 2 == 1) 
                     {
-                        if (i < i_BoardSize)
-                            Board[i, j] = eCheckersBoardPiece.FirstPlayerRegularPiece;
-                        else if (i > i_BoardSize / 2) 
+                        if (j < (i_BoardSize - 2) / 2)
+                        {
                             Board[i, j] = eCheckersBoardPiece.SecondPlayerRegularPiece;
+                        }
+                        else if (j > i_BoardSize / 2)
+                        {
+                            Board[i, j] = eCheckersBoardPiece.FirstPlayerRegularPiece;
+                        }
                         else
+                        {
                             Board[i, j] = eCheckersBoardPiece.EmptyPlace;
+                        }
                     }
                     else
                     {
