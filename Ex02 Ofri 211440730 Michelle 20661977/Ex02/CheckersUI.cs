@@ -183,5 +183,22 @@ namespace Ex02
 
             return isValideMoveInput;
         }
+
+        internal static void printWinMessage(Player i_ActivePlayer, Player i_Player1, Player i_Player2, uint i_AddedScore)
+        {
+            Console.WriteLine("{0} Won!! and gained {1} points!", i_ActivePlayer.Name, i_AddedScore);
+            printScore(i_Player1, i_Player2);
+        }
+
+        private static void printScore(Player i_Player1, Player i_Player2)
+        {
+            Console.WriteLine("{0}'s score is {1}, {2}'s score is {3}", i_Player1.Name, i_Player1.Score, i_Player2.Name, i_Player2.Score);
+        }
+
+        internal static void printStalemateMessage(Player i_Player1, Player i_Player2)
+        {
+            Console.WriteLine("No one won :(,");
+            printScore(i_Player1, i_Player2);
+        }
     }
 }

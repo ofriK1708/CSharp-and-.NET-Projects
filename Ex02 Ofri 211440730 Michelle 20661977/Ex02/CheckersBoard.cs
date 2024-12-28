@@ -277,7 +277,7 @@ namespace Ex02
             List<BoardPosition> winningPositions;
             List<BoardPosition> loosingPositions;
             uint winnerScore = 0;
-            uint looserScorel = 0;
+            uint looserScore= 0;
 
             if (checkersBoardPiece.Equals(eCheckersBoardPiece.XPiece))
             {
@@ -296,8 +296,25 @@ namespace Ex02
                 {
                     winnerScore = winnerScore + 4;
                 }
+                else
+                {
+                    winnerScore++;
+                }
             }
 
+            foreach(BoardPosition position in loosingPositions)
+            {
+                if (isPieceKing(position.Row, position.Column))
+                {
+                    looserScore = looserScore + 4;
+                }
+                else
+                {
+                   looserScore++;
+                }
+            }
+
+            return (uint)Math.Abs(winnerScore - looserScore);
         }
     }
 }

@@ -63,10 +63,18 @@ namespace Ex02
                     validMoves = m_GameBoard.getAllValidMoves(m_ActivePlayer);
                     if (validMoves.Count <= 0)
                     {
-                        // check for teko
-
-                        //player loose 
-                        m_GameFinished = true;
+                        Player oponent = getOponent(m_ActivePlayer);
+                        List<CheckersBoardMove> oponentsValidMoves = m_GameBoard.getAllValidMoves(oponent);
+                        if (oponentsValidMoves.Count <= 0)
+                        {
+                            CheckersUI.printStalemateMessage(m_Player1, m_Player2);
+                            m_GameFinished = true;
+                        }
+                        else
+                        {
+                            switchActivePlayer();
+                            handleActivePlayerWin();
+                        }
                         break;
                     }
                 }
@@ -75,7 +83,8 @@ namespace Ex02
                 CheckersBoardMove? move = getNextMove(validMoves, out m_GameQuitedByPlayer);
                 if (m_GameQuitedByPlayer)
                 {
-                    //player loose 
+                    switchActivePlayer();
+                    handleActivePlayerWin();
                     break;
                 }
 
@@ -83,7 +92,7 @@ namespace Ex02
                 bool eatOpenetsPiece = m_GameBoard.playMove(validMove);
                 if (eatOpenetsPiece)
                 {
-                    validMoves = m_GameBoard.getValidMovesToEatFromPostions(validMove.To);
+                    validMoves = m_GameBoard.getValidMovesFromPosition(validMove.To, m_ActivePlayer);
                     continueTurnForCurrentPlayer = validMoves.Count > 0 ? true : false;
                 }
                 else
@@ -98,10 +107,7 @@ namespace Ex02
                 {
                     if (isPlayerWon(m_ActivePlayer))
                     {
-                        m_ActivePlayer.addToScore(m_GameBoard.calcScore(m_ActivePlayer.CheckersBoardPiece));
-                        CheckersUI.printWinMessage(m_ActivePlayer);
-                        // active won 
-                        m_GameFinished = true;
+                        handleActivePlayerWin();
                     }
                     else
                     {
@@ -109,6 +115,29 @@ namespace Ex02
                     }
                 }
             }
+        }
+
+        private Player getOponent(Player m_ActivePlayer)
+        {
+            Player oponent;
+            if (m_ActivePlayer.Equals(m_Player1))
+            {
+                oponent = m_Player2;
+            }
+            else
+            {
+                oponent = m_Player1;
+            }
+
+            return oponent;
+        }
+
+        private void handleActivePlayerWin()
+        {
+            uint addedScore = m_GameBoard.calcScore(m_ActivePlayer.CheckersBoardPiece);
+            m_ActivePlayer.addToScore(addedScore);
+            CheckersUI.printWinMessage(m_ActivePlayer, m_Player1, m_Player2, addedScore);
+            m_GameFinished = true;
         }
 
         private bool isPlayerWon(Player m_ActivePlayer)
