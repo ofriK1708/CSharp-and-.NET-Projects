@@ -239,5 +239,33 @@ namespace Ex02
 
             return isAllPiecesRemoved;
         }
+
+        internal uint calcScore(eCheckersBoardPiece checkersBoardPiece)
+        {
+            List<BoardPosition> winningPositions;
+            List<BoardPosition> loosingPositions;
+            uint winnerScore = 0;
+            uint looserScorel = 0;
+
+            if (checkersBoardPiece.Equals(eCheckersBoardPiece.XPiece))
+            {
+                winningPositions = m_XPositions;
+                loosingPositions = m_OPositions;
+            }
+            else
+            {
+                winningPositions = m_OPositions;
+                loosingPositions = m_XPositions;
+            }
+
+            foreach (BoardPosition position in winningPositions)
+            {
+                if(isPieceKing(position.Row, position.Column))
+                {
+                    winnerScore = winnerScore + 4;
+                }
+            }
+
+        }
     }
 }

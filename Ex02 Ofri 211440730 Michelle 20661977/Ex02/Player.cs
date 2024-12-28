@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Ex02
 {
     internal class Player
@@ -13,6 +15,11 @@ namespace Ex02
             this.Name = i_Name;
             this.m_PlayerType = i_PlayerType;
             this.CheckersBoardPiece = eCheckersBoardPiece;
+        }
+
+        internal void addToScore(uint newScore)
+        {
+            Score = Score + newScore;
         }
     }
 }

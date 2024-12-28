@@ -98,7 +98,10 @@ namespace Ex02
                 {
                     if (isPlayerWon(m_ActivePlayer))
                     {
+                        m_ActivePlayer.addToScore(m_GameBoard.calcScore(m_ActivePlayer.CheckersBoardPiece));
+                        CheckersUI.printWinMessage(m_ActivePlayer);
                         // active won 
+                        m_GameFinished = true;
                     }
                     else
                     {
