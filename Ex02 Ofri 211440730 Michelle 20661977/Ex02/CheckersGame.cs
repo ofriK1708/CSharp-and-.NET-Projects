@@ -64,6 +64,7 @@ namespace Ex02
                     if (validMoves.Count <= 0)
                     {
                         //player loose 
+                        m_GameFinished = true;
                         break;
                     }
                 }
@@ -93,7 +94,14 @@ namespace Ex02
 
                 if (!continueTurnForCurrentPlayer)
                 {
-                    switchActivePlayer();
+                    if (isPlayerWon(m_ActivePlayer))
+                    {
+
+                    }
+                    else
+                    {
+                        switchActivePlayer();
+                    }
                 }
             }
         }

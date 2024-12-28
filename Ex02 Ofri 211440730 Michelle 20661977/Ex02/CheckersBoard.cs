@@ -70,28 +70,63 @@ namespace Ex02
             return validBoardPositions;
         }
 
-        internal bool playMove(CheckersBoardMove validMove)
+        internal bool playMove(CheckersBoardMove i_ValidMove)
         {
-            BoardPosition from = validMove.From;
-            BoardPosition to = validMove.To;
+            BoardPosition from = i_ValidMove.From;
+            BoardPosition to = i_ValidMove.To;
 
-            eCheckersBoardPiece boardPiece = Board[from.Row, from.Column];
-            Board[to.Row, to.Column] = boardPiece;
+            eCheckersBoardPiece fromBoardPiece = Board[from.Row, from.Column];
+            eCheckersBoardPiece toBoardPiece = getToBoardPiece(fromBoardPiece, to.Row);
+
+            Board[to.Row, to.Column] = toBoardPiece;
             Board[from.Row, from.Column] = eCheckersBoardPiece.EmptyPlace;
 
-            switch (boardPiece)
+            switch (fromBoardPiece)
             {
                 case eCheckersBoardPiece.XPiece:
+                case eCheckersBoardPiece.XKingPiece:
                     m_XPositions.Remove(from);
                     m_XPositions.Add(to);
                     break;
                 case eCheckersBoardPiece.OPiece:
+                case eCheckersBoardPiece.OKingPiece:
                     m_OPositions.Remove(from);
                     m_OPositions.Add(to);
                     break;
+
             }
 
-            return false;
+            bool isEatOponent = false;
+            int rowDiff = (int)Math.Abs(to.Row - from.Row);
+            if (rowDiff == 2)
+            {
+                int colDiff = (int)Math.Abs(to.Column - from.Column) / 2;
+                rowDiff = rowDiff / 2;
+                Board[rowDiff, colDiff] = eCheckersBoardPiece.EmptyPlace;
+                isEatOponent = true;
+            }
+
+            return isEatOponent;
+        }
+
+        private eCheckersBoardPiece getToBoardPiece(eCheckersBoardPiece fromBoardPiece, uint toRow)
+        {
+           eCheckersBoardPiece toBoardPiece;
+
+           if (fromBoardPiece.Equals(eCheckersBoardPiece.XPiece) && toRow == 0)
+            {
+              toBoardPiece = eCheckersBoardPiece.XKingPiece;   
+            }
+            else if (fromBoardPiece.Equals(eCheckersBoardPiece.OPiece) && Size.Equals(toRow))
+            {
+              toBoardPiece = eCheckersBoardPiece.OKingPiece;
+            }
+            else
+            {
+              toBoardPiece = fromBoardPiece;
+            }
+
+            return toBoardPiece;
         }
 
         internal List<CheckersBoardMove> getValidMovesToEatFromPostions(BoardPosition position)
