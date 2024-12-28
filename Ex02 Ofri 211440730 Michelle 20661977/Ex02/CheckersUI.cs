@@ -180,7 +180,7 @@ namespace Ex02
 
         private static bool isValidMoveInput(string i_MoveInput)
         {
-            bool isValideMoveInput = i_MoveInput[2] == moveSplitChar && i_MoveInput.Length == moveSize;
+            bool isValideMoveInput = i_MoveInput.Length == moveSize && i_MoveInput[2] == moveSplitChar;
 
             if (isValideMoveInput)
             {
