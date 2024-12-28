@@ -64,7 +64,7 @@ namespace Ex02
 
         internal List<CheckersBoardMove> getAllValidMoves(Player i_ActivePlayer)
         {
-            List<CheckersBoardMove> validBoardPositions = new List< CheckersBoardMove>();
+            List<CheckersBoardMove> validBoardPositions = new List<CheckersBoardMove>();
 
 
             return validBoardPositions;
@@ -72,14 +72,16 @@ namespace Ex02
 
         internal bool playMove(CheckersBoardMove validMove)
         {
-            //implement 
+            BoardPosition from = validMove.From;
+            BoardPosition to = validMove.To;
+
             return false;
         }
 
-        internal List<CheckersBoardMove> getValidMovesToEatFromPostions(Tuple<char, char> position)
+        internal List<CheckersBoardMove> getValidMovesToEatFromPostions(BoardPosition position)
         {
             //implement
-            throw new NotImplementedException();
+           return new List<CheckersBoardMove>();
         }
     }
 }
