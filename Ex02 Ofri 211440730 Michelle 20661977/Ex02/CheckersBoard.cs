@@ -72,7 +72,7 @@ namespace Ex02
             List<BoardPosition> PositionsToCheck = i_ActivePlayer.CheckersBoardPiece == eCheckersBoardPiece.XPiece ? 
                 m_XPositions : m_OPositions;
             eCheckersBoardPiece opponentPiece = i_ActivePlayer.CheckersBoardPiece == eCheckersBoardPiece.XPiece ? eCheckersBoardPiece.OPiece : eCheckersBoardPiece.XPiece;
-            int directionToMoveInRow = i_ActivePlayer.CheckersBoardPiece == eCheckersBoardPiece.XPiece ? 1 : -1;
+            int directionToMoveInRow = i_ActivePlayer.CheckersBoardPiece == eCheckersBoardPiece.XPiece ? -1 : 1;
 
             foreach (BoardPosition position in PositionsToCheck)
             {
@@ -129,7 +129,8 @@ namespace Ex02
         {
             eCheckersBoardPiece oponentKingPiece;
 
-            if (opponentPiece.Equals(eCheckersBoardPiece.XPiece){
+            if (opponentPiece.Equals(eCheckersBoardPiece.XPiece))
+            {
                 oponentKingPiece = eCheckersBoardPiece.XKingPiece;
             }
             else
@@ -219,10 +220,41 @@ namespace Ex02
             return toBoardPiece;
         }
 
-        internal List<CheckersBoardMove> getValidMovesToEatFromPostions(BoardPosition position)
-        {
-            //implement
-           return new List<CheckersBoardMove>();
+        internal List<CheckersBoardMove> getValidMovesFromPosition(BoardPosition i_Position, Player i_ActivePlayer)
+        { 
+            List<CheckersBoardMove> validBoardPositions = new List<CheckersBoardMove>();
+            eCheckersBoardPiece opponentPiece = i_ActivePlayer.CheckersBoardPiece == eCheckersBoardPiece.XPiece ? eCheckersBoardPiece.OPiece : eCheckersBoardPiece.XPiece;
+            int directionToMoveInRow = i_ActivePlayer.CheckersBoardPiece == eCheckersBoardPiece.XPiece ? -1 : 1;
+            int newRow = i_Position.Row + directionToMoveInRow;
+            int newRowDouble = i_Position.Row + directionToMoveInRow * 2;
+            int newColRight = i_Position.Column + 1;
+            int newColLeft = i_Position.Column - 1;
+            int newColRightDouble = i_Position.Column + 2;
+            int newColLeftDouble = i_Position.Column - 2;
+            int newKingRow = i_Position.Row - directionToMoveInRow;
+            int newKingRowDouble = i_Position.Row - directionToMoveInRow * 2;
+
+            if (isCellInRange(newRowDouble, newColRightDouble) && isCellEmpty(newRowDouble, newColRightDouble) && isOponentPiece(opponentPiece, newRow, newColRight))
+            {
+                validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newRowDouble, newColRightDouble)));
+            }
+            if (isCellInRange(newRowDouble, newColLeftDouble) && isCellEmpty(newRowDouble, newColLeftDouble) && isOponentPiece(opponentPiece, newRow, newColLeft))
+            {
+                validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newRowDouble, newColLeftDouble)));
+            }
+            if (isPieceKing(i_Position.Row, i_Position.Column))
+            {
+                if (isCellInRange(newKingRowDouble, newColRightDouble) && isCellEmpty(newKingRowDouble, newColRightDouble) && isOponentPiece(opponentPiece, newKingRow, newColRight))
+                {
+                    validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newKingRowDouble, newColRightDouble)));
+                }
+                if (isCellInRange(newKingRowDouble, newColLeftDouble) && isCellEmpty(newKingRowDouble, newColLeftDouble) && isOponentPiece(opponentPiece, newKingRow, newColLeft))
+                {
+                    validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newKingRowDouble, newColLeftDouble)));
+                }
+            }
+
+            return validBoardPositions;
         }
 
         internal bool isAllPiecesRemoved(eCheckersBoardPiece boardPiece)
