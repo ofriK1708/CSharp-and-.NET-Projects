@@ -13,7 +13,7 @@ namespace Ex02
         private CheckersBoard m_GameBoard;
         private Player m_Player1;
         private Player m_Player2;
-
+        bool gameFinished = false;
         internal void StartGame()
         {
            initGame();
@@ -25,6 +25,7 @@ namespace Ex02
             m_Player1 = new Player(CheckersUI.GetPlayerName(), ePlayerType.Human);
             m_GameBoard = new CheckersBoard(CheckersUI.GetBoardSize());
             initSecondPlayer();
+            playGame();
         }
 
         private void initSecondPlayer()
@@ -42,6 +43,18 @@ namespace Ex02
             }
 
             m_Player2 = new Player(secondPlayerName, secondPlayerType);
+        }
+        private void playGame()
+        {
+            //while (!gameFinished)
+            //{
+                CheckersUI.PrintBoard(m_GameBoard.Board, m_GameBoard.Size);
+                //m_UserInterface.PrintPlayerTurn(m_Player1);
+                //m_UserInterface.GetPlayerMove(m_Player1);
+                //m_UserInterface.PrintBoard(m_GameBoard);
+               // m_UserInterface.PrintPlayerTurn(m_Player2);
+               // m_UserInterface.GetPlayerMove(m_Player2);
+            //}
         }
     }
 }

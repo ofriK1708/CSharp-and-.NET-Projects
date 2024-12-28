@@ -8,13 +8,13 @@ namespace Ex02
 {
     internal class CheckersBoard
     {
-        private eCheckersBoardSize m_Size;
-        private eCheckersBoardPiece[,] board;
+        internal eCheckersBoardSize Size { get; private set; }
+        internal eCheckersBoardPiece[,] Board { get; private set; }
         internal CheckersBoard(eCheckersBoardSize i_size)
         {
-            m_Size = i_size;
-            board = new eCheckersBoardPiece[(int)m_Size, (int)m_Size];
-            resetBoard((int)m_Size);
+            Size = i_size;
+            Board = new eCheckersBoardPiece[(int)Size, (int)Size];
+            resetBoard((int)Size);
         }
         
         internal void resetBoard(int i_BoardSize)
@@ -23,18 +23,18 @@ namespace Ex02
             {
                 for (int j = 0; j < i_BoardSize; j++)
                 {
-                    if ((i + j) % 2 == 0) 
+                    if ((i + j) % 2 == 1) 
                     {
                         if (i < i_BoardSize)
-                            board[i, j] = eCheckersBoardPiece.FirstPlayerRegularPiece;
+                            Board[i, j] = eCheckersBoardPiece.FirstPlayerRegularPiece;
                         else if (i > i_BoardSize / 2) 
-                            board[i, j] = eCheckersBoardPiece.SecondPlayerRegularPiece;
+                            Board[i, j] = eCheckersBoardPiece.SecondPlayerRegularPiece;
                         else
-                            board[i, j] = eCheckersBoardPiece.EmptyPlace;
+                            Board[i, j] = eCheckersBoardPiece.EmptyPlace;
                     }
                     else
                     {
-                        board[i, j] = eCheckersBoardPiece.EmptyPlace;
+                        Board[i, j] = eCheckersBoardPiece.EmptyPlace;
                     }
                 }
             }
