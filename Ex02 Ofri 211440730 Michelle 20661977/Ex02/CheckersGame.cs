@@ -63,6 +63,8 @@ namespace Ex02
                     validMoves = m_GameBoard.getAllValidMoves(m_ActivePlayer);
                     if (validMoves.Count <= 0)
                     {
+                        // check for teko
+
                         //player loose 
                         m_GameFinished = true;
                         break;
@@ -96,7 +98,7 @@ namespace Ex02
                 {
                     if (isPlayerWon(m_ActivePlayer))
                     {
-
+                        // active won 
                     }
                     else
                     {
@@ -110,7 +112,7 @@ namespace Ex02
         {
             bool isPlayerWon = false;
             eCheckersBoardPiece checkersBoardPiece = m_ActivePlayer.CheckersBoardPiece;
-            if(checkersBoardPiece.Equals(eCheckersBoardPiece.XPiece) || checkersBoardPiece.Equals(Equals(eCheckersBoardPiece.XKingPiece)
+            if(checkersBoardPiece.Equals(eCheckersBoardPiece.XPiece) || checkersBoardPiece.Equals(eCheckersBoardPiece.XKingPiece))
             {
                isPlayerWon =  m_GameBoard.isAllPiecesRemoved(eCheckersBoardPiece.OPiece);
             }
