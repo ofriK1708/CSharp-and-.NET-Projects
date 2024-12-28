@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Pipes;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Ex02
 {
     internal class CheckersGame
@@ -30,7 +24,7 @@ namespace Ex02
             m_GameBoard = new CheckersBoard(CheckersUI.GetBoardSize());
             initSecondPlayer();
             m_ActivePlayer = m_Player1;
-            CheckersUI.PrintStartGameMessage(m_GameNumber);
+            CheckersUI.PrintStartGameMessage(m_GameNumber, m_Player1.Name, m_Player2.Name);
         }
 
         private void initSecondPlayer()
@@ -56,7 +50,7 @@ namespace Ex02
             //{
 
                 CheckersUI.PrintBoard(m_GameBoard.Board, m_GameBoard.Size);
-       
+                CheckersUI.PrintPlayerTurn(m_ActivePlayer.Name);
 
                 //m_UserInterface.PrintPlayerTurn(m_Player1);
                 //m_UserInterface.GetPlayerMove(m_Player1);

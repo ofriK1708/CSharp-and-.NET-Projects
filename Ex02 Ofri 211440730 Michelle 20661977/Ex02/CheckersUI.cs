@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Ex02
 {
@@ -96,12 +93,15 @@ namespace Ex02
             }
         }
 
-        internal static void PrintStartGameMessage(int m_GameNumber)
+        internal static void PrintStartGameMessage(int i_GameNumber, string i_FirstPlayerName, string i_SecondPlayerName)
         {
-            Console.WriteLine("");
+            Console.WriteLine("Starting game number {0}: {1} against {2}, " , i_GameNumber, i_FirstPlayerName, i_SecondPlayerName);
         }
 
-        public static 
+        internal static void PrintPlayerTurn(string i_PlayerName)
+        {
+            Console.WriteLine("{}'s turn:", i_PlayerName);
+        }
 
         private static string getUserInput()
         {
