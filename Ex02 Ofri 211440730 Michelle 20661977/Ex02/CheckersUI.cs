@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Ex02
 {
@@ -12,12 +9,13 @@ namespace Ex02
         private const char invalidCharInName = ' ';
         private const int maxNameLength = 20;
         private const string boardStyle = "====";
-        public static void WelcomeMessage()
+
+        internal static void PrintWelcomeMessage()
         {
             Console.WriteLine("Welcome to checkers game!");
         }
 
-        public static string GetPlayerName()
+        internal static string GetPlayerName()
         {
             Console.WriteLine("Please enter player name, without spaces and up to 20 characters");
             string userName = getUserInput();
@@ -31,7 +29,7 @@ namespace Ex02
             return userName;
         }
 
-        public static eCheckersBoardSize GetBoardSize()
+        internal static eCheckersBoardSize GetBoardSize()
         {
             Console.WriteLine("Please enter board size, the options are 6, 8, or 10");
             string boardSize = getUserInput();
@@ -45,7 +43,7 @@ namespace Ex02
             return (eCheckersBoardSize)Enum.Parse(typeof(eCheckersBoardSize), boardSize);
         }
 
-        public static ePlayerType GetSecondPlayerType()
+       internal static ePlayerType GetSecondPlayerType()
         {
             Console.WriteLine("Choose opponent type - for Computer press 0, for second player press 1");
 
@@ -59,7 +57,8 @@ namespace Ex02
 
             return (ePlayerType)Enum.Parse (typeof(ePlayerType), playerType);
         }
-        public static void PrintBoard(eCheckersBoardPiece[,] i_Board,eCheckersBoardSize i_BoardSize)
+
+        internal static void PrintBoard(eCheckersBoardPiece[,] i_Board, eCheckersBoardSize i_BoardSize)
         {
             Ex02.ConsoleUtils.Screen.Clear();
             char rowLetter = 'A', colLetter = 'A';
@@ -67,6 +66,7 @@ namespace Ex02
             {
                 Console.Write("   {0}", colLetter++);
             }
+
             Console.WriteLine();
             for (int row = 0; row <= (int)i_BoardSize * 2; row++)
             {
@@ -78,7 +78,6 @@ namespace Ex02
                 {
                     if (row % 2 == 0)
                     {
-                        
                         Console.Write("{0}", boardStyle);
                     }
                     else
@@ -94,10 +93,20 @@ namespace Ex02
             }
         }
 
+        internal static void PrintStartGameMessage(int i_GameNumber, string i_FirstPlayerName, string i_SecondPlayerName)
+        {
+            Console.WriteLine("Starting game number {0}: {1} against {2}, " , i_GameNumber, i_FirstPlayerName, i_SecondPlayerName);
+        }
+
+        internal static void PrintPlayerTurn(string i_PlayerName)
+        {
+            Console.WriteLine("{}'s turn:", i_PlayerName);
+        }
+
         private static string getUserInput()
         {
             string userInput = Console.ReadLine();
-            while (String.IsNullOrEmpty(userInput))
+            while (String.IsNullOrWhiteSpace(userInput))
             {
                 Console.WriteLine("Input must not be empty, please try again");
                 userInput = Console.ReadLine();
@@ -110,13 +119,14 @@ namespace Ex02
         {
             return !i_UserName.Contains(invalidCharInName) && i_UserName.Length <= maxNameLength;
         }
-        private static bool isInputPartOfIntEnum(string input, Type enumType)
+
+        private static bool isInputPartOfIntEnum(string i_Input, Type i_EnumType)
         {
-            bool isValidSize = int.TryParse(input, out int size);
+            bool isValidSize = int.TryParse(i_Input, out int numericValue);
 
             if (isValidSize) 
             {
-                isValidSize = Enum.IsDefined(enumType, size);
+                isValidSize = Enum.IsDefined(i_EnumType, numericValue);
             }
 
             return isValidSize;

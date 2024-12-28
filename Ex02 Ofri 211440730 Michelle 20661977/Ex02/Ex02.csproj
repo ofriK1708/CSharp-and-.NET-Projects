@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckersBoard.cs" />
+    <Compile Include="CheckersMove.cs" />
     <Compile Include="eCheckersBoardSize.cs" />
     <Compile Include="CheckersGame.cs" />
     <Compile Include="CheckersUI.cs" />
