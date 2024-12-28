@@ -107,12 +107,12 @@ namespace Ex02
             Console.WriteLine("{0}'s turn ({1}):", i_Player.Name, i_Player.CheckersBoardPiece);
         }
 
-        internal static CheckersBoardPosition? GetMoveFromPlayer(out bool m_GameQuitedByPlayer)
+        internal static CheckersBoardMove? GetMoveFromPlayer(out bool m_GameQuitedByPlayer)
         {
             Console.WriteLine("Enter move");
             string moveInput = getUserInput().Trim();
 
-            CheckersBoardPosition? checkersMove = null;
+            CheckersBoardMove? checkersMove = null;
 
             if(moveInput.Equals(quit))
             {
@@ -127,13 +127,13 @@ namespace Ex02
                     moveInput = getUserInput();
                 }
 
-                checkersMove = new CheckersBoardPosition(moveInput);
+                checkersMove = new CheckersBoardMove(moveInput);
             }
 
             return checkersMove;
         }
 
-        internal static void PrintPlayedMove(CheckersBoardPosition move, Player i_Player)
+        internal static void PrintPlayedMove(CheckersBoardMove move, Player i_Player)
         {
             Console.WriteLine("{0}'s move was ({1}): {2}>{3}", i_Player.Name, i_Player.CheckersBoardPiece, move.From.ToString(), move.To.ToString());
         }

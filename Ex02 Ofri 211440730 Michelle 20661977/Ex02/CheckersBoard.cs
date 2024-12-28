@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 
 namespace Ex02
@@ -8,13 +9,9 @@ namespace Ex02
         internal eCheckersBoardSize Size { get; private set; }
         internal eCheckersBoardPiece[,] Board { get; private set; }
 
-        private List<CheckersBoardPosition> m_XPositions = new List<CheckersBoardPosition>();
+        private List<BoardPosition> m_XPositions = new List<BoardPosition>();
 
-        private List<CheckersBoardPosition> m_OPositions = new List<CheckersBoardPosition>();
-
-        private List<CheckersBoardPosition> m_KPositions = new List<CheckersBoardPosition>();
-
-        private List<CheckersBoardPosition> m_UPositions = new List<CheckersBoardPosition>();
+        private List<BoardPosition> m_OPositions = new List<BoardPosition>();
 
         internal CheckersBoard(eCheckersBoardSize i_size)
         {
@@ -33,12 +30,13 @@ namespace Ex02
                     {
                         if (j < (i_BoardSize - 2) / 2)
                         {
-                            Board[i, j] = eCheckersBoardPiece.SecondPlayerRegularPiece;
+                            Board[i, j] = eCheckersBoardPiece.OPiece;
+                            m_OPositions.Add(new BoardPosition(i, j));
                         }
                         else if (j > i_BoardSize / 2)
                         {
-                            Board[i, j] = eCheckersBoardPiece.FirstPlayerRegularPiece;
-                            m_XPositions.Add(new CheckersBoardPosition());
+                            Board[i, j] = eCheckersBoardPiece.XPiece;
+                            m_XPositions.Add(new BoardPosition(i,j));
                         }
                         else
                         {
@@ -62,11 +60,26 @@ namespace Ex02
         {
             return ((i_Row >= 0) && (i_Row < (int)Size)) && ((i_Col >= 0) && (i_Col < (int)Size));
         }
-        public array<checkersMove> validateMove(CheckersBoardPosition i_Move, Player i_Player)
+
+
+        internal List<CheckersBoardMove> getAllValidMoves(Player i_ActivePlayer)
         {
-            Array<checkersMove> validMoves = new Array<checkersMove>();
-            
+            List<CheckersBoardMove> validBoardPositions = new List< CheckersBoardMove>();
+
+
+            return validBoardPositions;
         }
-        
+
+        internal bool playMove(CheckersBoardMove validMove)
+        {
+            //implement 
+            return false;
+        }
+
+        internal List<CheckersBoardMove> getValidMovesToEatFromPostions(Tuple<char, char> position)
+        {
+            //implement
+            throw new NotImplementedException();
+        }
     }
 }

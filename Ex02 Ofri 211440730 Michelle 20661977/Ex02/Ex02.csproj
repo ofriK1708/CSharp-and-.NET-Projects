@@ -55,8 +55,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardPosition.cs" />
     <Compile Include="CheckersBoard.cs" />
-    <Compile Include="CheckersBoardPosition.cs" />
+    <Compile Include="CheckersBoardMove.cs" />
     <Compile Include="eCheckersBoardSize.cs" />
     <Compile Include="CheckersGame.cs" />
     <Compile Include="CheckersUI.cs" />

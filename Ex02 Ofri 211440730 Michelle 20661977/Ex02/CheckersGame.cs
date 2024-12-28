@@ -1,5 +1,7 @@
 ﻿
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection.Emit;
 using System.Security.Cryptography;
 
@@ -25,7 +27,7 @@ namespace Ex02
         private void initGame()
         {
             CheckersUI.PrintWelcomeMessage();
-            m_Player1 = new Player(CheckersUI.GetPlayerName(), ePlayerType.Human, eCheckersBoardPiece.FirstPlayerRegularPiece);
+            m_Player1 = new Player(CheckersUI.GetPlayerName(), ePlayerType.Human, eCheckersBoardPiece.XPiece);
             m_GameBoard = new CheckersBoard(CheckersUI.GetBoardSize());
             initSecondPlayer();
             m_ActivePlayer = m_Player1; 
@@ -48,29 +50,28 @@ namespace Ex02
                 secondPlayerName = m_ComputerPlayerName;
             }
 
-            m_Player2 = new Player(secondPlayerName, secondPlayerType, eCheckersBoardPiece.SecondPlayerRegularPiece);
+            m_Player2 = new Player(secondPlayerName, secondPlayerType, eCheckersBoardPiece.OPiece);
         }
 
         private void playGame()
         {
             m_isGameQuitedByPlayer = false;
             m_GameFinished = false;
-            List<CheckersBoardPosition> validMoves;
-            bool mustEat = false;
+            List<CheckersBoardMove> validMoves;
+            bool continueTurnForCurrentPlayer = false;
 
             while (!m_GameFinished && !m_isGameQuitedByPlayer)
             {
-                if (!mustEat)
+                if (!continueTurnForCurrentPlayer)
                 {
-                    validMoves = getAllValidMoves(m_ActivePlayer);
-
+                    validMoves = m_GameBoard.getAllValidMoves(m_ActivePlayer);
                     if (validMoves.Count <= 0)
                     {
                         //oponent wins
                     }
                 }
 
-                CheckersBoardPosition? move = CheckersUI.GetMoveFromPlayer(out m_isGameQuitedByPlayer);
+                CheckersBoardMove? move = CheckersUI.GetMoveFromPlayer(out m_isGameQuitedByPlayer);
                 if (m_isGameQuitedByPlayer)
                 {
                     // user that quited lost
@@ -79,36 +80,41 @@ namespace Ex02
 
                 // validate move part of valid moves 
 
-                //play turn - refactor board
-                bool eatOpenetsPiece = m_GameBoard.playMove();
+                CheckersBoardMove validMove = move.GetValueOrDefault();
+
+                bool eatOpenetsPiece = m_GameBoard.playMove(validMove);
                 if (eatOpenetsPiece)
                 {
-                    // validate there is more to eat
-                    validMoves = getValidMoveToEatFromPostions();
-
-                    if(validMoves.Count > 0)
-                    {
-                        mustEat = true;
-                    } else
-                    {
-                        mustEat = false;
-                    }
+                    validMoves = m_GameBoard.getValidMovesToEatFromPostions(validMove.To);
+                    continueTurnForCurrentPlayer = validMoves.Count > 0 ? true : false;
+                }
+                else
+                {
+                    continueTurnForCurrentPlayer = false;
                 }
 
                 CheckersUI.PrintBoard(m_GameBoard.Board, m_GameBoard.Size);
-                CheckersUI.PrintPlayedMove(move.GetValueOrDefault(), m_ActivePlayer);
+                CheckersUI.PrintPlayedMove(validMove, m_ActivePlayer);
 
-                if (!mustEat)
+                if (!continueTurnForCurrentPlayer)
                 {
-                    //switch active player
+                    switchActivePlayer();
                 }
                
                 CheckersUI.PrintPlayerTurn(m_ActivePlayer);
             }
         }
-        private bool validateMove(CheckersBoardPosition i_Move, Player i_Player)
+
+        private void switchActivePlayer()
         {
-            Array<checkersMove> 
+            if (m_ActivePlayer.Equals(m_Player1))
+            {
+                m_ActivePlayer = m_Player2;
+            }
+            else
+            {
+                m_ActivePlayer = m_Player1;
+            }
         }
     }
 }
