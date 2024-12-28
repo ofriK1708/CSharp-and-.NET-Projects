@@ -12,6 +12,7 @@ namespace Ex02
         private const string boardStyle = "====";
         private const char moveSplitChar = '>';
         private const int moveSize = 5;
+        private const char quit = 'Q';
 
         internal static void PrintWelcomeMessage()
         {
@@ -106,17 +107,35 @@ namespace Ex02
             Console.WriteLine("{0}'s turn ({1}):", i_Player.Name, i_Player.CheckersBoardPiece);
         }
 
-        internal static CheckersMove GetMoveFromPlayer()
+        internal static CheckersBoardPosition? GetMoveFromPlayer(out bool m_GameQuitedByPlayer)
         {
             Console.WriteLine("Enter move");
-            string moveInput = getUserInput();
-            while (!isValidMoveInput(moveInput))
+            string moveInput = getUserInput().Trim();
+
+            CheckersBoardPosition? checkersMove = null;
+
+            if(moveInput.Equals(quit))
             {
-                Console.WriteLine("Invalid move input!, move should have the be in the format ROWCol>ROWCol, for example Fc>Fb");
-                moveInput = getUserInput();
+                m_GameQuitedByPlayer = true;
+            }
+            else 
+            {
+                m_GameQuitedByPlayer= false;
+                while (!isValidMoveInput(moveInput))
+                {
+                    Console.WriteLine("Invalid move input!, move should have the be in the format ROWCol>ROWCol, for example Fc>Fb");
+                    moveInput = getUserInput();
+                }
+
+                checkersMove = new CheckersBoardPosition(moveInput);
             }
 
-            return new CheckersMove(moveInput);
+            return checkersMove;
+        }
+
+        internal static void PrintPlayedMove(CheckersBoardPosition move, Player i_Player)
+        {
+            Console.WriteLine("{0}'s move was ({1}): {2}>{3}", i_Player.Name, i_Player.CheckersBoardPiece, move.From.ToString(), move.To.ToString());
         }
 
         private static string getUserInput()
@@ -128,7 +147,7 @@ namespace Ex02
                 userInput = Console.ReadLine();
             }
 
-            return userInput;
+            return userInput.Trim();
         }
 
         private static bool isPlayerNameValid(string i_UserName)
