@@ -22,9 +22,9 @@ namespace Ex02
         
         internal void resetBoard(int i_BoardSize)
         {
-            for (int i = 0; i < i_BoardSize; i++)
+            for (uint i = 0; i < i_BoardSize; i++)
             {
-                for (int j = 0; j < i_BoardSize; j++)
+                for (uint j = 0; j < i_BoardSize; j++)
                 {
                     if ((i + j) % 2 == 1) 
                     {
