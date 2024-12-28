@@ -70,10 +70,12 @@ namespace Ex02
             return validBoardPositions;
         }
 
-        internal bool playMove(CheckersBoardMove validMove)
+        internal bool playMove(CheckersBoardMove validMove, eCheckersBoardPiece checkersBoardPiece)
         {
             BoardPosition from = validMove.From;
             BoardPosition to = validMove.To;
+
+            Board[from[0], from[1]]
 
             return false;
         }
