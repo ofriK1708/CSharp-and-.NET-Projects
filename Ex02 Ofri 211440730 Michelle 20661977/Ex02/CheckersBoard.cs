@@ -14,6 +14,7 @@ namespace Ex02
         {
             m_Size = i_size;
             board = new eCheckersBoardPiece[(int)m_Size, (int)m_Size];
+            resetBoard((int)m_Size);
         }
         
         internal void resetBoard(int i_BoardSize)
