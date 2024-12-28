@@ -16,9 +16,32 @@ namespace Ex02
 
         internal void StartGame()
         {
+           initGame();
+        }
+
+        private void initGame()
+        {
             CheckersUI.WelcomeMessage();
-            m_Player1 = new Player(CheckersUI.GetPlayerName());
-            eCheckersBoardSize size= CheckersUI.GetBoardSize();
+            m_Player1 = new Player(CheckersUI.GetPlayerName(), ePlayerType.Human);
+            m_GameBoard = new CheckersBoard(CheckersUI.GetBoardSize());
+            initSecondPlayer();
+        }
+
+        private void initSecondPlayer()
+        {
+            ePlayerType secondPlayerType = CheckersUI.GetSecondPlayerType();
+
+            string secondPlayerName;
+            if (secondPlayerType == ePlayerType.Human)
+            {
+                secondPlayerName = CheckersUI.GetPlayerName();
+            }
+            else
+            {
+                secondPlayerName = "Computer";
+            }
+
+            m_Player2 = new Player(secondPlayerName, secondPlayerType);
         }
     }
 }

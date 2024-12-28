@@ -61,6 +61,7 @@
     <Compile Include="CheckersUI.cs" />
     <Compile Include="eCheckersBoardPiece.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="ePlayerType.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
