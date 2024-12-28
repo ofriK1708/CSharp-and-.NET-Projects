@@ -1,9 +1,6 @@
 ﻿
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Reflection.Emit;
-using System.Security.Cryptography;
 
 namespace Ex02
 {
@@ -16,7 +13,7 @@ namespace Ex02
         private const string m_ComputerPlayerName = "Computer";
         private Player m_ActivePlayer;
         private int m_GameNumber = 1;
-        bool m_isGameQuitedByPlayer = false;
+        bool m_GameQuitedByPlayer = false;
 
         internal void StartGame()
         {
@@ -33,7 +30,6 @@ namespace Ex02
             m_ActivePlayer = m_Player1; 
             CheckersUI.PrintStartGameMessage(m_GameNumber, m_Player1.Name, m_Player2.Name);
             CheckersUI.PrintBoard(m_GameBoard.Board, m_GameBoard.Size);
-            CheckersUI.PrintPlayerTurn(m_ActivePlayer);
         }
 
         private void initSecondPlayer()
@@ -55,33 +51,32 @@ namespace Ex02
 
         private void playGame()
         {
-            m_isGameQuitedByPlayer = false;
+            m_GameQuitedByPlayer = false;
             m_GameFinished = false;
-            List<CheckersBoardMove> validMoves;
+            List<CheckersBoardMove> validMoves = new List<CheckersBoardMove>();
             bool continueTurnForCurrentPlayer = false;
 
-            while (!m_GameFinished && !m_isGameQuitedByPlayer)
+            while (!m_GameFinished && !m_GameQuitedByPlayer)
             {
                 if (!continueTurnForCurrentPlayer)
                 {
                     validMoves = m_GameBoard.getAllValidMoves(m_ActivePlayer);
                     if (validMoves.Count <= 0)
                     {
-                        //oponent wins
+                        //player loose 
+                        break;
                     }
                 }
 
-                CheckersBoardMove? move = CheckersUI.GetMoveFromPlayer(out m_isGameQuitedByPlayer);
-                if (m_isGameQuitedByPlayer)
+                CheckersUI.PrintPlayerTurn(m_ActivePlayer);
+                CheckersBoardMove? move = getNextMove(validMoves, out m_GameQuitedByPlayer);
+                if (m_GameQuitedByPlayer)
                 {
-                    // user that quited lost
-                    return;
+                    //player loose 
+                    break;
                 }
 
-                // validate move part of valid moves 
-
                 CheckersBoardMove validMove = move.GetValueOrDefault();
-
                 bool eatOpenetsPiece = m_GameBoard.playMove(validMove);
                 if (eatOpenetsPiece)
                 {
@@ -100,9 +95,20 @@ namespace Ex02
                 {
                     switchActivePlayer();
                 }
-               
-                CheckersUI.PrintPlayerTurn(m_ActivePlayer);
             }
+        }
+
+        private CheckersBoardMove? getNextMove(List<CheckersBoardMove> validMoves, out bool m_GameQuitedByPlayer)
+        {
+            CheckersBoardMove? move = CheckersUI.GetMoveFromPlayer(out m_GameQuitedByPlayer);
+
+            while (!m_GameQuitedByPlayer && !isValidMove(validMoves, move.GetValueOrDefault()))
+            {
+                CheckersUI.PrintMoveInvalid();
+                move = CheckersUI.GetMoveFromPlayer(out m_GameQuitedByPlayer);
+            }
+
+            return move;
         }
 
         private void switchActivePlayer()
@@ -115,6 +121,11 @@ namespace Ex02
             {
                 m_ActivePlayer = m_Player1;
             }
+        }
+
+        private bool isValidMove(List<CheckersBoardMove> valideMoves, CheckersBoardMove move)
+        {
+            return valideMoves.Contains(move);
         }
     }
 }

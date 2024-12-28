@@ -22,9 +22,9 @@ namespace Ex02
         
         internal void resetBoard(int i_BoardSize)
         {
-            for (int i = 0; i < i_BoardSize; i++)
+            for (uint i = 0; i < i_BoardSize; i++)
             {
-                for (int j = 0; j < i_BoardSize; j++)
+                for (uint j = 0; j < i_BoardSize; j++)
                 {
                     if ((i + j) % 2 == 1) 
                     {
@@ -64,7 +64,7 @@ namespace Ex02
 
         internal List<CheckersBoardMove> getAllValidMoves(Player i_ActivePlayer)
         {
-            List<CheckersBoardMove> validBoardPositions = new List< CheckersBoardMove>();
+            List<CheckersBoardMove> validBoardPositions = new List<CheckersBoardMove>();
 
 
             return validBoardPositions;
@@ -72,14 +72,16 @@ namespace Ex02
 
         internal bool playMove(CheckersBoardMove validMove)
         {
-            //implement 
+            BoardPosition from = validMove.From;
+            BoardPosition to = validMove.To;
+
             return false;
         }
 
-        internal List<CheckersBoardMove> getValidMovesToEatFromPostions(Tuple<char, char> position)
+        internal List<CheckersBoardMove> getValidMovesToEatFromPostions(BoardPosition position)
         {
             //implement
-            throw new NotImplementedException();
+           return new List<CheckersBoardMove>();
         }
     }
 }

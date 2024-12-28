@@ -138,6 +138,11 @@ namespace Ex02
             Console.WriteLine("{0}'s move was ({1}): {2}>{3}", i_Player.Name, i_Player.CheckersBoardPiece, move.From.ToString(), move.To.ToString());
         }
 
+        internal static void PrintMoveInvalid()
+        {
+            Console.WriteLine("Move is not valid! please try different move");
+        }
+
         private static string getUserInput()
         {
             string userInput = Console.ReadLine();
