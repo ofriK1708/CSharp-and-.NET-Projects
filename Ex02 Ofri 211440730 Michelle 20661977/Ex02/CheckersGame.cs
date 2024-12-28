@@ -20,7 +20,7 @@ namespace Ex02
         private void initGame()
         {
             CheckersUI.PrintWelcomeMessage();
-            m_Player1 = new Player(CheckersUI.GetPlayerName(), ePlayerType.Human);
+            m_Player1 = new Player(CheckersUI.GetPlayerName(), ePlayerType.Human, eCheckersBoardPiece.FirstPlayerRegularPiece);
             m_GameBoard = new CheckersBoard(CheckersUI.GetBoardSize());
             initSecondPlayer();
             m_ActivePlayer = m_Player1;
@@ -41,23 +41,20 @@ namespace Ex02
                 secondPlayerName = m_ComputerPlayerName;
             }
 
-            m_Player2 = new Player(secondPlayerName, secondPlayerType);
+            m_Player2 = new Player(secondPlayerName, secondPlayerType, eCheckersBoardPiece.SecondPlayerRegularPiece);
         }
 
         private void playGame()
         {
             //while (!gameFinished)
             //{
-
                 CheckersUI.PrintBoard(m_GameBoard.Board, m_GameBoard.Size);
-                CheckersUI.PrintPlayerTurn(m_ActivePlayer.Name);
+                CheckersUI.PrintPlayerTurn(m_ActivePlayer);
                 CheckersMove move= CheckersUI.GetMoveFromPlayer();
-
-                //m_UserInterface.GetPlayerMove(m_Player1);
-                //m_UserInterface.PrintBoard(m_GameBoard);
-               // m_UserInterface.PrintPlayerTurn(m_Player2);
-               // m_UserInterface.GetPlayerMove(m_Player2);
-
+            //validate turn
+            //play turn 
+            //decide who is next m_activePlayer =
+  
             //}
         }
     }
