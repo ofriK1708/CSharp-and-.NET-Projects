@@ -51,8 +51,8 @@ namespace Ex02
 
                 CheckersUI.PrintBoard(m_GameBoard.Board, m_GameBoard.Size);
                 CheckersUI.PrintPlayerTurn(m_ActivePlayer.Name);
+                CheckersMove move= CheckersUI.GetMoveFromPlayer();
 
-                //m_UserInterface.PrintPlayerTurn(m_Player1);
                 //m_UserInterface.GetPlayerMove(m_Player1);
                 //m_UserInterface.PrintBoard(m_GameBoard);
                // m_UserInterface.PrintPlayerTurn(m_Player2);

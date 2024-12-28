@@ -4,7 +4,7 @@ namespace Ex02
 {
     internal struct CheckersMove
     {
-        private Tuple<char,char> from;
-        private Tuple<char, char> to;
+        internal Tuple<char, char> From { get; set; }
+        internal Tuple<char, char> To { get; set; }
     }
 }
