@@ -59,14 +59,14 @@ namespace Ex02
                 playerType = getUserInput();
             }
 
-            return (ePlayerType)Enum.Parse (typeof(ePlayerType), playerType);
+            return (ePlayerType)Enum.Parse(typeof(ePlayerType), playerType);
         }
 
         internal static void PrintBoard(eCheckersBoardPiece[,] i_Board, eCheckersBoardSize i_BoardSize)
         {
             Ex02.ConsoleUtils.Screen.Clear();
             char rowLetter = 'A', colLetter = 'a';
-            for(int col= 0; col < (int)i_BoardSize; col++)
+            for (int col = 0; col < (int)i_BoardSize; col++)
             {
                 Console.Write("   {0}", colLetter++);
             }
@@ -74,7 +74,7 @@ namespace Ex02
             Console.WriteLine();
             for (int row = 0; row <= (int)i_BoardSize * 2; row++)
             {
-                if(row % 2 == 0)
+                if (row % 2 == 0)
                 {
                     Console.Write(" ");
                 }
@@ -93,13 +93,13 @@ namespace Ex02
                         Console.Write("| {0} ", (char)i_Board[(row - 1) / 2, col]);
                     }
                 }
-                Console.WriteLine("{0}",row % 2 == 0 ? "=" : "|");
+                Console.WriteLine("{0}", row % 2 == 0 ? "=" : "|");
             }
         }
 
         internal static void PrintStartGameMessage(int i_GameNumber, string i_FirstPlayerName, string i_SecondPlayerName)
         {
-            Console.WriteLine("Starting game number {0}: {1} against {2}, " , i_GameNumber, i_FirstPlayerName, i_SecondPlayerName);
+            Console.WriteLine("Starting game number {0}: {1} against {2}, ", i_GameNumber, i_FirstPlayerName, i_SecondPlayerName);
         }
 
         internal static void PrintPlayerTurn(Player i_Player)
@@ -107,26 +107,26 @@ namespace Ex02
             Console.WriteLine("{0}'s turn ({1}):", i_Player.Name, i_Player.CheckersBoardPiece);
         }
 
-        internal static CheckersBoardMove? GetMoveFromPlayer(out bool m_GameQuitedByPlayer)
+        internal static CheckersBoardMove? GetMoveFromPlayer(out bool i_GameQuitedByPlayer)
         {
             Console.WriteLine("Enter move");
-            string moveInput = getUserInput().Trim();
+            string moveInput = getUserInput();
 
             CheckersBoardMove? checkersMove = null;
+            i_GameQuitedByPlayer = false;
 
-            if(moveInput.Equals(quit))
+            while (moveInput != quit && !isValidMoveInput(moveInput))
             {
-                m_GameQuitedByPlayer = true;
+                Console.WriteLine("Invalid move input!, move should have the be in the format ROWCol>ROWCol, for example Fc>Fb");
+                moveInput = getUserInput();
             }
-            else 
-            {
-                m_GameQuitedByPlayer= false;
-                while (!isValidMoveInput(moveInput))
-                {
-                    Console.WriteLine("Invalid move input!, move should have the be in the format ROWCol>ROWCol, for example Fc>Fb");
-                    moveInput = getUserInput();
-                }
 
+            if (moveInput == quit)
+            {
+                i_GameQuitedByPlayer = true;
+            }
+            else
+            {
                 checkersMove = new CheckersBoardMove(moveInput);
             }
 
@@ -170,7 +170,7 @@ namespace Ex02
         {
             bool isValidSize = int.TryParse(i_Input, out int numericValue);
 
-            if (isValidSize) 
+            if (isValidSize)
             {
                 isValidSize = Enum.IsDefined(i_EnumType, numericValue);
             }
@@ -180,9 +180,9 @@ namespace Ex02
 
         private static bool isValidMoveInput(string i_MoveInput)
         {
-            bool isValideMoveInput = ((i_MoveInput.Length == moveSize) && (i_MoveInput[2] == moveSplitChar)) || (i_MoveInput == quit);
+            bool isValideMoveInput = ((i_MoveInput.Length == moveSize) && (i_MoveInput[2] == moveSplitChar));
 
-            if (isValideMoveInput && i_MoveInput != quit)
+            if (isValideMoveInput)
             {
                 isValideMoveInput = char.IsUpper(i_MoveInput[0]) && char.IsLower(i_MoveInput[1]) && char.IsUpper(i_MoveInput[3]) && char.IsLower(i_MoveInput[4]);
             }
@@ -213,17 +213,17 @@ namespace Ex02
             string anotherGameInput = getUserInput();
             bool anotherGame = false;
 
-            while (anotherGameInput.Equals("1") || anotherGameInput.Equals("0"))
+            while (anotherGameInput != "1" && anotherGameInput != "0")
             {
                 Console.WriteLine("Invalid input, Would you like to play another game? yes - press 1, no - press 0");
                 anotherGameInput = getUserInput();
             }
 
-            if (anotherGameInput.Equals("1"))
+            if (anotherGameInput == "1")
             {
                 anotherGame = true;
             }
-         
+
             return anotherGame;
         }
     }

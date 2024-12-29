@@ -198,7 +198,7 @@ namespace Ex02
             {
               toBoardPiece = eCheckersBoardPiece.XKingPiece;   
             }
-            else if (i_FromBoardPiece.Equals(eCheckersBoardPiece.OPiece) && Size.Equals(i_ToRow))
+            else if (i_FromBoardPiece.Equals(eCheckersBoardPiece.OPiece) && (int)Size -1 == i_ToRow )
             {
               toBoardPiece = eCheckersBoardPiece.OKingPiece;
             }
