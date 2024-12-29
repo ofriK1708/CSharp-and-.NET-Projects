@@ -8,19 +8,19 @@ namespace Ex02
         internal string Name { get;}
         internal ePlayerType PlayerType { get; set; }
         internal uint Score { get; set; }
-        internal eCheckersBoardPiece CheckersBoardPiece { get; }
+        internal eCheckersPieceType PieceType { get; }
 
 
-        internal Player(string i_Name, ePlayerType i_PlayerType, eCheckersBoardPiece eCheckersBoardPiece)
+        internal Player(string i_Name, ePlayerType i_PlayerType, eCheckersPieceType i_PieceType)
         {
             this.Name = i_Name;
             this.PlayerType = i_PlayerType;
-            this.CheckersBoardPiece = eCheckersBoardPiece;
+            this.PieceType = i_PieceType;
         }
 
-        internal void addToScore(uint newScore)
+        internal void addToScore(uint i_NewScore)
         {
-            Score = Score + newScore;
+            Score = Score + i_NewScore;
         }
     }
 }
