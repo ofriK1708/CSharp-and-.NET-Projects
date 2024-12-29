@@ -1,7 +1,7 @@
 ﻿
 namespace Ex02
 {
-    internal enum eCheckersBoardPiece
+    internal enum eCheckersPieceType
     { 
        XPiece = 'X',
        OPiece = 'O',

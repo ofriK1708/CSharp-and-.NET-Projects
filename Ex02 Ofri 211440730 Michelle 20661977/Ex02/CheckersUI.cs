@@ -7,12 +7,12 @@ namespace Ex02
 {
     internal class CheckersUI
     {
-        private const char invalidCharInName = ' ';
-        private const int maxNameLength = 20;
-        private const string boardStyle = "====";
-        private const char moveSplitChar = '>';
-        private const int moveSize = 5;
-        private const string quit = "Q";
+        private const char k_InvalidCharInName = ' ';
+        private const int k_MaxNameLength = 20;
+        private const string k_BoardStyle = "====";
+        private const char k_MoveSplitChar = '>';
+        private const int K_MoveInputSize = 5;
+        private const string K_QuitChar = "Q";
 
         internal static void PrintWelcomeMessage()
         {
@@ -50,7 +50,6 @@ namespace Ex02
         internal static ePlayerType GetSecondPlayerType()
         {
             Console.WriteLine("Choose opponent type - for Computer press 0, for second player press 1");
-
             string playerType = getUserInput();
 
             while (!isInputPartOfIntEnum(playerType, typeof(ePlayerType)))
@@ -62,10 +61,11 @@ namespace Ex02
             return (ePlayerType)Enum.Parse(typeof(ePlayerType), playerType);
         }
 
-        internal static void PrintBoard(eCheckersBoardPiece[,] i_Board, eCheckersBoardSize i_BoardSize)
+        internal static void PrintBoard(eCheckersPieceType[,] i_Board, eCheckersBoardSize i_BoardSize)
         {
             Ex02.ConsoleUtils.Screen.Clear();
             char rowLetter = 'A', colLetter = 'a';
+
             for (int col = 0; col < (int)i_BoardSize; col++)
             {
                 Console.Write("   {0}", colLetter++);
@@ -78,11 +78,12 @@ namespace Ex02
                 {
                     Console.Write(" ");
                 }
+
                 for (int col = 0; col < (int)i_BoardSize; col++)
                 {
                     if (row % 2 == 0)
                     {
-                        Console.Write("{0}", boardStyle);
+                        Console.Write("{0}", k_BoardStyle);
                     }
                     else
                     {
@@ -93,6 +94,7 @@ namespace Ex02
                         Console.Write("| {0} ", (char)i_Board[(row - 1) / 2, col]);
                     }
                 }
+
                 Console.WriteLine("{0}", row % 2 == 0 ? "=" : "|");
             }
         }
@@ -104,24 +106,23 @@ namespace Ex02
 
         internal static void PrintPlayerTurn(Player i_Player)
         {
-            Console.WriteLine("{0}'s turn ({1}):", i_Player.Name, i_Player.CheckersBoardPiece);
+            Console.WriteLine("{0}'s turn ({1}):", i_Player.Name, i_Player.PieceType);
         }
 
         internal static CheckersBoardMove? GetMoveFromPlayer(out bool i_GameQuitedByPlayer)
         {
             Console.WriteLine("Enter move");
             string moveInput = getUserInput();
-
             CheckersBoardMove? checkersMove = null;
             i_GameQuitedByPlayer = false;
 
-            while (moveInput != quit && !isValidMoveInput(moveInput))
+            while (moveInput != K_QuitChar && !isValidMoveInput(moveInput))
             {
                 Console.WriteLine("Invalid move input!, move should have the be in the format ROWCol>ROWCol, for example Fc>Fb");
                 moveInput = getUserInput();
             }
 
-            if (moveInput == quit)
+            if (moveInput == K_QuitChar)
             {
                 i_GameQuitedByPlayer = true;
             }
@@ -138,10 +139,11 @@ namespace Ex02
             Console.WriteLine("Computer’s Turn (press ‘enter’ to see it’s move)");
             Console.ReadLine();
         }
-        internal static void PrintPlayedMove(CheckersBoardMove move, Player i_Player)
+
+        internal static void PrintPlayedMove(CheckersBoardMove i_Move, Player i_Player)
         {
             Console.WriteLine("{0}'s move was ({1}): {2}{3}>{4}{5}",
-                i_Player.Name, i_Player.CheckersBoardPiece, (char)(move.From.Row + 'A'), (char)(move.From.Column + 'a'), (char)(move.To.Row + 'A'), (char)(move.To.Column + 'a'));
+                i_Player.Name, i_Player.PieceType, (char)(i_Move.From.Row + 'A'), (char)(i_Move.From.Column + 'a'), (char)(i_Move.To.Row + 'A'), (char)(i_Move.To.Column + 'a'));
         }
 
         internal static void PrintMoveInvalid()
@@ -152,6 +154,7 @@ namespace Ex02
         private static string getUserInput()
         {
             string userInput = Console.ReadLine();
+
             while (String.IsNullOrWhiteSpace(userInput))
             {
                 Console.WriteLine("Input must not be empty, please try again");
@@ -163,7 +166,7 @@ namespace Ex02
 
         private static bool isPlayerNameValid(string i_UserName)
         {
-            return !i_UserName.Contains(invalidCharInName) && i_UserName.Length <= maxNameLength;
+            return !i_UserName.Contains(k_InvalidCharInName) && i_UserName.Length <= k_MaxNameLength;
         }
 
         private static bool isInputPartOfIntEnum(string i_Input, Type i_EnumType)
@@ -180,7 +183,7 @@ namespace Ex02
 
         private static bool isValidMoveInput(string i_MoveInput)
         {
-            bool isValideMoveInput = ((i_MoveInput.Length == moveSize) && (i_MoveInput[2] == moveSplitChar));
+            bool isValideMoveInput = ((i_MoveInput.Length == K_MoveInputSize) && (i_MoveInput[2] == k_MoveSplitChar));
 
             if (isValideMoveInput)
             {
@@ -190,7 +193,7 @@ namespace Ex02
             return isValideMoveInput;
         }
 
-        internal static void printWinMessage(Player i_ActivePlayer, Player i_Player1, Player i_Player2, uint i_AddedScore)
+        internal static void PrintWinMessage(Player i_ActivePlayer, Player i_Player1, Player i_Player2, uint i_AddedScore)
         {
             Console.WriteLine("{0} Won!! and gained {1} points!", i_ActivePlayer.Name, i_AddedScore);
             printScore(i_Player1, i_Player2);
@@ -201,7 +204,7 @@ namespace Ex02
             Console.WriteLine("{0}'s score is {1}, {2}'s score is {3}", i_Player1.Name, i_Player1.Score, i_Player2.Name, i_Player2.Score);
         }
 
-        internal static void printStalemateMessage(Player i_Player1, Player i_Player2)
+        internal static void PrintStalemateMessage(Player i_Player1, Player i_Player2)
         {
             Console.WriteLine("No one won :(,");
             printScore(i_Player1, i_Player2);
@@ -210,16 +213,16 @@ namespace Ex02
         internal static bool GetFromUserIsContinueToAnotherGame()
         {
             Console.WriteLine("Would you like to play another game? yes - press 1, no - press 0");
-            string anotherGameInput = getUserInput();
+            string inputFromUser = getUserInput();
             bool anotherGame = false;
 
-            while (anotherGameInput != "1" && anotherGameInput != "0")
+            while (inputFromUser != "1" && inputFromUser != "0")
             {
                 Console.WriteLine("Invalid input, Would you like to play another game? yes - press 1, no - press 0");
-                anotherGameInput = getUserInput();
+                inputFromUser = getUserInput();
             }
 
-            if (anotherGameInput == "1")
+            if (inputFromUser == "1")
             {
                 anotherGame = true;
             }
