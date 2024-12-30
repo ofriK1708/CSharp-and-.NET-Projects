@@ -254,7 +254,7 @@ namespace Ex02
                 }
             }
 
-            return (uint)Math.Abs(winnerScore - looserScore);
+            return winnerScore >= looserScore ? winnerScore - looserScore : looserScore - winnerScore;
         }
 
         private List<CheckersBoardMove> getAllValidMoves(Player i_ActivePlayer)

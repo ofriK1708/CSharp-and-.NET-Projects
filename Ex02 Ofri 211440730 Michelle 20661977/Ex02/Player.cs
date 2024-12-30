@@ -16,6 +16,7 @@ namespace Ex02
             this.Name = i_Name;
             this.PlayerType = i_PlayerType;
             this.PieceType = i_PieceType;
+            this.Score = 0;
         }
 
         internal void addToScore(uint i_NewScore)
