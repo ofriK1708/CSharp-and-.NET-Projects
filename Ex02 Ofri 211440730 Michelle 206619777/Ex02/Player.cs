@@ -10,7 +10,6 @@ namespace Ex02
         internal uint Score { get; set; }
         internal eCheckersPieceType PieceType { get; }
 
-
         internal Player(string i_Name, ePlayerType i_PlayerType, eCheckersPieceType i_PieceType)
         {
             this.Name = i_Name;

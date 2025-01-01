@@ -81,7 +81,7 @@ namespace Ex02
             return Board[i_NewRow, i_NewColRight] == i_OpponentPiece || Board[i_NewRow, i_NewColRight] == oponentKingPiece;
         }
 
-        internal bool playMove(CheckersBoardMove i_ValidMove)
+        internal bool executeMove(CheckersBoardMove i_ValidMove)
         {
             BoardPosition startPosition = i_ValidMove.From;
             BoardPosition nextPosition = i_ValidMove.To;

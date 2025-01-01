@@ -6,8 +6,8 @@ namespace Ex02
     {
         public static void Main()
         {
-            CheckersGame checkersGame = new CheckersGame();
-            checkersGame.StartGame();
+            CheckersUI checkersUI = new CheckersUI();
+            checkersUI.StartGame();
         }
     }
 }
