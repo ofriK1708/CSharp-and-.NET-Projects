@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 
@@ -16,7 +15,7 @@ namespace Ex02
         private CheckersGame m_CheckersGame;
         private int m_GameNumber = 1;
         private const string k_ComputerPlayerName = "Computer";
-        bool m_GameQuitedByPlayer = false;
+        private bool m_GameQuitedByPlayer = false;
         private bool m_GameFinished = false;
 
         internal void StartGame()
@@ -25,7 +24,6 @@ namespace Ex02
             playGame();
 
             bool anotherGame = getFromUserIsContinueToAnotherGame();
-
             while (anotherGame)
             {
                 m_GameNumber++;
@@ -283,7 +281,6 @@ namespace Ex02
 
             return userInput.Trim();
         }
-
         private bool isPlayerNameValid(string i_UserName)
         {
             return !i_UserName.Contains(k_InvalidCharInName) && i_UserName.Length <= k_MaxNameLength;
