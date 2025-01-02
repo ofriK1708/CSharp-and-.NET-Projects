@@ -10,8 +10,8 @@ namespace Ex02
         private const int k_MaxNameLength = 20;
         private const string k_BoardStyle = "====";
         private const char k_MoveSplitChar = '>';
-        private const int K_MoveInputSize = 5;
-        private const string K_QuitChar = "Q";
+        private const int k_MoveInputSize = 5;
+        private const string k_QuitChar = "Q";
         private CheckersGame m_CheckersGame;
         private int m_GameNumber = 1;
         private const string k_ComputerPlayerName = "Computer";
@@ -53,7 +53,7 @@ namespace Ex02
             while (!m_GameFinished && !m_GameQuitedByPlayer)
             {
                 m_CheckersGame.handleGameStateBeforeNextMove();
-                if (m_CheckersGame.IsStaleMate)
+                if (m_CheckersGame.IsStalemate)
                 {
                     printStalemateMessage(m_CheckersGame.Player1,m_CheckersGame.Player2);
                     m_GameFinished = true;
@@ -68,7 +68,7 @@ namespace Ex02
                 }
 
                 printPlayerTurn(m_CheckersGame.ActivePlayer);
-                CheckersBoardMove? move = getNextMove();
+                CheckersBoardMove move = getNextValidMoveOrQuitGame();
                 if (m_GameQuitedByPlayer)
                 {
                     m_CheckersGame.HandleOpponentWin();
@@ -77,10 +77,9 @@ namespace Ex02
                     break;
                 }
 
-                CheckersBoardMove validMove = move.GetValueOrDefault();
-                m_CheckersGame.playMove(validMove);
+                m_CheckersGame.playMove(move);
                 printBoard(m_CheckersGame.GameBoard);
-                printPlayedMove(validMove, m_CheckersGame.ActivePlayer);
+                printPlayedMove(move, m_CheckersGame.ActivePlayer);
                 m_CheckersGame.handleGameStateAfterMove();
                 if (m_CheckersGame.IsActivePlayerWon)
                 {
@@ -90,9 +89,9 @@ namespace Ex02
             }
         }
 
-        private CheckersBoardMove? getNextMove()
+        private CheckersBoardMove getNextValidMoveOrQuitGame()
         {
-            CheckersBoardMove? move = null;
+            CheckersBoardMove move;
 
             if (m_CheckersGame.ActivePlayer.PlayerType == ePlayerType.Computer)
             {
@@ -102,12 +101,12 @@ namespace Ex02
             }
             else
             {
-                move = getMoveFromPlayer();
-
-                while (!m_GameQuitedByPlayer && !m_CheckersGame.CheckMovePartOfValidMoves(move.GetValueOrDefault()))
+                getMoveOrQuitGameByPlayer(out move);
+                
+                while (!m_GameQuitedByPlayer && !m_CheckersGame.CheckMovePartOfValidMoves(move))
                 {
                     printMoveInvalid();
-                    move = getMoveFromPlayer();
+                    getMoveOrQuitGameByPlayer(out move);
                 }
             }
 
@@ -182,9 +181,9 @@ namespace Ex02
         {
             eCheckersPieceType[,] i_Board = i_CheckersBoard.Board;
             eCheckersBoardSize i_BoardSize = i_CheckersBoard.Size;
-            Ex02.ConsoleUtils.Screen.Clear();
             char rowLetter = 'A', colLetter = 'a';
 
+            Ex02.ConsoleUtils.Screen.Clear();
             for (int col = 0; col < (int)i_BoardSize; col++)
             {
                 Console.Write("   {0}", colLetter++);
@@ -228,28 +227,25 @@ namespace Ex02
             Console.WriteLine("{0}'s turn ({1}):", i_Player.Name, i_Player.PieceType);
         }
 
-        private CheckersBoardMove? getMoveFromPlayer()
+        private void getMoveOrQuitGameByPlayer(out CheckersBoardMove o_Move)
         {
             Console.WriteLine("Enter move");
             string moveInput = getUserInput();
-            CheckersBoardMove? checkersMove = null;
-
-            while (moveInput != K_QuitChar && !isValidMoveInput(moveInput))
+            o_Move = new CheckersBoardMove();
+            while (moveInput != k_QuitChar && !isValidMoveInput(moveInput))
             {
                 Console.WriteLine("Invalid move input!, move should have the be in the format ROWCol>ROWCol, for example Fc>Fb");
                 moveInput = getUserInput();
             }
 
-            if (moveInput == K_QuitChar)
+            if (moveInput == k_QuitChar)
             {
                 m_GameQuitedByPlayer = true;
             }
             else
             {
-                checkersMove = new CheckersBoardMove(moveInput);
+                o_Move.SetMove(moveInput);
             }
-
-            return checkersMove;
         }
 
         private void printComputerMessage()
@@ -300,14 +296,14 @@ namespace Ex02
 
         private bool isValidMoveInput(string i_MoveInput)
         {
-            bool isValideMoveInput = ((i_MoveInput.Length == K_MoveInputSize) && (i_MoveInput[2] == k_MoveSplitChar));
+            bool isValidMoveInput = ((i_MoveInput.Length == k_MoveInputSize) && (i_MoveInput[2] == k_MoveSplitChar));
 
-            if (isValideMoveInput)
+            if (isValidMoveInput)
             {
-                isValideMoveInput = char.IsUpper(i_MoveInput[0]) && char.IsLower(i_MoveInput[1]) && char.IsUpper(i_MoveInput[3]) && char.IsLower(i_MoveInput[4]);
+                isValidMoveInput = char.IsUpper(i_MoveInput[0]) && char.IsLower(i_MoveInput[1]) && char.IsUpper(i_MoveInput[3]) && char.IsLower(i_MoveInput[4]);
             }
 
-            return isValideMoveInput;
+            return isValidMoveInput;
         }
 
         private void printWinMessage(Player i_ActivePlayer, Player i_Player1, Player i_Player2)
@@ -323,7 +319,7 @@ namespace Ex02
 
         private void printStalemateMessage(Player i_Player1, Player i_Player2)
         {
-            Console.WriteLine("No one won :(,");
+            Console.WriteLine("Stalemate! No one won :(");
             printScore(i_Player1, i_Player2);
         }
 

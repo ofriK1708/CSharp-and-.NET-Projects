@@ -8,12 +8,12 @@ namespace Ex02
     {
         internal CheckersBoard GameBoard { get; private set; }
         internal Player Player1 { get; set; }
-        internal Player Player2{ get; set; }
+        internal Player Player2 { get; set; }
         internal Player ActivePlayer { get; private set; }
         internal List<CheckersBoardMove> ValidMoves { get; private set; } = new List<CheckersBoardMove>();
         private bool m_ContinueTurnForCurrentPlayer = false;
         internal bool IsActivePlayerWon { get; private set; } = false;
-        internal bool IsStaleMate { get; private set; } = false;
+        internal bool IsStalemate { get; private set; } = false;
 
         internal CheckersGame(Player i_Player1, Player i_Player2, eCheckersBoardSize i_CheckersBoardSize)
         {
@@ -28,7 +28,7 @@ namespace Ex02
             GameBoard.resetBoard((int)GameBoard.Size);
             ActivePlayer = Player1;
             IsActivePlayerWon = false;
-            IsStaleMate = false;
+            IsStalemate = false;
             m_ContinueTurnForCurrentPlayer = false;
         }
 
@@ -41,9 +41,10 @@ namespace Ex02
                 {
                     Player opponent = getOpponent(ActivePlayer);
                     List<CheckersBoardMove> opponentsValidMoves = getAllValidMoves(opponent);
+
                     if (opponentsValidMoves.Count <= 0)
                     {
-                        IsStaleMate = true;
+                        IsStalemate = true;
                     }
                     else
                     {
@@ -68,7 +69,8 @@ namespace Ex02
             }
         }
 
-        internal void handleGameStateAfterMove() { 
+        internal void handleGameStateAfterMove() 
+        { 
            if (!m_ContinueTurnForCurrentPlayer)
            {
                 if (checkIfPlayerWon(ActivePlayer))
