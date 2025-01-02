@@ -102,7 +102,6 @@ namespace Ex02
             else
             {
                 getMoveOrQuitGameByPlayer(out move);
-                
                 while (!m_GameQuitedByPlayer && !m_CheckersGame.CheckMovePartOfValidMoves(move))
                 {
                     printMoveInvalid();
