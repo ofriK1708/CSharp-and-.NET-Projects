@@ -6,124 +6,80 @@ namespace Ex02
 {
     internal class CheckersGame
     {
-        private CheckersBoard m_GameBoard;
-        private Player m_Player1;
-        private Player m_Player2;
-        private bool m_GameFinished = false;
-        private const string k_ComputerPlayerName = "Computer";
-        private Player m_ActivePlayer;
-        private int m_GameNumber = 1;
-        bool m_GameQuitedByPlayer = false;
+        internal CheckersBoard GameBoard { get; private set; }
+        internal Player Player1 { get; set; }
+        internal Player Player2 { get; set; }
+        internal Player ActivePlayer { get; private set; }
+        internal List<CheckersBoardMove> ValidMoves { get; private set; } = new List<CheckersBoardMove>();
+        private bool m_ContinueTurnForCurrentPlayer = false;
+        internal bool IsActivePlayerWon { get; private set; } = false;
+        internal bool IsStalemate { get; private set; } = false;
 
-        internal void StartGame()
+        internal CheckersGame(Player i_Player1, Player i_Player2, eCheckersBoardSize i_CheckersBoardSize)
         {
-           initGame();
-           playGame();
-           bool anotherGame = CheckersUI.GetFromUserIsContinueToAnotherGame();
-
-           while (anotherGame)
-           {
-             m_GameNumber++;
-             CheckersUI.PrintStartGameMessage(m_GameNumber, m_Player1.Name, m_Player2.Name);
-             m_GameBoard.resetBoard((int)m_GameBoard.Size);
-             m_ActivePlayer = m_Player1;
-             CheckersUI.PrintBoard(m_GameBoard.Board, m_GameBoard.Size);
-             playGame();
-             anotherGame = CheckersUI.GetFromUserIsContinueToAnotherGame();
-            }
+            Player1 = i_Player1;
+            Player2 = i_Player2;
+            GameBoard = new CheckersBoard(i_CheckersBoardSize);
+            ActivePlayer = Player1;
         }
 
-        private void initGame()
+        internal void ResetGame()
         {
-            CheckersUI.PrintWelcomeMessage();
-            m_Player1 = new Player(CheckersUI.GetPlayerName(), ePlayerType.Human, eCheckersPieceType.XPiece);
-            m_GameBoard = new CheckersBoard(CheckersUI.GetBoardSize());
-            initSecondPlayer();
-            m_ActivePlayer = m_Player1; 
-            CheckersUI.PrintStartGameMessage(m_GameNumber, m_Player1.Name, m_Player2.Name);
-            CheckersUI.PrintBoard(m_GameBoard.Board, m_GameBoard.Size);
+            GameBoard.resetBoard((int)GameBoard.Size);
+            ActivePlayer = Player1;
+            IsActivePlayerWon = false;
+            IsStalemate = false;
+            m_ContinueTurnForCurrentPlayer = false;
         }
 
-        private void initSecondPlayer()
+        internal void handleGameStateBeforeNextMove()
         {
-            ePlayerType secondPlayerType = CheckersUI.GetSecondPlayerType();
-            string secondPlayerName;
-
-            if (secondPlayerType == ePlayerType.Human)
+            if (!m_ContinueTurnForCurrentPlayer)
             {
-                secondPlayerName = CheckersUI.GetPlayerName();
-            }
-            else
-            {
-                secondPlayerName = k_ComputerPlayerName;
-            }
-
-            m_Player2 = new Player(secondPlayerName, secondPlayerType, eCheckersPieceType.OPiece);
-        }
-
-        private void playGame()
-        {
-            m_GameQuitedByPlayer = false;
-            m_GameFinished = false;
-            List<CheckersBoardMove> validMoves = new List<CheckersBoardMove>();
-            bool continueTurnForCurrentPlayer = false;
-
-            while (!m_GameFinished && !m_GameQuitedByPlayer)
-            {
-                if (!continueTurnForCurrentPlayer)
+                ValidMoves = getAllValidMoves(ActivePlayer);
+                if (ValidMoves.Count <= 0)
                 {
-                    validMoves = getAllValidMoves(m_ActivePlayer);
-                    if (validMoves.Count <= 0)
+                    Player opponent = getOpponent(ActivePlayer);
+                    List<CheckersBoardMove> opponentsValidMoves = getAllValidMoves(opponent);
+
+                    if (opponentsValidMoves.Count <= 0)
                     {
-                        Player opponent = getOpponent(m_ActivePlayer);
-                        List<CheckersBoardMove> opponentsValidMoves = getAllValidMoves(opponent);
-                        if (opponentsValidMoves.Count <= 0)
-                        {
-                            CheckersUI.PrintStalemateMessage(m_Player1, m_Player2);
-                            m_GameFinished = true;
-                        }
-                        else
-                        {
-                            switchActivePlayer();
-                            handleActivePlayerWin();
-                        }
-                        break;
-                    }
-                }
-
-                CheckersUI.PrintPlayerTurn(m_ActivePlayer);
-                CheckersBoardMove? move = getNextMove(validMoves, out m_GameQuitedByPlayer);
-                if (m_GameQuitedByPlayer)
-                {
-                    switchActivePlayer();
-                    handleActivePlayerWin();
-                    break;
-                }
-
-                CheckersBoardMove validMove = move.GetValueOrDefault();
-                bool skippedOpponentsPiece = m_GameBoard.playMove(validMove);
-                if (skippedOpponentsPiece)
-                {
-                    validMoves = getValidSkipsFromPosition(validMove.To, m_ActivePlayer);
-                    continueTurnForCurrentPlayer = validMoves.Count > 0 ? true : false;
-                }
-                else
-                {
-                    continueTurnForCurrentPlayer = false;
-                }
-
-                CheckersUI.PrintBoard(m_GameBoard.Board, m_GameBoard.Size);
-                CheckersUI.PrintPlayedMove(validMove, m_ActivePlayer);
-                if (!continueTurnForCurrentPlayer)
-                {
-                    if (checkIfPlayerWon(m_ActivePlayer))
-                    {
-                        handleActivePlayerWin();
+                        IsStalemate = true;
                     }
                     else
                     {
-                        switchActivePlayer();
+                        HandleOpponentWin(); 
                     }
+                }
+            }
+        }
+
+        internal void playMove(CheckersBoardMove i_ValidMove)
+        {
+            bool skippedOpponentsPiece = GameBoard.executeMove(i_ValidMove);
+
+            if (skippedOpponentsPiece)
+            {
+                ValidMoves = getValidSkipsFromPosition(i_ValidMove.To, ActivePlayer);
+                m_ContinueTurnForCurrentPlayer = ValidMoves.Count > 0 ? true : false;
+            }
+            else
+            {
+                m_ContinueTurnForCurrentPlayer = false;
+            }
+        }
+
+        internal void handleGameStateAfterMove() 
+        { 
+           if (!m_ContinueTurnForCurrentPlayer)
+           {
+                if (checkIfPlayerWon(ActivePlayer))
+                {
+                    handleActivePlayerWin();
+                }
+                else
+                {
+                    switchActivePlayer();
                 }
             }
         }
@@ -132,13 +88,13 @@ namespace Ex02
         {
             Player opponent;
 
-            if (i_ActivePlayer.Equals(m_Player1))
+            if (i_ActivePlayer.Equals(Player1))
             {
-                opponent = m_Player2;
+                opponent = Player2;
             }
             else
             {
-                opponent = m_Player1;
+                opponent = Player1;
             }
 
             return opponent;
@@ -146,11 +102,16 @@ namespace Ex02
 
         private void handleActivePlayerWin()
         {
-            uint addedScore = calcScore(m_ActivePlayer.PieceType);
+            uint addedScore = calcScore(ActivePlayer.PieceType);
 
-            m_ActivePlayer.addToScore(addedScore);
-            CheckersUI.PrintWinMessage(m_ActivePlayer, m_Player1, m_Player2, addedScore);
-            m_GameFinished = true;
+            ActivePlayer.addToScore(addedScore);
+            IsActivePlayerWon = true;
+        }
+
+        internal void HandleOpponentWin()
+        {
+            switchActivePlayer();
+            handleActivePlayerWin();
         }
 
         private bool checkIfPlayerWon(Player i_ActivePlayer)
@@ -160,56 +121,31 @@ namespace Ex02
 
             if(pieceType.Equals(eCheckersPieceType.XPiece) || pieceType.Equals(eCheckersPieceType.XKingPiece))
             {
-               isPlayerWon =  m_GameBoard.isAllPiecesRemoved(eCheckersPieceType.OPiece);
+               isPlayerWon =  GameBoard.isAllPiecesRemoved(eCheckersPieceType.OPiece);
             }
             else
             {
-                isPlayerWon = m_GameBoard.isAllPiecesRemoved(eCheckersPieceType.XPiece);
+                isPlayerWon = GameBoard.isAllPiecesRemoved(eCheckersPieceType.XPiece);
             }
 
             return isPlayerWon;
         }
 
-        private CheckersBoardMove? getNextMove(List<CheckersBoardMove> i_ValidMoves, out bool o_GameQuitedByPlayer)
-        {
-            CheckersBoardMove? move = null;
-
-            if (m_ActivePlayer.PlayerType == ePlayerType.Computer)
-            {
-                CheckersUI.PrintComputerMessage();
-                o_GameQuitedByPlayer = false;
-                uint randomIndex = (uint)new Random().Next(i_ValidMoves.Count);
-                move = i_ValidMoves[(int)randomIndex];
-            }
-            else
-            {
-                move = CheckersUI.GetMoveFromPlayer(out o_GameQuitedByPlayer);
-
-                while (!m_GameQuitedByPlayer && !checkMovePartOfValidMoves(i_ValidMoves, move.GetValueOrDefault()))
-                {
-                    CheckersUI.PrintMoveInvalid();
-                    move = CheckersUI.GetMoveFromPlayer(out m_GameQuitedByPlayer);
-                }
-            }
-
-            return move;
-        }
-
         private void switchActivePlayer()
         {
-            if (m_ActivePlayer.Equals(m_Player1))
+            if (ActivePlayer.Equals(Player1))
             {
-                m_ActivePlayer = m_Player2;
+                ActivePlayer = Player2;
             }
             else
             {
-                m_ActivePlayer = m_Player1;
+                ActivePlayer = Player1;
             }
         }
 
-        private bool checkMovePartOfValidMoves(List<CheckersBoardMove> i_ValideMoves, CheckersBoardMove i_Move)
+        internal bool CheckMovePartOfValidMoves(CheckersBoardMove i_Move)
         {
-            return i_ValideMoves.Contains(i_Move);
+            return ValidMoves.Contains(i_Move);
         }
 
         private uint calcScore(eCheckersPieceType i_CheckersBoardPiece)
@@ -221,18 +157,18 @@ namespace Ex02
 
             if (i_CheckersBoardPiece.Equals(eCheckersPieceType.XPiece))
             {
-                winningPositions = m_GameBoard.XPositions;
-                loosingPositions = m_GameBoard.OPositions;
+                winningPositions = GameBoard.XPositions;
+                loosingPositions = GameBoard.OPositions;
             }
             else
             {
-                winningPositions = m_GameBoard.OPositions;
-                loosingPositions = m_GameBoard.XPositions;
+                winningPositions = GameBoard.OPositions;
+                loosingPositions = GameBoard.XPositions;
             }
 
             foreach (BoardPosition position in winningPositions)
             {
-                if (m_GameBoard.isPieceKing(position.Row, position.Column))
+                if (GameBoard.isPieceKing(position.Row, position.Column))
                 {
                     winnerScore = winnerScore + 4;
                 }
@@ -244,7 +180,7 @@ namespace Ex02
 
             foreach (BoardPosition position in loosingPositions)
             {
-                if (m_GameBoard.isPieceKing(position.Row, position.Column))
+                if (GameBoard.isPieceKing(position.Row, position.Column))
                 {
                     looserScore = looserScore + 4;
                 }
@@ -260,7 +196,7 @@ namespace Ex02
         private List<CheckersBoardMove> getAllValidMoves(Player i_ActivePlayer)
         {
             List<CheckersBoardMove> validBoardMoves = new List<CheckersBoardMove>();
-            List<BoardPosition> positionsToCheck = i_ActivePlayer.PieceType == eCheckersPieceType.XPiece ? m_GameBoard.XPositions : m_GameBoard.OPositions;
+            List<BoardPosition> positionsToCheck = i_ActivePlayer.PieceType == eCheckersPieceType.XPiece ? GameBoard.XPositions : GameBoard.OPositions;
             eCheckersPieceType opponentPiece = i_ActivePlayer.PieceType == eCheckersPieceType.XPiece ? eCheckersPieceType.OPiece : eCheckersPieceType.XPiece;
             int directionToMoveInRow = i_ActivePlayer.PieceType == eCheckersPieceType.XPiece ? -1 : 1;
 
@@ -278,24 +214,24 @@ namespace Ex02
                     int newColLeft = position.Column - 1;
                     int newKingRow = position.Row - directionToMoveInRow;
 
-                    if (m_GameBoard.isCellInRange(newRow, newColRight) && m_GameBoard.isCellEmpty(newRow, newColRight))
+                    if (GameBoard.isCellInRange(newRow, newColRight) && GameBoard.isCellEmpty(newRow, newColRight))
                     {
                         validBoardMoves.Add(new CheckersBoardMove(position, new BoardPosition(newRow, newColRight)));
                     }
 
-                    if (m_GameBoard.isCellInRange(newRow, newColLeft) && m_GameBoard.isCellEmpty(newRow, newColLeft))
+                    if (GameBoard.isCellInRange(newRow, newColLeft) && GameBoard.isCellEmpty(newRow, newColLeft))
                     {
                         validBoardMoves.Add(new CheckersBoardMove(position, new BoardPosition(newRow, newColLeft)));
                     }
 
-                    if (m_GameBoard.isPieceKing(position.Row, position.Column))
+                    if (GameBoard.isPieceKing(position.Row, position.Column))
                     {
-                        if (m_GameBoard.isCellInRange(newKingRow, newColRight) && m_GameBoard.isCellEmpty(newKingRow, newColRight))
+                        if (GameBoard.isCellInRange(newKingRow, newColRight) && GameBoard.isCellEmpty(newKingRow, newColRight))
                         {
                             validBoardMoves.Add(new CheckersBoardMove(position, new BoardPosition(newKingRow, newColRight)));
                         }
 
-                        if (m_GameBoard.isCellInRange(newKingRow, newColLeft) && m_GameBoard.isCellEmpty(newKingRow, newColLeft))
+                        if (GameBoard.isCellInRange(newKingRow, newColLeft) && GameBoard.isCellEmpty(newKingRow, newColLeft))
                         {
                             validBoardMoves.Add(new CheckersBoardMove(position, new BoardPosition(newKingRow, newColLeft)));
                         }
@@ -320,24 +256,24 @@ namespace Ex02
             int newKingRow = i_Position.Row - directionToMoveInRow;
             int newKingRowDouble = i_Position.Row - directionToMoveInRow * 2;
 
-            if (m_GameBoard.isCellInRange(newRowDouble, newColRightDouble) && m_GameBoard.isCellEmpty(newRowDouble, newColRightDouble) && m_GameBoard.isOponentPiece(opponentPiece, newRow, newColRight))
+            if (GameBoard.isCellInRange(newRowDouble, newColRightDouble) && GameBoard.isCellEmpty(newRowDouble, newColRightDouble) && GameBoard.isOponentPiece(opponentPiece, newRow, newColRight))
             {
                 validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newRowDouble, newColRightDouble)));
             }
 
-            if (m_GameBoard.isCellInRange(newRowDouble, newColLeftDouble) && m_GameBoard.isCellEmpty(newRowDouble, newColLeftDouble) && m_GameBoard.isOponentPiece(opponentPiece, newRow, newColLeft))
+            if (GameBoard.isCellInRange(newRowDouble, newColLeftDouble) && GameBoard.isCellEmpty(newRowDouble, newColLeftDouble) && GameBoard.isOponentPiece(opponentPiece, newRow, newColLeft))
             {
                 validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newRowDouble, newColLeftDouble)));
             }
 
-            if (m_GameBoard.isPieceKing(i_Position.Row, i_Position.Column))
+            if (GameBoard.isPieceKing(i_Position.Row, i_Position.Column))
             {
-                if (m_GameBoard.isCellInRange(newKingRowDouble, newColRightDouble) && m_GameBoard.isCellEmpty(newKingRowDouble, newColRightDouble) && m_GameBoard.isOponentPiece(opponentPiece, newKingRow, newColRight))
+                if (GameBoard.isCellInRange(newKingRowDouble, newColRightDouble) && GameBoard.isCellEmpty(newKingRowDouble, newColRightDouble) && GameBoard.isOponentPiece(opponentPiece, newKingRow, newColRight))
                 {
                     validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newKingRowDouble, newColRightDouble)));
                 }
 
-                if (m_GameBoard.isCellInRange(newKingRowDouble, newColLeftDouble) && m_GameBoard.isCellEmpty(newKingRowDouble, newColLeftDouble) && m_GameBoard.isOponentPiece(opponentPiece, newKingRow, newColLeft))
+                if (GameBoard.isCellInRange(newKingRowDouble, newColLeftDouble) && GameBoard.isCellEmpty(newKingRowDouble, newColLeftDouble) && GameBoard.isOponentPiece(opponentPiece, newKingRow, newColLeft))
                 {
                     validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newKingRowDouble, newColLeftDouble)));
                 }
