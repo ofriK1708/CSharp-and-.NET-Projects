@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ex03
 {
-    internal class Wheel
+    public struct Wheel
     {
-        string m_Manufacturer;
-        float m_CurrentAirPressure;
-        float m_MaxAirPressure;
+        internal string ManufacturerName { get; set; }
+        internal float CurrentAirPressure { get; set; }
+        internal float MaxAirPressure { get; set; }
     }
 }

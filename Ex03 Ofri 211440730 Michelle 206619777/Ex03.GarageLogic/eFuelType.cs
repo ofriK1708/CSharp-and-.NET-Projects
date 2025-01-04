@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ex03
 {
-    internal enum eFuelType
+    public enum eFuelType
     {
         Octan98,
         Octan95,

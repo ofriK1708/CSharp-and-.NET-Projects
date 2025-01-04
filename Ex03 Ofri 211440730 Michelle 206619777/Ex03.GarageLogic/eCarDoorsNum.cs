@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ex03
 {
-    internal enum eCarDoorNum
+    internal enum eCarDoorsNum
     {
        Two = 2, 
        Three = 3,

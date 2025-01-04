@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ex03
 {
-    internal abstract class Vehicle
+    public abstract class Vehicle
     {
         protected eVehicleType Type { set; get; }
         protected string m_Model;
@@ -19,5 +19,23 @@ namespace ex03
         protected float EnergyMaxCapacity { set; get; }
         protected float m_EnergyCurrentCapacity;
         protected eFuelType FuelType { set; get; }
+
+        public override bool Equals(object obj)
+        {
+            bool equals = false;
+            Vehicle vehicleToCheck = obj as Vehicle;
+
+            if(vehicleToCheck != null) 
+            {
+                equals = m_LicensePlate == vehicleToCheck.m_LicensePlate;
+            }
+            
+            return equals;
+        }
+        public override int GetHashCode()
+        {
+            return m_LicensePlate.GetHashCode();
+        }
     }
+    
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ex03
 {
-    internal enum eVehicleType
+    public enum eVehicleType
     {
         Car,
         MotorCycle,
