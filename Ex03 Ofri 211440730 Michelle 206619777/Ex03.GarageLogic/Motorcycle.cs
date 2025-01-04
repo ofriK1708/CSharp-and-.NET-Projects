@@ -20,6 +20,7 @@ namespace ex03
             base.MaxWheelAirPressure = 32;
             base.EnergySourceType = i_EnergySourceType;
             base.EnergyMaxCapacity = (float)(i_EnergySourceType == eEnergySourceType.Electric ? 2.9 : 6.2);
+            base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? eFuelType.Battery : eFuelType.Octan98;
         }
     }
 }
