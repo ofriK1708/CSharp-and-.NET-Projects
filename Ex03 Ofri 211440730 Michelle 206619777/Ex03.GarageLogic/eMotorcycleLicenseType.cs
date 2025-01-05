@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ex03
 {
-    internal enum eMotorcycleLicenseType
+    public enum eMotorcycleLicenseType
     {
       A1,
       A2,
