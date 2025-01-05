@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace ex03
 {
-    public enum eCarColor
+    public enum eVehicleState
     {
-        Blue,
-        Black,
-        White,
-        Gray
+        InRepair,
+        Repaired,
+        Paid
     }
 }

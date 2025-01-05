@@ -8,16 +8,17 @@ namespace ex03
 {
     internal class Motorcycle : Vehicle
     {
-        const int k_MotorcycleWheels = 2;
-        const float k_MotorcycleMaxWheelAirPressure = 32;
-        const float k_ElectricMotorcycleMaxEnergy = 2.9f;
-        const float k_FuelMotorcycleMaxEnergy = 6.2f;
-        const eFuelType k_ElectricMotorcycleFuelType = eFuelType.Battery;
-        const eFuelType k_FuelMotorcycleFuelType = eFuelType.Octan98;
+        public const int k_MotorcycleWheels = 2;
+        public const float k_MotorcycleMaxWheelAirPressure = 32;
+        public const float k_ElectricMotorcycleMaxEnergy = 2.9f;
+        public const float k_FuelMotorcycleMaxEnergy = 6.2f;
+        public const eFuelType k_ElectricMotorcycleFuelType = eFuelType.Battery;
+        public const eFuelType k_FuelMotorcycleFuelType = eFuelType.Octan98;
         internal int m_EngineVolume;
         internal eMotorcycleLicenseType m_LicenseType;
 
-        public Motorcycle(eEnergySourceType i_EnergySourceType, int i_EngineVolume, eMotorcycleLicenseType i_LicenseType)
+        public Motorcycle(CostumerInfo i_CostumerInfo,string i_Model,string i_LicensePlate, 
+            eEnergySourceType i_EnergySourceType, int i_EngineVolume, eMotorcycleLicenseType i_LicenseType) : base(i_CostumerInfo, i_Model, i_LicensePlate)
         {
             m_EngineVolume = i_EngineVolume;
             m_LicenseType = i_LicenseType;

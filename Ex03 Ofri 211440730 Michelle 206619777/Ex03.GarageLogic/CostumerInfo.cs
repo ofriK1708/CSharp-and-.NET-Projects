@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace ex03
 {
-    public enum eCarColor
+    public struct CostumerInfo
     {
-        Blue,
-        Black,
-        White,
-        Gray
+        public string CostumerName { get; set; }
+        public string CostumerPhoneNumber { get; set; }
+        
     }
 }
