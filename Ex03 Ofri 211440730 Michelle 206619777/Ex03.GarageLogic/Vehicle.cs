@@ -8,7 +8,7 @@ namespace ex03
 {
     public abstract class Vehicle
     {
-        public CostumerInfo m_CostumerAndVehcialInfo;
+        public CostumerInfo m_CostumerInfo;
         public eVehicleState VehicleState { get; set; }
         public string Model { get; set; }
         public string LicensePlate { get; set; }
@@ -25,7 +25,7 @@ namespace ex03
 
         public Vehicle(CostumerInfo i_CostumerAndVehcialInfo,string i_Model,string i_LicensePlate)
         {
-            m_CostumerAndVehcialInfo = i_CostumerAndVehcialInfo;
+            m_CostumerInfo = i_CostumerAndVehcialInfo;
             Model = i_Model;
             LicensePlate = i_LicensePlate;
         }
@@ -44,7 +44,7 @@ namespace ex03
         }
         public override int GetHashCode()
         {
-            return m_CostumerAndVehcialInfo.GetHashCode();
+            return m_CostumerInfo.GetHashCode();
         }
         internal void ChangeVehicleState(eVehicleState i_NewState)
         {

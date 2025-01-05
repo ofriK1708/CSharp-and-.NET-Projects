@@ -12,6 +12,7 @@ namespace Ex03.ConsoleUI
 
         private ConsoleUtils m_ConsoleUtils = new ConsoleUtils();
         private bool m_QuitGarage = false;
+        private Garage m_Garage = new Garage();
         internal void Start()
         {
             m_ConsoleUtils.PrintMainMenu();
@@ -71,6 +72,14 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("Please enter licance plate");
             string licansePlate = m_ConsoleUtils.GetInputFromUser();
+
+            if (m_Garage.IsVehicleInTheGarage(licansePlate)){
+                m_Garage.ChangeVehicleStatusToInRepare(licansePlate);
+            }
+            else
+            {
+
+            }
 
         }
     }
