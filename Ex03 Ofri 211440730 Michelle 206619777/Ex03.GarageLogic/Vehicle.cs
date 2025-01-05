@@ -8,10 +8,10 @@ namespace ex03
 {
     public abstract class Vehicle
     {
-        public CostumerInfo m_CostumerInfo;
+        public CustomerInfo m_CostumerInfo;
         public eVehicleState VehicleState { get; set; }
         public string Model { get; set; }
-        public string LicensePlate { get; set; }
+        public string LicensePlate { get; set; }    
         protected eVehicleType Type { set; get; }
 
         protected float m_EnergyPrecentage;
@@ -23,7 +23,7 @@ namespace ex03
         protected float m_CurrentEnergyCapacity;
         protected eFuelType FuelType { set; get; }
 
-        public Vehicle(CostumerInfo i_CostumerAndVehcialInfo,string i_Model,string i_LicensePlate)
+        public Vehicle(CustomerInfo i_CostumerAndVehcialInfo,string i_Model,string i_LicensePlate)
         {
             m_CostumerInfo = i_CostumerAndVehcialInfo;
             Model = i_Model;

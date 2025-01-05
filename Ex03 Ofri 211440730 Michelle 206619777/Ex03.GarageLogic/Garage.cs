@@ -15,7 +15,7 @@ namespace ex03
             return false;
         }
 
-        public void AddCar(String i_LicensePlate)
+        public void AddVehicle(Vehicle i_Vehicle)
         {
 
         }
