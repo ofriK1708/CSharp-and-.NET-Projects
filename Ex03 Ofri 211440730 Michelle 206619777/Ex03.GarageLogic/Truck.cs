@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ex03
 {
-    internal class Truck : Vehicle
+    public class Truck : Vehicle
     {
         public const int k_TruckNumOfWheels = 14;
         public const float k_TruckMaxWheelAirPressure = 29;
@@ -16,7 +16,7 @@ namespace ex03
         internal bool m_TransportingRegrigeratedMaterials;
         internal float m_CargoVolume;
    
-        public Truck(CostumerInfo i_costumerInfo,string i_Model,string i_LicensePlate, 
+        public Truck(CustomerInfo i_costumerInfo,string i_Model,string i_LicensePlate, 
             bool i_TransportingRegrigeratedMaterials, float i_CargoVolume) : base(i_costumerInfo, i_Model, i_LicensePlate)
         {
             m_CargoVolume = i_CargoVolume;

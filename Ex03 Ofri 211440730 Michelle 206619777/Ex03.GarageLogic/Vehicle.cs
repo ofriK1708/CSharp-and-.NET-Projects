@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +8,10 @@ namespace ex03
 {
     public abstract class Vehicle
     {
-        public CostumerInfo m_CostumerInfo;
+        public CustomerInfo m_CostumerInfo;
         public eVehicleState VehicleState { get; set; }
         public string Model { get; set; }
-        public string LicensePlate { get; set; }
+        public string LicensePlate { get; set; }    
         protected eVehicleType Type { set; get; }
 
         protected float m_EnergyPrecentage;

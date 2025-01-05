@@ -9,35 +9,27 @@ namespace Ex03.ConsoleUI
 {
     internal class GarageUI
     {
-
         private ConsoleUtils m_ConsoleUtils = new ConsoleUtils();
         private bool m_QuitGarage = false;
         private Garage m_Garage = new Garage();
+        private VehicleFactory m_VehicleFactory = new VehicleFactory();
+       
         internal void Start()
         {
-            m_ConsoleUtils.PrintMainMenu();
+            m_ConsoleUtils.PrintStartMessage();
             while (!m_QuitGarage)
             {
-                try
+                eMenuOption menuOptionFromUser = m_ConsoleUtils.GetMenuChoiceFromUser();
+                if (menuOptionFromUser.Equals(eMenuOption.Quit))
                 {
-                    eMenuOption menuOptionFromUser = (eMenuOption)m_ConsoleUtils.GetEnumInputFromUser();
-                    if (menuOptionFromUser.Equals(eMenuOption.Quit))
-                    {
-                        m_QuitGarage = true;
-                        Console.WriteLine("Goodby :)");
-                    }
-                    else
-                    {
-                        handleUserChoice(menuOptionFromUser);
-                    }
+                    m_QuitGarage = true;
+                    Console.WriteLine("Goodby :)");
                 }
-                catch (FormatException ex)
+                else
                 {
-                    Console.WriteLine(ex.Message);
-                    Console.WriteLine("Please try again");
+                    handleUserChoice(menuOptionFromUser);
                 }
             }
-
         }
 
         private void handleUserChoice(eMenuOption i_MenuOption)
@@ -70,17 +62,21 @@ namespace Ex03.ConsoleUI
 
         private void handleAddVehicle()
         {
-            Console.WriteLine("Please enter licance plate");
-            string licansePlate = m_ConsoleUtils.GetInputFromUser();
-
-            if (m_Garage.IsVehicleInTheGarage(licansePlate)){
-                m_Garage.ChangeVehicleStatusToInRepare(licansePlate);
+            string licensePlate = m_ConsoleUtils.GetLicensePlateFromUser();
+            if (m_Garage.IsVehicleInTheGarage(licensePlate)){
+                m_Garage.ChangeVehicleStatusToInRepare(licensePlate);
             }
             else
             {
+                eVehicleType vehicleType = m_ConsoleUtils.GetVehicleTypeFromUser();
+                CustomerInfo customerInfo = m_ConsoleUtils.GetCustomerInfoFromUser();
+                string model = m_ConsoleUtils.GetModelFromUser();
+                eEnergySourceType energySourceType = m_ConsoleUtils.GetEnergySourceTypeFromUser();
+                Wheel[] wheels = m_ConsoleUtils.GetWheelsFromUser();
+                float energyCapacity = m_ConsoleUtils.GetCurrentEnergyCapacityFromUser(energySourceType);
 
+                m_Garage.AddVehicle(m_VehicleFactory.createCar());
             }
-
         }
     }
 }
