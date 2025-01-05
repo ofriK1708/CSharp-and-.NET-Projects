@@ -20,7 +20,7 @@ namespace ex03
         protected Wheel[] m_Wheels;
         protected eEnergySourceType EnergySourceType { set; get; }
         protected float EnergyMaxCapacity { set; get; }
-        protected float m_EnergyCurrentCapacity;
+        protected float m_CurrentEnergyCapacity;
         protected eFuelType FuelType { set; get; }
 
         public Vehicle(CostumerInfo i_CostumerAndVehcialInfo,string i_Model,string i_LicensePlate)
@@ -45,6 +45,14 @@ namespace ex03
         public override int GetHashCode()
         {
             return m_CostumerAndVehcialInfo.GetHashCode();
+        }
+        internal void ChangeVehicleState(eVehicleState i_NewState)
+        {
+            VehicleState = i_NewState;
+        }
+        public void FillEnergyToFull() 
+        {
+            m_CurrentEnergyCapacity = EnergyMaxCapacity;
         }
     }
     

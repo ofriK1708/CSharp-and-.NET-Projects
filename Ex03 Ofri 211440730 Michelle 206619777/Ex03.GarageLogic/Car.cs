@@ -19,7 +19,7 @@ namespace ex03
         internal eCarDoorsNum m_DoorsNum;
 
         public Car(CostumerInfo i_CostumerAndVehicleInfo, string i_Model, string i_LicensePlate, eEnergySourceType i_EnergySourceType,
-            eCarColor i_CarColor, eCarDoorsNum i_CarDoorNum) : base(i_CostumerAndVehicleInfo,i_Model,i_LicensePlate)
+            float i_CurrentEnergy, eCarColor i_CarColor, eCarDoorsNum i_CarDoorNum) : base(i_CostumerAndVehicleInfo,i_Model,i_LicensePlate)
         {
             m_Color = i_CarColor;
             m_DoorsNum = i_CarDoorNum;
@@ -30,6 +30,25 @@ namespace ex03
             base.EnergySourceType = i_EnergySourceType;
             base.EnergyMaxCapacity = (float)(i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarMaxEnergyCapacity : k_FuelCarMaxEnergyCapacity);
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarFuelType : k_FuelCarFuelType;
+            if(i_CurrentEnergy > base.EnergyMaxCapacity || i_CurrentEnergy < 0)
+            {
+                throw new ValueOutOfRangeException(0, base.EnergyMaxCapacity, "Current energy level is out of the valid range");
+            }
+            else
+            {
+                base.m_CurrentEnergyCapacity = i_CurrentEnergy;
+            }
+        }
+        public static void ValidateEnergyAmount(eEnergySourceType i_EnergyType,float i_CurrentEnergy)
+        {
+            if(i_EnergyType == eEnergySourceType.Electric && (i_CurrentEnergy < 0 || i_CurrentEnergy > k_ElectricCarMaxEnergyCapacity))
+            {
+                throw new ValueOutOfRangeException(0, k_ElectricCarMaxEnergyCapacity, "Current electrical level is out of the valid range");
+            }
+            else if (i_EnergyType == eEnergySourceType.Fuel && (i_CurrentEnergy < 0 || i_CurrentEnergy > k_FuelCarMaxEnergyCapacity))
+            {
+                throw new ValueOutOfRangeException(0, k_FuelCarMaxEnergyCapacity, "Current fuel amount is out of the valid range");
+            }
         }
     }
 }

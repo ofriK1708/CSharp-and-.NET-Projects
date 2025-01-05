@@ -10,6 +10,8 @@ namespace ex03
     {
         internal string ManufacturerName { get; set; }
         internal float CurrentAirPressure { get; set; }
-        internal float MaxAirPressure { get; set; }
+        internal float  MaxAirPressure { get; set; }
+        
+        public fillAirToMax
     }
 }
