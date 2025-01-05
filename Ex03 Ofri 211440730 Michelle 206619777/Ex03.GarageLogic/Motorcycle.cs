@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ex03
 {
-    internal class Motorcycle : Vehicle
+    public class Motorcycle : Vehicle
     {
         public const int k_MotorcycleWheels = 2;
         public const float k_MotorcycleMaxWheelAirPressure = 32;
@@ -17,7 +17,7 @@ namespace ex03
         internal int m_EngineVolume;
         internal eMotorcycleLicenseType m_LicenseType;
 
-        public Motorcycle(CostumerInfo i_CostumerInfo,string i_Model,string i_LicensePlate, 
+        public Motorcycle(CustomerInfo i_CostumerInfo,string i_Model,string i_LicensePlate, 
             eEnergySourceType i_EnergySourceType, int i_EngineVolume, eMotorcycleLicenseType i_LicenseType) : base(i_CostumerInfo, i_Model, i_LicensePlate)
         {
             m_EngineVolume = i_EngineVolume;

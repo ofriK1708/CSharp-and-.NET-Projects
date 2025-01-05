@@ -8,8 +8,8 @@ namespace ex03
 {
     public enum eVehicleType
     {
-        Car,
-        MotorCycle,
-        Truck
+        Car = 1,
+        MotorCycle = 2,
+        Truck = 3
     }
 }

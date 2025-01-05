@@ -18,7 +18,7 @@ namespace ex03
         internal eCarColor m_Color;
         internal eCarDoorsNum m_DoorsNum;
 
-        public Car(CostumerInfo i_CostumerAndVehicleInfo, string i_Model, string i_LicensePlate, eEnergySourceType i_EnergySourceType,
+        public Car(CustomerInfo i_CostumerAndVehicleInfo, string i_Model, string i_LicensePlate, eEnergySourceType i_EnergySourceType,
             float i_CurrentEnergy, eCarColor i_CarColor, eCarDoorsNum i_CarDoorNum) : base(i_CostumerAndVehicleInfo,i_Model,i_LicensePlate)
         {
             m_Color = i_CarColor;
