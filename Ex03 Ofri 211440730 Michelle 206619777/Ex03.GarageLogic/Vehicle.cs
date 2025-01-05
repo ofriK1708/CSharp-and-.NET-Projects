@@ -8,9 +8,12 @@ namespace ex03
 {
     public abstract class Vehicle
     {
+        public CostumerInfo m_CostumerAndVehcialInfo;
+        public eVehicleState VehicleState { get; set; }
+        public string Model { get; set; }
+        public string LicensePlate { get; set; }
         protected eVehicleType Type { set; get; }
-        protected string m_Model;
-        protected string m_LicensePlate;
+
         protected float m_EnergyPrecentage;
         protected float MaxWheelAirPressure { set; get; }
         protected int NumOfWheels { set; get; }
@@ -20,6 +23,13 @@ namespace ex03
         protected float m_EnergyCurrentCapacity;
         protected eFuelType FuelType { set; get; }
 
+        public Vehicle(CostumerInfo i_CostumerAndVehcialInfo,string i_Model,string i_LicensePlate)
+        {
+            m_CostumerAndVehcialInfo = i_CostumerAndVehcialInfo;
+            Model = i_Model;
+            LicensePlate = i_LicensePlate;
+        }
+
         public override bool Equals(object obj)
         {
             bool equals = false;
@@ -27,14 +37,14 @@ namespace ex03
 
             if(vehicleToCheck != null) 
             {
-                equals = m_LicensePlate == vehicleToCheck.m_LicensePlate;
+                equals = LicensePlate == vehicleToCheck.LicensePlate;
             }
             
             return equals;
         }
         public override int GetHashCode()
         {
-            return m_LicensePlate.GetHashCode();
+            return m_CostumerAndVehcialInfo.GetHashCode();
         }
     }
     

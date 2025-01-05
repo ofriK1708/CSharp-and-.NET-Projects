@@ -8,15 +8,16 @@ namespace ex03
 {
     internal class Truck : Vehicle
     {
-        const int k_TruckNumOfWheels = 14;
-        const float k_TruckMaxWheelAirPressure = 29;
-        const eEnergySourceType k_TruckEnergySourceType = eEnergySourceType.Fuel;
-        const eFuelType k_TruckFuelType = eFuelType.Soler;
-        const float k_TruckEnergyMaxCapacity = 125;
+        public const int k_TruckNumOfWheels = 14;
+        public const float k_TruckMaxWheelAirPressure = 29;
+        public const eEnergySourceType k_TruckEnergySourceType = eEnergySourceType.Fuel;
+        public const eFuelType k_TruckFuelType = eFuelType.Soler;
+        public const float k_TruckEnergyMaxCapacity = 125;
         internal bool m_TransportingRegrigeratedMaterials;
         internal float m_CargoVolume;
    
-        public Truck(bool i_TransportingRegrigeratedMaterials, float i_CargoVolume)
+        public Truck(CostumerInfo i_costumerInfo,string i_Model,string i_LicensePlate, 
+            bool i_TransportingRegrigeratedMaterials, float i_CargoVolume) : base(i_costumerInfo, i_Model, i_LicensePlate)
         {
             m_CargoVolume = i_CargoVolume;
             m_TransportingRegrigeratedMaterials = i_TransportingRegrigeratedMaterials;
