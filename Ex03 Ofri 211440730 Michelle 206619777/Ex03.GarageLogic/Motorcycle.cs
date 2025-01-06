@@ -8,7 +8,7 @@ namespace ex03
 {
     public class Motorcycle : Vehicle
     {
-        public const int k_MotorcycleWheels = 2;
+        public const int k_MotorcycleNumOfWheels = 2;
         public const float k_MotorcycleMaxWheelAirPressure = 32;
         public const float k_ElectricMotorcycleMaxEnergy = 2.9f;
         public const float k_FuelMotorcycleMaxEnergy = 6.2f;
@@ -23,28 +23,14 @@ namespace ex03
             m_EngineVolume = i_EngineVolume;
             m_LicenseType = i_LicenseType;
             base.Type = eVehicleType.MotorCycle;
-            base.NumOfWheels = k_MotorcycleWheels;
+            base.NumOfWheels = k_MotorcycleNumOfWheels;
             base.MaxWheelAirPressure = k_MotorcycleMaxWheelAirPressure;
             base.EnergySourceType = i_EnergySourceType;
             base.EnergyMaxCapacity = (i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricMotorcycleMaxEnergy : k_FuelMotorcycleMaxEnergy);
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricMotorcycleFuelType : k_FuelMotorcycleFuelType;
-            if (i_CurrentEnergy > EnergyMaxCapacity || i_CurrentEnergy < 0)
-            {
-                throw new ValueOutOfRangeException(0, EnergyMaxCapacity.Value, "Current energy amount is out of the valid range");
-            }
-            else
-            {
-                base.m_CurrentEnergyCapacity = i_CurrentEnergy;
-            }
-
-            if (i_MotorcycleWheels.Length != NumOfWheels)
-            {
-                throw new ArgumentException(string.Format("Motorcycle must have {0} wheels",k_MotorcycleWheels));
-            }
-            else
-            {
-                base.m_Wheels = i_MotorcycleWheels;
-            }
+            base.CurrentEnergyCapacity = i_CurrentEnergy;
+            validateWheels(i_MotorcycleWheels, eVehicleType.Car, k_MotorcycleNumOfWheels);
+            base.m_Wheels = i_MotorcycleWheels;
         }
     }
 }
