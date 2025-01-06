@@ -26,9 +26,9 @@ namespace ex03
             base.EnergyMaxCapacity = (float)(i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarMaxEnergyCapacity : k_FuelCarMaxEnergyCapacity);
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarFuelType : k_FuelCarFuelType;
             base.CurrentEnergyCapacity = i_CurrentEnergy;
-            base.EnergyPrecentage = (CurrentEnergyCapacity / EnergyMaxCapacity) * 100;
+            base.EnergyPercentage = (CurrentEnergyCapacity / EnergyMaxCapacity) * 100;
 
-            validateWheels(i_CarWheels, eVehicleType.Car, k_CarNumOfWheels);
+            ValidateWheels(i_CarWheels, eVehicleType.Car, k_CarNumOfWheels);
             base.m_Wheels = i_CarWheels;
         }
         public override string ToString()
@@ -44,7 +44,7 @@ namespace ex03
             carDetails.AppendLine(string.Format("Number of Doors: {0}", m_DoorsNum));
             carDetails.AppendLine(string.Format("Energy Source Type: {0}", EnergySourceType));
             carDetails.AppendLine(string.Format("Current Energy Capacity: {0}", CurrentEnergyCapacity));
-            carDetails.AppendLine(string.Format("Energy Percentage: {0}%", EnergyPrecentage));
+            carDetails.AppendLine(string.Format("Energy Percentage: {0}%", EnergyPercentage));
             carDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
             carDetails.AppendLine(string.Format("Max Wheel Air Pressure: {0}", MaxWheelAirPressure));
 

@@ -25,7 +25,7 @@ namespace ex03
             base.EnergyMaxCapacity = k_TruckEnergyMaxCapacity;
             base.CurrentEnergyCapacity = i_CurrentEnergy;
 
-            validateWheels(i_TruckWheels, eVehicleType.Car, k_TruckNumOfWheels);
+            ValidateWheels(i_TruckWheels, eVehicleType.Car, k_TruckNumOfWheels);
             base.m_Wheels = i_TruckWheels;
         }
         public override string ToString()
@@ -41,7 +41,7 @@ namespace ex03
             truckDetails.AppendLine(string.Format("Cargo Volume: {0}", m_CargoVolume));
             truckDetails.AppendLine(string.Format("Energy Source Type: {0}", EnergySourceType));
             truckDetails.AppendLine(string.Format("Current Energy Capacity: {0}", CurrentEnergyCapacity));
-            truckDetails.AppendLine(string.Format("Energy Percentage: {0}%", EnergyPrecentage));
+            truckDetails.AppendLine(string.Format("Energy Percentage: {0}%", EnergyPercentage));
             truckDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
             truckDetails.AppendLine(string.Format("Max Wheel Air Pressure: {0}", MaxWheelAirPressure));
 

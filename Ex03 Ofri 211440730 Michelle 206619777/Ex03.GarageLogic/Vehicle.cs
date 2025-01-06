@@ -10,7 +10,7 @@ namespace ex03
         public string LicensePlate { get; }
         protected eVehicleType Type { get; set; }
 
-        protected float EnergyPrecentage { get; set; }
+        protected float EnergyPercentage { get; set; }
         protected float MaxWheelAirPressure { get; set; }
         protected int NumOfWheels { get; set; }
         protected Wheel[] m_Wheels;
@@ -25,7 +25,7 @@ namespace ex03
             }
             set
             {
-                validateCurrentEnergyBelowMax(value, EnergyMaxCapacity);
+                ValidateCurrentEnergyBelowMax(value, EnergyMaxCapacity);
                 m_CurrentEnergyCapacity = value;
             }
         }
@@ -33,9 +33,9 @@ namespace ex03
 
         protected eFuelType FuelType { set; get; }
 
-        internal Vehicle(CustomerInfo i_CostumerAndVehcialInfo, string i_Model, string i_LicensePlate)
+        internal Vehicle(CustomerInfo i_CostumerInfo, string i_Model, string i_LicensePlate)
         {
-            m_CostumerInfo = i_CostumerAndVehcialInfo;
+            m_CostumerInfo = i_CostumerInfo;
             Model = i_Model;
             LicensePlate = i_LicensePlate;
         }
@@ -64,14 +64,14 @@ namespace ex03
         {
             m_CurrentEnergyCapacity = EnergyMaxCapacity;
         }
-        protected void validateCurrentEnergyBelowMax(float i_CurrentEnergy, float i_MaxEnergy)
+        protected void ValidateCurrentEnergyBelowMax(float i_CurrentEnergy, float i_MaxEnergy)
         {
             if (i_CurrentEnergy > i_MaxEnergy || i_CurrentEnergy < 0)
             {
                 throw new ValueOutOfRangeException(0, i_MaxEnergy, string.Format("{0} is out of the valid range",EnergySourceType == eEnergySourceType.Fuel ? "Fuel amount" : "battery charge"));
             }
         }
-        protected void validateWheels(Wheel[] i_Wheels, eVehicleType i_VehicleType, int i_ExpectedNumOfWheels)
+        protected void ValidateWheels(Wheel[] i_Wheels, eVehicleType i_VehicleType, int i_ExpectedNumOfWheels)
         {
             if (i_Wheels.Length != i_ExpectedNumOfWheels)
             {
@@ -82,10 +82,6 @@ namespace ex03
             {
                 wheel.ValidateWheel();
             }
-        }
-        public void changeVehicleState(eVehicleState newState)
-        {
-            VehicleState = newState;
         }
         public void FillWheelsAirToMax()
         {
@@ -109,7 +105,7 @@ namespace ex03
                 else
                 {
                     CurrentEnergyCapacity += i_AmountToFill;
-                    EnergyPrecentage = (CurrentEnergyCapacity / EnergyMaxCapacity) * 100;
+                    EnergyPercentage = (CurrentEnergyCapacity / EnergyMaxCapacity) * 100;
                 }
             }
         }

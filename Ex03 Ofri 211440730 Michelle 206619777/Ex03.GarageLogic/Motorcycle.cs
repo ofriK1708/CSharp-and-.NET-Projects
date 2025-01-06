@@ -26,7 +26,7 @@ namespace ex03
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricMotorcycleFuelType : k_FuelMotorcycleFuelType;
             base.CurrentEnergyCapacity = i_CurrentEnergy;
 
-            validateWheels(i_MotorcycleWheels, eVehicleType.Car, k_MotorcycleNumOfWheels);
+            ValidateWheels(i_MotorcycleWheels, eVehicleType.Car, k_MotorcycleNumOfWheels);
             base.m_Wheels = i_MotorcycleWheels;
         }
         public override string ToString()
@@ -42,7 +42,7 @@ namespace ex03
             motorcycleDetails.AppendLine(string.Format("License Type: {0}", m_LicenseType));
             motorcycleDetails.AppendLine(string.Format("Energy Source Type: {0}", EnergySourceType));
             motorcycleDetails.AppendLine(string.Format("Current Energy Capacity: {0}", CurrentEnergyCapacity));
-            motorcycleDetails.AppendLine(string.Format("Energy Percentage: {0}%", EnergyPrecentage));
+            motorcycleDetails.AppendLine(string.Format("Energy Percentage: {0}%", EnergyPercentage));
             motorcycleDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
             motorcycleDetails.AppendLine(string.Format("Max Wheel Air Pressure: {0}", MaxWheelAirPressure));
 
