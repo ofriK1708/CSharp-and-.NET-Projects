@@ -8,36 +8,49 @@ namespace ex03
 {
     public struct Wheel
     {
-        internal string ManufacturerName { get; set; }
-        internal float?  MaxAirPressure { get; set; }
-        private float m_CurrentAirPressure;
-        public float CurrentAirPressure
-        {
-            get
-            {
-                return m_CurrentAirPressure;
-            }
-            set
-            {
-                if (value < 0 || value > MaxAirPressure.Value)
-                {
-                    throw new ValueOutOfRangeException(0, MaxAirPressure.Value, "Current air pressure is out of the valid range");
-                }
-                else
-                {
-                    m_CurrentAirPressure = value;
-                }
-            }
-        }
+        internal string ManufacturerName { get;private set; }
+        internal float? MaxAirPressure { get; private set; }
+        
+        internal float CurrentAirPressure { get;private set; }
 
-        public Wheel(string i_ManufacturerName,float i_MaxMaxAirPressure,float i_CurentAirPressure) 
+
+        public Wheel(string i_ManufacturerName,float? i_MaxAirPressure,float i_CurentAirPressure) 
         {
             ManufacturerName = i_ManufacturerName;
-            MaxAirPressure = i_MaxMaxAirPressure;
-            CurrentAirPressure = i_CurentAirPressure;
-
+            if(i_MaxAirPressure.Value <= 0)
+            {
+                throw new ArgumentException("Max air pressure must be positive");
+            }
+            MaxAirPressure = i_MaxAirPressure;
+            if(i_CurentAirPressure <= i_MaxAirPressure)
+            {
+                CurrentAirPressure = i_CurentAirPressure;
+            }
+            else
+            {
+                throw new ValueOutOfRangeException(0, i_MaxAirPressure.Value, "Current wheel Air Pressure is higher than the max air pressure");
+            }
         }
-        
-        
+        internal void fillAirPressureToMax()
+        {
+            if(!MaxAirPressure.HasValue)
+            {
+                throw new InvalidOperationException("Max air pressure was not set");
+            }
+            CurrentAirPressure = MaxAirPressure.Value;
+        }
+        public void ValidateWheel()
+        {
+            if (!MaxAirPressure.HasValue)
+            {
+                throw new InvalidOperationException("Max air pressure was not set");
+            }
+
+
+            if (CurrentAirPressure > MaxAirPressure.Value || CurrentAirPressure < 0)
+            {
+                throw new ValueOutOfRangeException(0, MaxAirPressure.Value, "Current wheel Air Pressure is out of the valid range");
+            }
+        }
     }
 }

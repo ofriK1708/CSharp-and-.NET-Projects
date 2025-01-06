@@ -18,30 +18,20 @@ namespace ex03
         internal eCarColor m_Color;
         internal eCarDoorsNum m_DoorsNum;
 
-        public Car(CostumerInfo i_CostumerAndVehicleInfo, string i_Model, string i_LicensePlate, eEnergySourceType i_EnergySourceType,
-            float i_CurrentEnergy,Wheel[] CarWheels, eCarColor i_CarColor, eCarDoorsNum i_CarDoorNum) : base(i_CostumerAndVehicleInfo,i_Model,i_LicensePlate)
+        internal Car(CustomerInfo i_CostumerAndVehicleInfo, string i_Model, string i_LicensePlate, eEnergySourceType i_EnergySourceType,
+            float i_CurrentEnergy,Wheel[] i_CarWheels, eCarColor i_CarColor, eCarDoorsNum i_CarDoorNum) : base(i_CostumerAndVehicleInfo,i_Model,i_LicensePlate)
         {
             m_Color = i_CarColor;
             m_DoorsNum = i_CarDoorNum;
             base.Type = eVehicleType.Car;
             base.NumOfWheels = k_CarNumOfWheels;
-            base.m_Wheels = new Wheel[k_CarNumOfWheels];
             base.MaxWheelAirPressure = k_CarMaxWheelAirPressure;
             base.EnergySourceType = i_EnergySourceType;
             base.EnergyMaxCapacity = (float)(i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarMaxEnergyCapacity : k_FuelCarMaxEnergyCapacity);
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarFuelType : k_FuelCarFuelType;
-            
-        }
-        public void ValidateEnergyAmount(eEnergySourceType i_EnergyType,float i_CurrentEnergy)
-        {
-            if(i_EnergyType == eEnergySourceType.Electric && (i_CurrentEnergy < 0 || i_CurrentEnergy > k_ElectricCarMaxEnergyCapacity))
-            {
-                throw new ValueOutOfRangeException(0, k_ElectricCarMaxEnergyCapacity, "Current electrical level is out of the valid range");
-            }
-            else if (i_EnergyType == eEnergySourceType.Fuel && (i_CurrentEnergy < 0 || i_CurrentEnergy > k_FuelCarMaxEnergyCapacity))
-            {
-                throw new ValueOutOfRangeException(0, k_FuelCarMaxEnergyCapacity, "Current fuel amount is out of the valid range");
-            }
+            base.CurrentEnergyCapacity = i_CurrentEnergy;
+            validateWheels(i_CarWheels, eVehicleType.Car, k_CarNumOfWheels);
+            base.m_Wheels = i_CarWheels;
         }
     }
 }

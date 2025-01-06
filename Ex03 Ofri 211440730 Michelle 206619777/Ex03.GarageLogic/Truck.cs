@@ -16,7 +16,7 @@ namespace ex03
         internal bool m_TransportingRegrigeratedMaterials;
         internal float m_CargoVolume;
    
-        public Truck(CustomerInfo i_costumerInfo,string i_Model,string i_LicensePlate, 
+        public Truck(CustomerInfo i_costumerInfo,string i_Model,string i_LicensePlate, float i_CurrentEnergyCapacity, Wheel[] i_TruckWheels,
             bool i_TransportingRegrigeratedMaterials, float i_CargoVolume) : base(i_costumerInfo, i_Model, i_LicensePlate)
         {
             m_CargoVolume = i_CargoVolume;
@@ -27,6 +27,15 @@ namespace ex03
             base.EnergySourceType = k_TruckEnergySourceType;
             base.FuelType = k_TruckFuelType;
             base.EnergyMaxCapacity = k_TruckEnergyMaxCapacity;
+            if (i_CurrentEnergyCapacity > EnergyMaxCapacity || i_CurrentEnergyCapacity < 0)
+            {
+                throw new ValueOutOfRangeException(0, EnergyMaxCapacity.Value, "Current energy amount is out of the valid range");
+            }
+            else
+            {
+                base.m_CurrentEnergyCapacity = i_CurrentEnergyCapacity;
+            }
+
         }
         
 

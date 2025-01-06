@@ -17,7 +17,7 @@ namespace ex03
         internal int m_EngineVolume;
         internal eMotorcycleLicenseType m_LicenseType;
 
-        public Motorcycle(CustomerInfo i_CostumerInfo,string i_Model,string i_LicensePlate, 
+        public Motorcycle(CustomerInfo i_CostumerInfo,string i_Model,string i_LicensePlate, float i_CurrentEnergy, Wheel[] i_MotorcycleWheels,
             eEnergySourceType i_EnergySourceType, int i_EngineVolume, eMotorcycleLicenseType i_LicenseType) : base(i_CostumerInfo, i_Model, i_LicensePlate)
         {
             m_EngineVolume = i_EngineVolume;
@@ -28,6 +28,23 @@ namespace ex03
             base.EnergySourceType = i_EnergySourceType;
             base.EnergyMaxCapacity = (i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricMotorcycleMaxEnergy : k_FuelMotorcycleMaxEnergy);
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricMotorcycleFuelType : k_FuelMotorcycleFuelType;
+            if (i_CurrentEnergy > EnergyMaxCapacity || i_CurrentEnergy < 0)
+            {
+                throw new ValueOutOfRangeException(0, EnergyMaxCapacity.Value, "Current energy amount is out of the valid range");
+            }
+            else
+            {
+                base.m_CurrentEnergyCapacity = i_CurrentEnergy;
+            }
+
+            if (i_MotorcycleWheels.Length != NumOfWheels)
+            {
+                throw new ArgumentException(string.Format("Motorcycle must have {0} wheels",k_MotorcycleWheels));
+            }
+            else
+            {
+                base.m_Wheels = i_MotorcycleWheels;
+            }
         }
     }
 }
