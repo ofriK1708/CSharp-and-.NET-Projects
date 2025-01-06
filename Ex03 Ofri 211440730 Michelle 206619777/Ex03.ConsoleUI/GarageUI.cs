@@ -23,7 +23,7 @@ namespace Ex03.ConsoleUI
                 if (menuOptionFromUser.Equals(eMenuOption.Quit))
                 {
                     m_QuitGarage = true;
-                    Console.WriteLine("Goodby :)");
+                    Console.WriteLine("Goodbye :)");
                 }
                 else
                 {

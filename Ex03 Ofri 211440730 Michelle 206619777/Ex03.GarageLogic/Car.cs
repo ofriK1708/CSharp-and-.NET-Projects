@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -18,37 +18,45 @@ namespace ex03
         internal eCarColor m_Color;
         internal eCarDoorsNum m_DoorsNum;
 
-        public Car(CustomerInfo i_CostumerAndVehicleInfo, string i_Model, string i_LicensePlate, eEnergySourceType i_EnergySourceType,
-            float i_CurrentEnergy, eCarColor i_CarColor, eCarDoorsNum i_CarDoorNum) : base(i_CostumerAndVehicleInfo,i_Model,i_LicensePlate)
+        internal Car(CustomerInfo i_CostumerAndVehicleInfo, string i_Model, string i_LicensePlate, eEnergySourceType i_EnergySourceType,
+            float i_CurrentEnergy,Wheel[] i_CarWheels, eCarColor i_CarColor, eCarDoorsNum i_CarDoorNum) : base(i_CostumerAndVehicleInfo,i_Model,i_LicensePlate)
         {
             m_Color = i_CarColor;
             m_DoorsNum = i_CarDoorNum;
             base.Type = eVehicleType.Car;
             base.NumOfWheels = k_CarNumOfWheels;
-            base.m_Wheels = new Wheel[k_CarNumOfWheels];
             base.MaxWheelAirPressure = k_CarMaxWheelAirPressure;
             base.EnergySourceType = i_EnergySourceType;
             base.EnergyMaxCapacity = (float)(i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarMaxEnergyCapacity : k_FuelCarMaxEnergyCapacity);
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarFuelType : k_FuelCarFuelType;
-            if(i_CurrentEnergy > base.EnergyMaxCapacity || i_CurrentEnergy < 0)
-            {
-                throw new ValueOutOfRangeException(0, base.EnergyMaxCapacity, "Current energy level is out of the valid range");
-            }
-            else
-            {
-                base.m_CurrentEnergyCapacity = i_CurrentEnergy;
-            }
+            base.CurrentEnergyCapacity = i_CurrentEnergy;
+            base.EnergyPrecentage = (CurrentEnergyCapacity / EnergyMaxCapacity) * 100;
+            validateWheels(i_CarWheels, eVehicleType.Car, k_CarNumOfWheels);
+            base.m_Wheels = i_CarWheels;
         }
-        public static void ValidateEnergyAmount(eEnergySourceType i_EnergyType,float i_CurrentEnergy)
+        public override string ToString()
         {
-            if(i_EnergyType == eEnergySourceType.Electric && (i_CurrentEnergy < 0 || i_CurrentEnergy > k_ElectricCarMaxEnergyCapacity))
+            StringBuilder carDetails = new StringBuilder();
+
+            carDetails.AppendLine(string.Format("License Plate: {0}", LicensePlate));
+            carDetails.AppendLine(string.Format("Model: {0}", Model));
+            carDetails.AppendLine(string.Format("Owner Name: {0}", m_CostumerInfo.CustomerName));
+            carDetails.AppendLine(string.Format("Owner Phone Number: {0}", m_CostumerInfo.CustomerPhoneNumber));
+            carDetails.AppendLine(string.Format("State In Garage: {0}", VehicleState));
+            carDetails.AppendLine(string.Format("Car Color: {0}", m_Color));
+            carDetails.AppendLine(string.Format("Number of Doors: {0}", m_DoorsNum));
+            carDetails.AppendLine(string.Format("Energy Source Type: {0}", EnergySourceType));
+            carDetails.AppendLine(string.Format("Current Energy Capacity: {0}", CurrentEnergyCapacity));
+            carDetails.AppendLine(string.Format("Energy Percentage: {0}%", EnergyPrecentage));
+            carDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
+            carDetails.AppendLine(string.Format("Max Wheel Air Pressure: {0}", MaxWheelAirPressure));
+
+            for (int i = 0; i < m_Wheels.Length; i++)
             {
-                throw new ValueOutOfRangeException(0, k_ElectricCarMaxEnergyCapacity, "Current electrical level is out of the valid range");
+                carDetails.AppendLine(string.Format("Wheel {0}# : ", i + 1, m_Wheels[i].ToString()));
             }
-            else if (i_EnergyType == eEnergySourceType.Fuel && (i_CurrentEnergy < 0 || i_CurrentEnergy > k_FuelCarMaxEnergyCapacity))
-            {
-                throw new ValueOutOfRangeException(0, k_FuelCarMaxEnergyCapacity, "Current fuel amount is out of the valid range");
-            }
+
+            return carDetails.ToString();
         }
     }
 }

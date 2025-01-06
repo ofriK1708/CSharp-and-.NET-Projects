@@ -8,8 +8,8 @@ namespace ex03
 {
     public enum eVehicleState
     {
-        InRepair,
-        Repaired,
-        Paid
+        InRepair = 1,
+        Repaired = 2,
+        Paid = 3
     }
 }
