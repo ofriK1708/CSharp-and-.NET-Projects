@@ -30,8 +30,33 @@ namespace ex03
             base.EnergyMaxCapacity = (float)(i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarMaxEnergyCapacity : k_FuelCarMaxEnergyCapacity);
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarFuelType : k_FuelCarFuelType;
             base.CurrentEnergyCapacity = i_CurrentEnergy;
+            base.EnergyPrecentage = (CurrentEnergyCapacity / EnergyMaxCapacity) * 100;
             validateWheels(i_CarWheels, eVehicleType.Car, k_CarNumOfWheels);
             base.m_Wheels = i_CarWheels;
+        }
+        public override string ToString()
+        {
+            StringBuilder carDetails = new StringBuilder();
+
+            carDetails.AppendLine(string.Format("License Plate: {0}", LicensePlate));
+            carDetails.AppendLine(string.Format("Model: {0}", Model));
+            carDetails.AppendLine(string.Format("Owner Name: {0}", m_CostumerInfo.CustomerName));
+            carDetails.AppendLine(string.Format("Owner Phone Number: {0}", m_CostumerInfo.CustomerPhoneNumber));
+            carDetails.AppendLine(string.Format("State In Garage: {0}", VehicleState));
+            carDetails.AppendLine(string.Format("Car Color: {0}", m_Color));
+            carDetails.AppendLine(string.Format("Number of Doors: {0}", m_DoorsNum));
+            carDetails.AppendLine(string.Format("Energy Source Type: {0}", EnergySourceType));
+            carDetails.AppendLine(string.Format("Current Energy Capacity: {0}", CurrentEnergyCapacity));
+            carDetails.AppendLine(string.Format("Energy Percentage: {0}%", EnergyPrecentage));
+            carDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
+            carDetails.AppendLine(string.Format("Max Wheel Air Pressure: {0}", MaxWheelAirPressure));
+
+            for (int i = 0; i < m_Wheels.Length; i++)
+            {
+                carDetails.AppendLine(string.Format("Wheel {0}# : ", i + 1, m_Wheels[i].ToString()));
+            }
+
+            return carDetails.ToString();
         }
     }
 }

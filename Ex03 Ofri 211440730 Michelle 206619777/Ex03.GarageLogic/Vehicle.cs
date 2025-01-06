@@ -10,16 +10,16 @@ namespace ex03
     {
         public CustomerInfo m_CostumerInfo;
         public eVehicleState VehicleState { get; set; }
-        public string Model { get; set; }
-        public string LicensePlate { get; set; }    
-        protected eVehicleType Type { set; get; }
+        public string Model { get; }
+        public string LicensePlate { get; }
+        protected eVehicleType Type { get; set; }
 
-        protected float m_EnergyPrecentage;
-        protected float? MaxWheelAirPressure { set; get; } = null;
-        protected int NumOfWheels { set; get; }
+        protected float EnergyPrecentage { get; set; }
+        protected float MaxWheelAirPressure { get; set; }
+        protected int NumOfWheels { get; set; }
         protected Wheel[] m_Wheels;
-        protected eEnergySourceType EnergySourceType { set; get; }
-        protected float? EnergyMaxCapacity { set; get; } = null;
+        protected eEnergySourceType EnergySourceType { get; set; }
+        protected float EnergyMaxCapacity { get; set; }
         protected float m_CurrentEnergyCapacity;
         internal float CurrentEnergyCapacity
         {
@@ -29,7 +29,7 @@ namespace ex03
             }
             set
             {
-                validateCurrentEnergyBelowMax(value, EnergyMaxCapacity.Value);
+                validateCurrentEnergyBelowMax(value, EnergyMaxCapacity);
                 m_CurrentEnergyCapacity = value;
             }
         }
@@ -66,9 +66,9 @@ namespace ex03
         }
         public void FillEnergyToFull()
         {
-            m_CurrentEnergyCapacity = EnergyMaxCapacity.Value;
+            m_CurrentEnergyCapacity = EnergyMaxCapacity;
         }
-        protected void validateCurrentEnergyBelowMax(float i_CurrentEnergy,float i_MaxEnergy)
+        protected void validateCurrentEnergyBelowMax(float i_CurrentEnergy, float i_MaxEnergy)
         {
             if (i_CurrentEnergy > i_MaxEnergy || i_CurrentEnergy < 0)
             {
@@ -79,14 +79,43 @@ namespace ex03
         {
             if (i_Wheels.Length != i_ExpectedNumOfWheels)
             {
-                throw new ArgumentException(string.Format("Invalid number of wheels for {0}. Expected {1}, but got {2}.)", i_VehicleType, i_ExpectedNumOfWheels, i_NumOfWheels));
+                throw new ArgumentException(string.Format("Invalid number of wheels for {0}. Expected {1}, but got {2}.)", i_VehicleType, i_ExpectedNumOfWheels, i_Wheels.Length));
             }
-            
+
             foreach (Wheel wheel in i_Wheels)
             {
                 wheel.ValidateWheel();
             }
         }
+        public void changeVehicleState(eVehicleState newState)
+        {
+            VehicleState = newState;
+        }
+        public void FillWheelsAirToMax()
+        {
+            foreach (Wheel wheel in m_Wheels)
+            {
+                wheel.fillAirPressureToMax();
+            }
+        }
+        public void FillEnergy(float i_AmountToFill, eFuelType i_FuelType)
+        {
+            if (i_FuelType != FuelType)
+            {
+                throw new ArgumentException(string.Format("Invalid fuel type, got {0} , expected {1}",i_FuelType.ToString(),EnergySourceType.ToString()));
+            }
+            else
+            {
+                if (i_AmountToFill + CurrentEnergyCapacity > EnergyMaxCapacity)
+                {
+                    throw new ValueOutOfRangeException(0, EnergyMaxCapacity - CurrentEnergyCapacity, "Amount energy to fill out of range");
+                }
+                else
+                {
+                    CurrentEnergyCapacity += i_AmountToFill;
+                    EnergyPrecentage = (CurrentEnergyCapacity / EnergyMaxCapacity) * 100;
+                }
+            }
+        }
     }
-
 }

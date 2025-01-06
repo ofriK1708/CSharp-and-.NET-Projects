@@ -32,5 +32,29 @@ namespace ex03
             validateWheels(i_MotorcycleWheels, eVehicleType.Car, k_MotorcycleNumOfWheels);
             base.m_Wheels = i_MotorcycleWheels;
         }
+        public override string ToString()
+        {
+            StringBuilder motorcycleDetails = new StringBuilder();
+
+            motorcycleDetails.AppendLine(string.Format("License Plate: {0}", LicensePlate));
+            motorcycleDetails.AppendLine(string.Format("Model: {0}", Model));
+            motorcycleDetails.AppendLine(string.Format("Owner Name: {0}", m_CostumerInfo.CustomerName));
+            motorcycleDetails.AppendLine(string.Format("Owner Phone Number: {0}", m_CostumerInfo.CustomerPhoneNumber));
+            motorcycleDetails.AppendLine(string.Format("State In Garage: {0}", VehicleState));
+            motorcycleDetails.AppendLine(string.Format("Engine Volume: {0}", m_EngineVolume));
+            motorcycleDetails.AppendLine(string.Format("License Type: {0}", m_LicenseType));
+            motorcycleDetails.AppendLine(string.Format("Energy Source Type: {0}", EnergySourceType));
+            motorcycleDetails.AppendLine(string.Format("Current Energy Capacity: {0}", CurrentEnergyCapacity));
+            motorcycleDetails.AppendLine(string.Format("Energy Percentage: {0}%", EnergyPrecentage));
+            motorcycleDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
+            motorcycleDetails.AppendLine(string.Format("Max Wheel Air Pressure: {0}", MaxWheelAirPressure));
+
+            for (int i = 0; i < m_Wheels.Length; i++)
+            {
+                motorcycleDetails.AppendLine(string.Format("Wheel {0}#: {1}", i + 1, m_Wheels[i].ToString()));
+            }
+
+            return motorcycleDetails.ToString();
+        }
     }
 }

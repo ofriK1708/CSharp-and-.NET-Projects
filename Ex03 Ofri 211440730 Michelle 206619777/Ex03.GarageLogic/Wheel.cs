@@ -52,5 +52,15 @@ namespace ex03
                 throw new ValueOutOfRangeException(0, MaxAirPressure.Value, "Current wheel Air Pressure is out of the valid range");
             }
         }
+        public override string ToString()
+        {
+            StringBuilder wheelDetails = new StringBuilder();
+
+            wheelDetails.AppendLine(string.Format("Manufacturer: {0}", ManufacturerName));
+            wheelDetails.AppendLine(string.Format("Current Air Pressure: {0}", CurrentAirPressure));
+            wheelDetails.AppendLine(string.Format("Max Air Pressure: {0}", MaxAirPressure));
+
+            return wheelDetails.ToString();
+        }
     }
 }
