@@ -50,7 +50,7 @@ namespace ex03
 
             for (int i = 0; i < m_Wheels.Length; i++)
             {
-                truckDetails.AppendLine(string.Format("Wheel {0}: {1}", i + 1, m_Wheels[i].ToString()));
+                truckDetails.AppendLine(string.Format("Wheel {0}#: {1}", i + 1, m_Wheels[i].ToString()));
             }
 
             return truckDetails.ToString();
