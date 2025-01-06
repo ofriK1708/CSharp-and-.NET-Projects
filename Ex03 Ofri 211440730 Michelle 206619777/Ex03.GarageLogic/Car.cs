@@ -31,6 +31,7 @@ namespace ex03
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarFuelType : k_FuelCarFuelType;
             base.CurrentEnergyCapacity = i_CurrentEnergy;
             base.EnergyPrecentage = (CurrentEnergyCapacity / EnergyMaxCapacity) * 100;
+
             validateWheels(i_CarWheels, eVehicleType.Car, k_CarNumOfWheels);
             base.m_Wheels = i_CarWheels;
         }

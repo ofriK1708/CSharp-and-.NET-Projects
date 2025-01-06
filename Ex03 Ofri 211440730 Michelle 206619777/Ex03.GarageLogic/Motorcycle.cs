@@ -29,6 +29,7 @@ namespace ex03
             base.EnergyMaxCapacity = (i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricMotorcycleMaxEnergy : k_FuelMotorcycleMaxEnergy);
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricMotorcycleFuelType : k_FuelMotorcycleFuelType;
             base.CurrentEnergyCapacity = i_CurrentEnergy;
+
             validateWheels(i_MotorcycleWheels, eVehicleType.Car, k_MotorcycleNumOfWheels);
             base.m_Wheels = i_MotorcycleWheels;
         }

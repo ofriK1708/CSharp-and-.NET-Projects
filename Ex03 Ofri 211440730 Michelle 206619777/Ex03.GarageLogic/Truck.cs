@@ -28,6 +28,7 @@ namespace ex03
             base.FuelType = k_TruckFuelType;
             base.EnergyMaxCapacity = k_TruckEnergyMaxCapacity;
             base.CurrentEnergyCapacity = i_CurrentEnergy;
+
             validateWheels(i_TruckWheels, eVehicleType.Car, k_TruckNumOfWheels);
             base.m_Wheels = i_TruckWheels;
         }

@@ -17,18 +17,21 @@ namespace ex03
         public Wheel(string i_ManufacturerName,float? i_MaxAirPressure,float i_CurentAirPressure) 
         {
             ManufacturerName = i_ManufacturerName;
+
             if(i_MaxAirPressure.Value <= 0)
             {
                 throw new ArgumentException("Max air pressure must be positive");
             }
+
             MaxAirPressure = i_MaxAirPressure;
-            if(i_CurentAirPressure <= i_MaxAirPressure)
+
+            if(i_CurentAirPressure > i_MaxAirPressure || i_CurentAirPressure < 0)
             {
-                CurrentAirPressure = i_CurentAirPressure;
+                throw new ValueOutOfRangeException(0, i_MaxAirPressure.Value, "Wheel Air Pressure out of range");
             }
             else
             {
-                throw new ValueOutOfRangeException(0, i_MaxAirPressure.Value, "Current wheel Air Pressure is higher than the max air pressure");
+                CurrentAirPressure = i_CurentAirPressure;
             }
         }
         internal void fillAirPressureToMax()
@@ -37,6 +40,7 @@ namespace ex03
             {
                 throw new InvalidOperationException("Max air pressure was not set");
             }
+
             CurrentAirPressure = MaxAirPressure.Value;
         }
         public void ValidateWheel()
@@ -46,10 +50,9 @@ namespace ex03
                 throw new InvalidOperationException("Max air pressure was not set");
             }
 
-
             if (CurrentAirPressure > MaxAirPressure.Value || CurrentAirPressure < 0)
             {
-                throw new ValueOutOfRangeException(0, MaxAirPressure.Value, "Current wheel Air Pressure is out of the valid range");
+                throw new ValueOutOfRangeException(0, MaxAirPressure.Value, "Wheel Air Pressure out of range");
             }
         }
         public override string ToString()

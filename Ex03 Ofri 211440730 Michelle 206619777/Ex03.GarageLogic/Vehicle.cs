@@ -72,14 +72,14 @@ namespace ex03
         {
             if (i_CurrentEnergy > i_MaxEnergy || i_CurrentEnergy < 0)
             {
-                throw new ValueOutOfRangeException(0, i_MaxEnergy, "Current energy amount is out of the valid range");
+                throw new ValueOutOfRangeException(0, i_MaxEnergy, string.Format("{0} is out of the valid range",EnergySourceType == eEnergySourceType.Fuel ? "Fuel amount" : "battery charge"));
             }
         }
         protected void validateWheels(Wheel[] i_Wheels, eVehicleType i_VehicleType, int i_ExpectedNumOfWheels)
         {
             if (i_Wheels.Length != i_ExpectedNumOfWheels)
             {
-                throw new ArgumentException(string.Format("Invalid number of wheels for {0}. Expected {1}, but got {2}.)", i_VehicleType, i_ExpectedNumOfWheels, i_Wheels.Length));
+                throw new ArgumentException(string.Format("Invalid number of wheels for {0}. Expected {1}, but got {2})", i_VehicleType, i_ExpectedNumOfWheels, i_Wheels.Length));
             }
 
             foreach (Wheel wheel in i_Wheels)
