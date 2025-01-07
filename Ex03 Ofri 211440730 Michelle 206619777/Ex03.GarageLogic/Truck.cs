@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ex03
 {
@@ -12,22 +14,20 @@ namespace ex03
         internal bool m_IsTransportingRefrigeratedMaterials;
         internal float m_CargoVolume;
    
-        public Truck(CustomerInfo i_costumerInfo,string i_Model,string i_LicensePlate, float i_CurrentEnergy, Wheel[] i_TruckWheels,
-            bool i_TransportingRegrigeratedMaterials, float i_CargoVolume) : base(i_costumerInfo, i_Model, i_LicensePlate)
+        public Truck(CustomerInfo i_costumerInfo,
+            string i_Model,
+            string i_LicensePlate,
+            float i_CurrentEnergy) : base(i_costumerInfo, i_Model, i_LicensePlate)
         {
-            m_CargoVolume = i_CargoVolume;
-            m_IsTransportingRefrigeratedMaterials = i_TransportingRegrigeratedMaterials;
-            base.Type = eVehicleType.Truck;
+            base.Type = VehicleFactory.eVehicleType.Truck;
             base.NumOfWheels = k_TruckNumOfWheels;
             base.MaxWheelAirPressure = k_TruckMaxWheelAirPressure;
             base.EnergySourceType = k_TruckEnergySourceType;
             base.FuelType = k_TruckFuelType;
             base.EnergyMaxCapacity = k_TruckEnergyMaxCapacity;
             base.CurrentEnergyCapacity = i_CurrentEnergy;
-
-            ValidateWheels(i_TruckWheels, eVehicleType.Car, k_TruckNumOfWheels);
-            base.m_Wheels = i_TruckWheels;
         }
+        
         public override string ToString()
         {
             StringBuilder truckDetails = new StringBuilder();
@@ -51,6 +51,21 @@ namespace ex03
             }
 
             return truckDetails.ToString();
+        }
+
+        public override void SetAddedFields(Dictionary<string, string> i_AddedFields)
+        {
+            //todo - add check is defined
+            m_IsTransportingRefrigeratedMaterials = bool.Parse(i_AddedFields["IsTransportingRefrigeratedMaterials"]);
+            m_CargoVolume = float.Parse(i_AddedFields["CargoVolume"]);
+        }
+
+        public override List<string> GetAddedFields()
+        {
+           List<string> addedFields = new List<string>();
+            addedFields.Add("IsTransportingRefrigeratedMaterials");
+            addedFields.Add("CargoVolume");
+            return addedFields;
         }
     }
 }

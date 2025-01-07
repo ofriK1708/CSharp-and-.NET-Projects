@@ -1,10 +1,6 @@
 ﻿using ex03;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.ConsoleUI
 {
@@ -15,14 +11,15 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("Welcome to the garage");
         }
 
-        internal eVehicleType GetVehicleTypeFromUser()
+        internal VehicleFactory.eVehicleType GetVehicleTypeFromUser()
         {
-            Console.WriteLine("Enter Vehicle type:\n" +
-                "for car press 1,\n" +
-                "for motorcycle press 2\n" +
-                "for  for truck press 3");
+            Console.WriteLine("Enter Vehicle type:");
+            foreach (string type in Enum.GetNames(typeof(VehicleFactory.eVehicleType)))
+            {
+                Console.WriteLine("For {0} press {1}", type, Enum.Parse(typeof(VehicleFactory.eVehicleType), type));
+            }
 
-            return (eVehicleType)getEnumInputFromUser(typeof(eVehicleType));
+            return (VehicleFactory.eVehicleType)getEnumInputFromUser(typeof(VehicleFactory.eVehicleType));
         }
 
         internal eMenuOption GetMenuChoiceFromUser()
@@ -57,8 +54,8 @@ namespace Ex03.ConsoleUI
         internal eEnergySourceType GetEnergySourceTypeFromUser()
         {
             Console.WriteLine("Enter Vehicles energy source type:\n" +
-                "for fuel press 1,\n" +
-                "for electric press 2");
+                              "for fuel press 1,\n" +
+                              "for electric press 2");
 
             return (eEnergySourceType)getEnumInputFromUser(typeof(eEnergySourceType));
         }
@@ -145,7 +142,7 @@ namespace Ex03.ConsoleUI
                 throw new FormatException("Input must be a number");
             }
 
-            if(numericValue < 0f)
+            if (numericValue < 0f)
             {
                 throw new FormatException("Input can't be negative");
             }
@@ -174,6 +171,33 @@ namespace Ex03.ConsoleUI
         {
             //todo implement
             return new Wheel[0];
+        }
+
+        internal bool GetIfUserWantToTryAgain()
+        {
+            Console.WriteLine("To go back to the menu press 1, to quit press 0? (y/n)");
+            string userInput = getStringInputFromUser();
+  
+            while (userInput != "1" && userInput != "0")
+            {
+              Console.WriteLine("Please enter 1 or 0");
+              userInput = Console.ReadLine();
+            }
+            
+            return userInput == "1";
+        }
+
+        public Dictionary<string, string> GetAddedFieldsFromUser(List<string> i_VehicleAddedFields)
+        {
+            Dictionary<string, string> fieldsFromUser = new Dictionary<string, string>();
+            
+            foreach (string field in i_VehicleAddedFields)
+            {
+                Console.WriteLine("Enter {0} value", field);
+                fieldsFromUser.Add(field,getStringInputFromUser()); 
+            }
+            
+            return fieldsFromUser;
         }
     }
 }

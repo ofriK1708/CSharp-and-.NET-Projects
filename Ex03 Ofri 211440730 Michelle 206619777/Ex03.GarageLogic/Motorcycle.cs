@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ex03
 {
@@ -13,22 +15,21 @@ namespace ex03
         internal int m_EngineVolume;
         internal eMotorcycleLicenseType m_LicenseType;
 
-        public Motorcycle(CustomerInfo i_CostumerInfo,string i_Model,string i_LicensePlate, float i_CurrentEnergy, Wheel[] i_MotorcycleWheels,
-            eEnergySourceType i_EnergySourceType, int i_EngineVolume, eMotorcycleLicenseType i_LicenseType) : base(i_CostumerInfo, i_Model, i_LicensePlate)
+        public Motorcycle(CustomerInfo i_CostumerInfo,
+            string i_Model,
+            string i_LicensePlate,
+            float i_CurrentEnergy,
+            eEnergySourceType i_EnergySourceType) : base(i_CostumerInfo, i_Model, i_LicensePlate)
         {
-            m_EngineVolume = i_EngineVolume;
-            m_LicenseType = i_LicenseType;
-            base.Type = eVehicleType.MotorCycle;
+            base.Type = VehicleFactory.eVehicleType.MotorCycle;
             base.NumOfWheels = k_MotorcycleNumOfWheels;
             base.MaxWheelAirPressure = k_MotorcycleMaxWheelAirPressure;
             base.EnergySourceType = i_EnergySourceType;
             base.EnergyMaxCapacity = (i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricMotorcycleMaxEnergy : k_FuelMotorcycleMaxEnergy);
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricMotorcycleFuelType : k_FuelMotorcycleFuelType;
             base.CurrentEnergyCapacity = i_CurrentEnergy;
-
-            ValidateWheels(i_MotorcycleWheels, eVehicleType.Car, k_MotorcycleNumOfWheels);
-            base.m_Wheels = i_MotorcycleWheels;
         }
+        
         public override string ToString()
         {
             StringBuilder motorcycleDetails = new StringBuilder();
@@ -52,6 +53,21 @@ namespace ex03
             }
 
             return motorcycleDetails.ToString();
+        }
+
+        public override void SetAddedFields(Dictionary<string, string> i_AddedFields)
+        {
+            m_EngineVolume = int.Parse(i_AddedFields["EngineVolume"]);
+            //todo - add check is defined
+            m_LicenseType = (eMotorcycleLicenseType)Enum.Parse(typeof(eMotorcycleLicenseType),i_AddedFields["LicenseType"]);
+        }
+
+        public override List<string> GetAddedFields()
+        {
+            List<string> addedFields = new List<string>();
+            addedFields.Add("EngineVolume");
+            addedFields.Add("LicenseType");
+            return addedFields;
         }
     }
 }
