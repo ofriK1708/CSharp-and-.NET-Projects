@@ -1,5 +1,6 @@
+using System;
 using System.Text;
-
+using System.Collections.Generic;
 
 namespace ex03
 {
@@ -14,12 +15,13 @@ namespace ex03
         internal eCarColor m_Color;
         internal eCarDoorsNum m_DoorsNum;
 
-        internal Car(CustomerInfo i_CostumerAndVehicleInfo, string i_Model, string i_LicensePlate, eEnergySourceType i_EnergySourceType,
-            float i_CurrentEnergy,Wheel[] i_CarWheels, eCarColor i_CarColor, eCarDoorsNum i_CarDoorNum) : base(i_CostumerAndVehicleInfo,i_Model,i_LicensePlate)
+        internal Car(CustomerInfo i_CostumerAndVehicleInfo,
+            string i_Model,
+            string i_LicensePlate,
+            eEnergySourceType i_EnergySourceType,
+            float i_CurrentEnergy) : base(i_CostumerAndVehicleInfo, i_Model, i_LicensePlate)
         {
-            m_Color = i_CarColor;
-            m_DoorsNum = i_CarDoorNum;
-            base.Type = eVehicleType.Car;
+            base.Type = VehicleFactory.eVehicleType.Car;
             base.NumOfWheels = k_CarNumOfWheels;
             base.MaxWheelAirPressure = k_CarMaxWheelAirPressure;
             base.EnergySourceType = i_EnergySourceType;
@@ -27,10 +29,8 @@ namespace ex03
             base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarFuelType : k_FuelCarFuelType;
             base.CurrentEnergyCapacity = i_CurrentEnergy;
             base.EnergyPercentage = (CurrentEnergyCapacity / EnergyMaxCapacity) * 100;
-
-            ValidateWheels(i_CarWheels, eVehicleType.Car, k_CarNumOfWheels);
-            base.m_Wheels = i_CarWheels;
         }
+        
         public override string ToString()
         {
             StringBuilder carDetails = new StringBuilder();
@@ -54,6 +54,21 @@ namespace ex03
             }
 
             return carDetails.ToString();
+        }
+
+        public override void SetAddedFields(Dictionary<string, string> i_AddedFields)
+        {
+            //todo - add check is defined
+            m_Color = (eCarColor)Enum.Parse( typeof(eCarColor), i_AddedFields["CarColor"]);
+            m_DoorsNum = (eCarDoorsNum)Enum.Parse(typeof(eCarDoorsNum), i_AddedFields["CarDoorsNum"]);
+        }
+
+        public override List<string> GetAddedFields()
+        {
+            List<string> addedFields = new List<string>();
+            addedFields.Add("CarColor");
+            addedFields.Add("CarDoorsNum");
+            return addedFields;
         }
     }
 }
