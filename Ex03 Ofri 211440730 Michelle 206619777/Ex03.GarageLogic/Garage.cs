@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ex03
 {
     public class Garage
     {
-        Dictionary<String, Vehicle> m_Vehicles;
+        public Dictionary<string, Vehicle> m_Vehicles;
 
-        public bool IsVehicleInTheGarage(String i_LicensePlate)
+        public bool IsVehicleInTheGarage(string i_LicensePlate)
         {
             return m_Vehicles.ContainsKey(i_LicensePlate);
         }
@@ -17,32 +16,32 @@ namespace ex03
             m_Vehicles.Add(i_Vehicle.LicensePlate, i_Vehicle);
         }
 
-        public void ChangeVehicleStatus(String i_LicensePlate, eVehicleState i_newVheicleState)
+        public void ChangeVehicleStatus(string i_LicensePlate, eVehicleState i_NewVehicleState)
         {
-            m_Vehicles[i_LicensePlate].VehicleState = i_newVheicleState;
+            m_Vehicles[i_LicensePlate].VehicleState = i_NewVehicleState;
         }
-        
-        public void ChangeVehicleStatusToInRepare(String i_LicensePlate)
+
+        public void ChangeVehicleStatusToInRepare(string i_LicensePlate)
         {
             ChangeVehicleStatus(i_LicensePlate, eVehicleState.InRepair);
         }
-        
-        public void fillWheelsAirToMax(string i_LicensePlate)
+
+        public void FillWheelsAirToMax(string i_LicensePlate)
         {
             m_Vehicles[i_LicensePlate].FillWheelsAirToMax();
         }
-        
-        public void fillFuel(string i_LicensePlate, float i_EnergyToAdd,eFuelType eFuelType) 
+
+        public void FillFuel(string i_LicensePlate, float i_EnergyToAdd, eFuelType i_FuelType)
         {
-            m_Vehicles[i_LicensePlate].FillEnergy(i_EnergyToAdd, eFuelType);
+            m_Vehicles[i_LicensePlate].fillGas(i_EnergyToAdd, i_FuelType);
         }
-        
-        public void chargeBattery(string i_LicensePlate, float i_minutesToCharge)
+
+        public void ChargeBattery(string i_LicensePlate, float i_MinutesToCharge)
         {
-            m_Vehicles[i_LicensePlate].FillEnergy(i_minutesToCharge, eFuelType.Battery);
+            m_Vehicles[i_LicensePlate].ChargeBattery(i_MinutesToCharge);
         }
-        
-        string getFullVehicleDetails(string i_LicensePlate)
+
+        public string getFullVehicleDetails(string i_LicensePlate)
         {
             return m_Vehicles[i_LicensePlate].ToString();
         }

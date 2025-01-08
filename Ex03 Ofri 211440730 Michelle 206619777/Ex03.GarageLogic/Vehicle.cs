@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ex03
 {
@@ -11,29 +11,16 @@ namespace ex03
         public string Model { get; }
         public string LicensePlate { get; }
         protected VehicleFactory.eVehicleType Type { get; set; }
-        protected float EnergyPercentage { get; set; }
         protected float MaxWheelAirPressure { get; set; }
         protected int NumOfWheels { get; set; }
         protected Wheel[] m_Wheels;
-        protected eEnergySourceType EnergySourceType { get; set; }
-        protected float EnergyMaxCapacity { get; set; }
-        protected float m_CurrentEnergyCapacity;
+        protected EnergySource EnergySource { get; set; }
 
         internal Vehicle(CustomerInfo i_CostumerInfo, string i_Model, string i_LicensePlate)
         {
             m_CostumerInfo = i_CostumerInfo;
             Model = i_Model;
             LicensePlate = i_LicensePlate;
-        }
-
-        internal float CurrentEnergyCapacity
-        {
-            get { return m_CurrentEnergyCapacity; }
-            set
-            {
-                ValidateCurrentEnergyBelowMax(value, EnergyMaxCapacity);
-                m_CurrentEnergyCapacity = value;
-            }
         }
 
         public Wheel[] Wheels
@@ -44,7 +31,7 @@ namespace ex03
             }
             set
             {
-                ValidateWheels(value);
+                ValidateNumberOfWheels(value);
                 m_Wheels = value;
             }
         }
@@ -55,55 +42,21 @@ namespace ex03
 
         protected eFuelType FuelType { set; get; }
 
-        public override bool Equals(object obj)
-        {
-            bool equals = false;
-            Vehicle vehicleToCheck = obj as Vehicle;
-
-            if (vehicleToCheck != null)
-            {
-                equals = LicensePlate == vehicleToCheck.LicensePlate;
-            }
-
-            return equals;
-        }
-
-        public override int GetHashCode()
-        {
-            return m_CostumerInfo.GetHashCode();
-        }
-
         internal void ChangeVehicleState(eVehicleState i_NewState)
         {
             VehicleState = i_NewState;
         }
 
-        public void FillEnergyToFull()
+        protected void ValidateNumberOfWheels(Wheel[] i_Wheels)
         {
-            m_CurrentEnergyCapacity = EnergyMaxCapacity;
-        }
-
-        protected void ValidateCurrentEnergyBelowMax(float i_CurrentEnergy, float i_MaxEnergy)
-        {
-            if (i_CurrentEnergy > i_MaxEnergy || i_CurrentEnergy < 0)
+            if(i_Wheels.Length != NumOfWheels)
             {
-                throw new ValueOutOfRangeException(0, i_MaxEnergy,
-                    string.Format("{0} is out of the valid range",
-                        EnergySourceType == eEnergySourceType.Fuel ? "Fuel amount" : "battery charge"));
-            }
-        }
-
-        protected void ValidateWheels(Wheel[] i_Wheels)
-        {
-            if (i_Wheels.Length != NumOfWheels)
-            {
-                throw new ArgumentException(string.Format(
-                    "Invalid number of wheels for {0}. Expected {1}, but got {2})", Type, NumOfWheels, Wheels.Length));
-            }
-
-            foreach (Wheel wheel in i_Wheels)
-            {
-                wheel.ValidateWheel();
+                throw new ArgumentException(
+                    string.Format(
+                        "Invalid number of wheels for {0}. Expected {1}, but got {2})",
+                        Type,
+                        NumOfWheels,
+                        Wheels.Length));
             }
         }
 
@@ -115,22 +68,45 @@ namespace ex03
             }
         }
 
-        public void FillEnergy(float i_AmountToFill, eFuelType i_FuelType)
+        public void ChargeBattery(float i_AmountOfMinutesToCharge)
         {
-            if (i_FuelType != FuelType)
+            if (EnergySource is ElectricMotor electricMotor)
             {
-                throw new ArgumentException(string.Format("Invalid fuel type, got {0} , expected {1}",
-                    i_FuelType.ToString(), EnergySourceType.ToString()));
+                electricMotor.ChargeBattery(i_AmountOfMinutesToCharge);
+            }
+            else
+            {
+                throw new ArgumentException("This vehicle is not electric powered");
+            }
+        }
+        public void fillGas(float i_AmountOfGasToAdd, eFuelType i_FuelType)
+        {
+            if(EnergySource is GasEngine gasEngine)
+            {
+                gasEngine.fillGas(i_AmountOfGasToAdd, i_FuelType);
+            }
+            else
+            {
+                throw new ArgumentException("This vehicle is not gas powered");
+            }
+        }
+        public override string ToString()
+        {
+            StringBuilder vehicleDetails = new StringBuilder();
+
+            vehicleDetails.AppendLine(string.Format("License Plate: {0}", LicensePlate));
+            vehicleDetails.AppendLine(string.Format("Model: {0}", Model));
+            vehicleDetails.AppendLine(string.Format("Owner Name: {0}", m_CostumerInfo.CustomerName));
+            vehicleDetails.AppendLine(string.Format("Owner Phone Number: {0}", m_CostumerInfo.CustomerPhoneNumber));
+            vehicleDetails.AppendLine(string.Format("State In Garage: {0}", VehicleState));
+            vehicleDetails.AppendLine(EnergySource.ToString());
+            vehicleDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
+            for(int i = 0; i < m_Wheels.Length; i++)
+            {
+                vehicleDetails.AppendLine(string.Format("Wheel {0}#: {1}", i + 1, m_Wheels[i]));
             }
 
-            if (i_AmountToFill + CurrentEnergyCapacity > EnergyMaxCapacity)
-            {
-                throw new ValueOutOfRangeException(0, EnergyMaxCapacity - CurrentEnergyCapacity,
-                    "Amount energy to fill out of range");
-            }
-
-            CurrentEnergyCapacity += i_AmountToFill;
-            EnergyPercentage = (CurrentEnergyCapacity / EnergyMaxCapacity) * 100;
+            return vehicleDetails.ToString();
         }
     }
 }

@@ -45,10 +45,12 @@
     <Compile Include="eCarDoorsNum.cs" />
     <Compile Include="eEnergySourceType.cs" />
     <Compile Include="eFuelType.cs" />
+    <Compile Include="ElectricMotor.cs" />
     <Compile Include="eMotorcycleLicenseType.cs" />
+    <Compile Include="EnergySource.cs" />
     <Compile Include="eVehicleState.cs" />
-    <Compile Include="eVehicleType.cs" />
     <Compile Include="Garage.cs" />
+    <Compile Include="GasEngine.cs" />
     <Compile Include="Motorcycle.cs" />
     <Compile Include="Truck.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
