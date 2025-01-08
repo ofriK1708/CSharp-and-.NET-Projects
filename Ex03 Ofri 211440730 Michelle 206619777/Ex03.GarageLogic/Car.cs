@@ -37,21 +37,10 @@ namespace ex03
         {
             StringBuilder carDetails = new StringBuilder();
 
-            carDetails.AppendLine(string.Format("License Plate: {0}", LicensePlate));
-            carDetails.AppendLine(string.Format("Model: {0}", Model));
-            carDetails.AppendLine(string.Format("Owner Name: {0}", m_CostumerInfo.CustomerName));
-            carDetails.AppendLine(string.Format("Owner Phone Number: {0}", m_CostumerInfo.CustomerPhoneNumber));
-            carDetails.AppendLine(string.Format("State In Garage: {0}", VehicleState));
+            carDetails.AppendLine("Car Details: ");
+            carDetails.AppendLine(base.ToString());
             carDetails.AppendLine(string.Format("Car Color: {0}", m_Color));
             carDetails.AppendLine(string.Format("Number of Doors: {0}", m_DoorsNum));
-            carDetails.AppendLine(EnergySource.ToString());
-            carDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
-            carDetails.AppendLine(string.Format("Max Wheel Air Pressure: {0}", MaxWheelAirPressure));
-
-            for (int i = 0; i < m_Wheels.Length; i++)
-            {
-                carDetails.AppendLine(string.Format("Wheel {0}# : {1}", i + 1, m_Wheels[i].ToString()));
-            }
 
             return carDetails.ToString();
         }

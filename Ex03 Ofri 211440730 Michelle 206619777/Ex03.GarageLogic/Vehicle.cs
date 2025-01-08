@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace ex03
 {
@@ -89,6 +90,24 @@ namespace ex03
             {
                 throw new ArgumentException("This vehicle is not gas powered");
             }
+        }
+        public override string ToString()
+        {
+            StringBuilder vehicleDetails = new StringBuilder();
+
+            vehicleDetails.AppendLine(string.Format("License Plate: {0}", LicensePlate));
+            vehicleDetails.AppendLine(string.Format("Model: {0}", Model));
+            vehicleDetails.AppendLine(string.Format("Owner Name: {0}", m_CostumerInfo.CustomerName));
+            vehicleDetails.AppendLine(string.Format("Owner Phone Number: {0}", m_CostumerInfo.CustomerPhoneNumber));
+            vehicleDetails.AppendLine(string.Format("State In Garage: {0}", VehicleState));
+            vehicleDetails.AppendLine(EnergySource.ToString());
+            vehicleDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
+            for(int i = 0; i < m_Wheels.Length; i++)
+            {
+                vehicleDetails.AppendLine(string.Format("Wheel {0}#: {1}", i + 1, m_Wheels[i]));
+            }
+
+            return vehicleDetails.ToString();
         }
     }
 }

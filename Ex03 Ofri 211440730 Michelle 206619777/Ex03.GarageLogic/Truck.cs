@@ -28,22 +28,11 @@ namespace ex03
         {
             StringBuilder truckDetails = new StringBuilder();
 
-            truckDetails.AppendLine(string.Format("License Plate: {0}", LicensePlate));
-            truckDetails.AppendLine(string.Format("Model: {0}", Model));
-            truckDetails.AppendLine(string.Format("Owner Name: {0}", m_CostumerInfo.CustomerName));
-            truckDetails.AppendLine(string.Format("Owner Phone Number: {0}", m_CostumerInfo.CustomerPhoneNumber));
-            truckDetails.AppendLine(string.Format("State In Garage: {0}", VehicleState));
+            truckDetails.AppendLine("Truck Details: ");
+            truckDetails.AppendLine(base.ToString());
             truckDetails.AppendLine(string.Format("{0}Carrying Hazardous Materials", m_IsTransportingRefrigeratedMaterials ? "" : "not "));
             truckDetails.AppendLine(string.Format("Cargo Volume: {0}", m_CargoVolume));
-            truckDetails.AppendLine(EnergySource.ToString());
-            truckDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
-            truckDetails.AppendLine(string.Format("Max Wheel Air Pressure: {0}", MaxWheelAirPressure));
-
-            for (int i = 0; i < m_Wheels.Length; i++)
-            {
-                truckDetails.AppendLine(string.Format("Wheel {0}#: {1}", i + 1, m_Wheels[i].ToString()));
-            }
-
+         
             return truckDetails.ToString();
         }
 

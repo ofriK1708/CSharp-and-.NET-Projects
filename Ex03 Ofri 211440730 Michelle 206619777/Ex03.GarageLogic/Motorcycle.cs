@@ -20,16 +20,16 @@ namespace ex03
             float i_CurrentEnergy,
             eEnergySourceType i_EnergySourceType) : base(i_CostumerInfo, i_Model, i_LicensePlate)
         {
-            base.Type = VehicleFactory.eVehicleType.MotorCycle;
-            base.NumOfWheels = k_MotorcycleNumOfWheels;
-            base.MaxWheelAirPressure = k_MotorcycleMaxWheelAirPressure;
+            Type = VehicleFactory.eVehicleType.MotorCycle;
+            NumOfWheels = k_MotorcycleNumOfWheels;
+            MaxWheelAirPressure = k_MotorcycleMaxWheelAirPressure;
             if(i_EnergySourceType == eEnergySourceType.Electric)
             {
-                base.EnergySource = new ElectricMotor(k_ElectricMotorcycleMaxEnergy, i_CurrentEnergy);
+                EnergySource = new ElectricMotor(k_ElectricMotorcycleMaxEnergy, i_CurrentEnergy);
             }
             else
             {
-                base.EnergySource = new GasEngine(k_FuelMotorcycleMaxEnergy, i_CurrentEnergy, k_FuelMotorcycleFuelType);
+                EnergySource = new GasEngine(k_FuelMotorcycleMaxEnergy, i_CurrentEnergy, k_FuelMotorcycleFuelType);
             }
         }
         
@@ -37,21 +37,10 @@ namespace ex03
         {
             StringBuilder motorcycleDetails = new StringBuilder();
 
-            motorcycleDetails.AppendLine(string.Format("License Plate: {0}", LicensePlate));
-            motorcycleDetails.AppendLine(string.Format("Model: {0}", Model));
-            motorcycleDetails.AppendLine(string.Format("Owner Name: {0}", m_CostumerInfo.CustomerName));
-            motorcycleDetails.AppendLine(string.Format("Owner Phone Number: {0}", m_CostumerInfo.CustomerPhoneNumber));
-            motorcycleDetails.AppendLine(string.Format("State In Garage: {0}", VehicleState));
+            motorcycleDetails.AppendLine("Motorcycle Details: ");
+            motorcycleDetails.AppendLine(base.ToString());
             motorcycleDetails.AppendLine(string.Format("Engine Volume: {0}", m_EngineVolume));
             motorcycleDetails.AppendLine(string.Format("License Type: {0}", m_LicenseType));
-            motorcycleDetails.AppendLine(EnergySource.ToString());
-            motorcycleDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
-            motorcycleDetails.AppendLine(string.Format("Max Wheel Air Pressure: {0}", MaxWheelAirPressure));
-
-            for (int i = 0; i < m_Wheels.Length; i++)
-            {
-                motorcycleDetails.AppendLine(string.Format("Wheel {0}#: {1}", i + 1, m_Wheels[i]));
-            }
 
             return motorcycleDetails.ToString();
         }
