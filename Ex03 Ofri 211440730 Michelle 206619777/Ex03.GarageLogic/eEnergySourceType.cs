@@ -3,6 +3,6 @@
     public enum eEnergySourceType
     {
         Fuel = 1,
-        Electric = 2
+        Battery = 2
     }
 }

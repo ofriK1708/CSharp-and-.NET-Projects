@@ -11,19 +11,21 @@ namespace ex03
         public const float k_ElectricCarMaxEnergyCapacity = 5.4f;
         public const float k_FuelCarMaxEnergyCapacity = 52f;
         public const eFuelType k_FuelCarFuelType = eFuelType.Octan95;
+        const string k_carColorField = "Car color";
+        const string k_carDoorsNumField = "Car doors number";
         internal eCarColor m_Color;
         internal eCarDoorsNum m_DoorsNum;
 
-        internal Car(CustomerInfo i_CostumerAndVehicleInfo,
+        internal Car(VehicleFactory.eVehicleType i_VehicleType,
+            CustomerInfo i_CostumerAndVehicleInfo,
             string i_Model,
             string i_LicensePlate,
-            eEnergySourceType i_EnergySourceType,
             float i_CurrentEnergy) : base(i_CostumerAndVehicleInfo, i_Model, i_LicensePlate)
         {
-            Type = VehicleFactory.eVehicleType.Car;
+            Type = i_VehicleType;
             NumOfWheels = k_CarNumOfWheels;
             MaxWheelAirPressure = k_CarMaxWheelAirPressure;
-            if (i_EnergySourceType == eEnergySourceType.Electric)
+            if (Type == VehicleFactory.eVehicleType.ElectricCar)
             {
                 EnergySource = new ElectricMotor(k_ElectricCarMaxEnergyCapacity, i_CurrentEnergy);
             }
@@ -47,14 +49,15 @@ namespace ex03
 
         public override void SetAddedFields(Dictionary<string, string> i_AddedFields)
         {
-            //todo - add check is defined
-            m_Color = (eCarColor)Enum.Parse( typeof(eCarColor), i_AddedFields["CarColor"]);
-            m_DoorsNum = (eCarDoorsNum)Enum.Parse(typeof(eCarDoorsNum), i_AddedFields["CarDoorsNum"]);
+            m_Color = (eCarColor)Enum.Parse( typeof(eCarColor), i_AddedFields[k_carColorField]);
+            m_DoorsNum = (eCarDoorsNum)Enum.Parse(typeof(eCarDoorsNum), i_AddedFields[k_carDoorsNumField]);
         }
 
-        public override List<string> GetAddedFields()
+        public override Dictionary<string, Type> GetAddedFields()
         {
-            List<string> addedFields = new List<string> { "CarColor", "CarDoorsNum" };
+            Dictionary<string, Type> addedFields = new Dictionary<string, Type>();
+            addedFields.Add(k_carColorField, typeof(eCarColor));
+            addedFields.Add(k_carDoorsNumField, typeof(eCarDoorsNum));
             return addedFields;
         }
     }

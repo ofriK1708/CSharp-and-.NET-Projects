@@ -38,7 +38,7 @@ namespace ex03
         
         public abstract void SetAddedFields(Dictionary<string, string> i_AddedFields);
 
-        public abstract List<string> GetAddedFields();
+        public abstract Dictionary<string, Type> GetAddedFields();
 
         protected eFuelType FuelType { set; get; }
 
