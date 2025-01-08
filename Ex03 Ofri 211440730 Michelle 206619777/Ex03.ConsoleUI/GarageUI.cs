@@ -6,19 +6,19 @@ namespace Ex03.ConsoleUI
 {
     internal class GarageUI
     {
-        private ConsoleUtils m_ConsoleUtils = new ConsoleUtils();
+        private readonly ConsoleUtils r_ConsoleUtils = new ConsoleUtils();
+        private readonly Garage r_Garage = new Garage();
+        private readonly VehicleFactory r_VehicleFactory = new VehicleFactory();
         private bool m_QuitGarage = false;
-        private Garage m_Garage = new Garage();
-        private VehicleFactory m_VehicleFactory = new VehicleFactory();
 
         internal void Start()
         {
             bool continueSameChoice = false;
-            m_ConsoleUtils.PrintStartMessage();
+            r_ConsoleUtils.PrintStartMessage();
 
             while (!m_QuitGarage)
             {
-                eMenuOption menuOptionFromUser = m_ConsoleUtils.GetMenuChoiceFromUser();
+                eMenuOption menuOptionFromUser = r_ConsoleUtils.GetMenuChoiceFromUser();
                 
                 Console.Clear();
                 if (menuOptionFromUser.Equals(eMenuOption.Quit))
@@ -36,7 +36,7 @@ namespace Ex03.ConsoleUI
                 {
                     Console.Clear();
                     Console.WriteLine(e.Message);
-                    if (!m_ConsoleUtils.GetIfUserWantToTryAgain())
+                    if (!r_ConsoleUtils.GetIfUserWantToTryAgain())
                     {
                         m_QuitGarage = true;
                         Console.WriteLine("Goodbye :)");
@@ -75,32 +75,32 @@ namespace Ex03.ConsoleUI
 
         private void handleAddVehicle()
         {
-            string licensePlate = m_ConsoleUtils.GetLicensePlateFromUser();
+            string licensePlate = r_ConsoleUtils.GetLicensePlateFromUser();
 
-            if (m_Garage.IsVehicleInTheGarage(licensePlate))
+            if (r_Garage.IsVehicleInTheGarage(licensePlate))
             {
-                m_Garage.ChangeVehicleStatusToInRepare(licensePlate);
+                r_Garage.ChangeVehicleStatusToInRepare(licensePlate);
             }
 
             else
             {
-                Vehicle vehicle = CreateVehicleFromUserInput(licensePlate);
-                Wheel[] wheels = m_ConsoleUtils.GetWheelsFromUser();
+                Vehicle vehicle = createVehicleFromUserInput(licensePlate);
+                Wheel[] wheels = r_ConsoleUtils.GetWheelsFromUser();
                 vehicle.Wheels = wheels;
-                Dictionary<string, string> fieldsFromUser = m_ConsoleUtils.GetAddedFieldsFromUser(vehicle.GetAddedFields());
+                Dictionary<string, string> fieldsFromUser = r_ConsoleUtils.GetAddedFieldsFromUser(vehicle.GetAddedFields());
                 vehicle.SetAddedFields(fieldsFromUser);
             }
         }
 
-        private Vehicle CreateVehicleFromUserInput(string licensePlate)
+        private Vehicle createVehicleFromUserInput(string i_LicensePlate)
         {
-            VehicleFactory.eVehicleType vehicleType = m_ConsoleUtils.GetVehicleTypeFromUser();
-            CustomerInfo customerInfo = m_ConsoleUtils.GetCustomerInfoFromUser();
-            string model = m_ConsoleUtils.GetModelFromUser();
-            eEnergySourceType energySourceType = m_ConsoleUtils.GetEnergySourceTypeFromUser();
-            float energyCapacity = m_ConsoleUtils.GetCurrentEnergyCapacityFromUser(energySourceType);
+            VehicleFactory.eVehicleType vehicleType = r_ConsoleUtils.GetVehicleTypeFromUser();
+            CustomerInfo customerInfo = r_ConsoleUtils.GetCustomerInfoFromUser();
+            string model = r_ConsoleUtils.GetModelFromUser();
+            eEnergySourceType energySourceType = r_ConsoleUtils.GetEnergySourceTypeFromUser();
+            float energyCapacity = r_ConsoleUtils.GetCurrentEnergyCapacityFromUser(energySourceType);
 
-            return m_VehicleFactory.CreateVehicle(vehicleType, customerInfo, model, licensePlate, energySourceType,
+            return r_VehicleFactory.CreateVehicle(vehicleType, customerInfo, model, i_LicensePlate, energySourceType,
                 energyCapacity);
         }
     }

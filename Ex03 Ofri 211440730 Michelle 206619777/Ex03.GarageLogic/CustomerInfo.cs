@@ -2,8 +2,8 @@
 {
     public struct CustomerInfo
     {
-        public string CustomerName { get; set; }
-        public string CustomerPhoneNumber { get; set; }
+        public string CustomerName { get; }
+        public string CustomerPhoneNumber { get; }
 
         public CustomerInfo(string i_CustomerName, string i_CustomerPhoneNumnber)
         {

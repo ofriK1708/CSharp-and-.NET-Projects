@@ -60,9 +60,9 @@ namespace Ex03.ConsoleUI
             return (eEnergySourceType)getEnumInputFromUser(typeof(eEnergySourceType));
         }
 
-        internal float GetCurrentEnergyCapacityFromUser(eEnergySourceType energySourceType)
+        internal float GetCurrentEnergyCapacityFromUser(eEnergySourceType i_EnergySourceType)
         {
-            switch (energySourceType)
+            switch (i_EnergySourceType)
             {
                 case eEnergySourceType.Electric:
                     Console.WriteLine("Enter the current battery reserve in the vehicle in minutes");

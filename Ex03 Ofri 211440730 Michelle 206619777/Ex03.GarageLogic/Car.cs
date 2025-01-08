@@ -10,7 +10,6 @@ namespace ex03
         public const float k_CarMaxWheelAirPressure = 34f;
         public const float k_ElectricCarMaxEnergyCapacity = 5.4f;
         public const float k_FuelCarMaxEnergyCapacity = 52f;
-        public const eFuelType k_ElectricCarFuelType = eFuelType.Battery;
         public const eFuelType k_FuelCarFuelType = eFuelType.Octan95;
         internal eCarColor m_Color;
         internal eCarDoorsNum m_DoorsNum;
@@ -21,14 +20,17 @@ namespace ex03
             eEnergySourceType i_EnergySourceType,
             float i_CurrentEnergy) : base(i_CostumerAndVehicleInfo, i_Model, i_LicensePlate)
         {
-            base.Type = VehicleFactory.eVehicleType.Car;
-            base.NumOfWheels = k_CarNumOfWheels;
-            base.MaxWheelAirPressure = k_CarMaxWheelAirPressure;
-            base.EnergySourceType = i_EnergySourceType;
-            base.EnergyMaxCapacity = (float)(i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarMaxEnergyCapacity : k_FuelCarMaxEnergyCapacity);
-            base.FuelType = i_EnergySourceType == eEnergySourceType.Electric ? k_ElectricCarFuelType : k_FuelCarFuelType;
-            base.CurrentEnergyCapacity = i_CurrentEnergy;
-            base.EnergyPercentage = (CurrentEnergyCapacity / EnergyMaxCapacity) * 100;
+            Type = VehicleFactory.eVehicleType.Car;
+            NumOfWheels = k_CarNumOfWheels;
+            MaxWheelAirPressure = k_CarMaxWheelAirPressure;
+            if (i_EnergySourceType == eEnergySourceType.Electric)
+            {
+                EnergySource = new ElectricMotor(k_ElectricCarMaxEnergyCapacity, i_CurrentEnergy);
+            }
+            else
+            {
+                EnergySource = new GasEngine(k_FuelCarMaxEnergyCapacity, i_CurrentEnergy, k_FuelCarFuelType);
+            }
         }
         
         public override string ToString()
@@ -42,15 +44,13 @@ namespace ex03
             carDetails.AppendLine(string.Format("State In Garage: {0}", VehicleState));
             carDetails.AppendLine(string.Format("Car Color: {0}", m_Color));
             carDetails.AppendLine(string.Format("Number of Doors: {0}", m_DoorsNum));
-            carDetails.AppendLine(string.Format("Energy Source Type: {0}", EnergySourceType));
-            carDetails.AppendLine(string.Format("Current Energy Capacity: {0}", CurrentEnergyCapacity));
-            carDetails.AppendLine(string.Format("Energy Percentage: {0}%", EnergyPercentage));
+            carDetails.AppendLine(EnergySource.ToString());
             carDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
             carDetails.AppendLine(string.Format("Max Wheel Air Pressure: {0}", MaxWheelAirPressure));
 
             for (int i = 0; i < m_Wheels.Length; i++)
             {
-                carDetails.AppendLine(string.Format("Wheel {0}# : ", i + 1, m_Wheels[i].ToString()));
+                carDetails.AppendLine(string.Format("Wheel {0}# : {1}", i + 1, m_Wheels[i].ToString()));
             }
 
             return carDetails.ToString();
@@ -65,9 +65,7 @@ namespace ex03
 
         public override List<string> GetAddedFields()
         {
-            List<string> addedFields = new List<string>();
-            addedFields.Add("CarColor");
-            addedFields.Add("CarDoorsNum");
+            List<string> addedFields = new List<string> { "CarColor", "CarDoorsNum" };
             return addedFields;
         }
     }
