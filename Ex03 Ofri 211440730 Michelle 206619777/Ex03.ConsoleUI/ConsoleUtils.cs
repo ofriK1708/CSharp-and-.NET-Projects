@@ -1,6 +1,6 @@
-﻿using ex03;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using ex03;
 
 namespace Ex03.ConsoleUI
 {
@@ -8,18 +8,13 @@ namespace Ex03.ConsoleUI
     {
         internal void PrintStartMessage()
         {
-            Console.WriteLine("Welcome to the garage");
+            Console.WriteLine("Welcome to the garage\n");
         }
 
         internal VehicleFactory.eVehicleType GetVehicleTypeFromUser()
         {
             Console.WriteLine("Enter Vehicle type:");
-            foreach (string type in Enum.GetNames(typeof(VehicleFactory.eVehicleType)))
-            {
-                Console.WriteLine("For {0} press {1}", type, Enum.Parse(typeof(VehicleFactory.eVehicleType), type));
-            }
-
-            return (VehicleFactory.eVehicleType)getEnumInputFromUser(typeof(VehicleFactory.eVehicleType));
+            return (VehicleFactory.eVehicleType)displayAndGetEnumValueFromUser(typeof(VehicleFactory.eVehicleType));
         }
 
         internal eMenuOption GetMenuChoiceFromUser()
@@ -30,7 +25,7 @@ namespace Ex03.ConsoleUI
 
         internal string GetLicensePlateFromUser()
         {
-            Console.WriteLine("Enter licance plate");
+            Console.WriteLine("Enter license plate");
             return getStringInputFromUser();
         }
 
@@ -53,18 +48,15 @@ namespace Ex03.ConsoleUI
 
         internal eEnergySourceType GetEnergySourceTypeFromUser()
         {
-            Console.WriteLine("Enter Vehicles energy source type:\n" +
-                              "for fuel press 1,\n" +
-                              "for electric press 2");
-
-            return (eEnergySourceType)getEnumInputFromUser(typeof(eEnergySourceType));
+            Console.WriteLine("Enter Vehicles energy source type");
+            return (eEnergySourceType)displayAndGetEnumValueFromUser(typeof(eEnergySourceType));
         }
 
         internal float GetCurrentEnergyCapacityFromUser(eEnergySourceType i_EnergySourceType)
         {
             switch (i_EnergySourceType)
             {
-                case eEnergySourceType.Electric:
+                case eEnergySourceType.Battery:
                     Console.WriteLine("Enter the current battery reserve in the vehicle in minutes");
                     break;
                 case eEnergySourceType.Fuel:
@@ -78,9 +70,10 @@ namespace Ex03.ConsoleUI
         private string getStringInputFromUser()
         {
             string userInput = Console.ReadLine();
-            while (!string.IsNullOrWhiteSpace(userInput))
+            while (string.IsNullOrWhiteSpace(userInput))
             {
                 Console.WriteLine("Input cant be empty, please try again");
+                userInput = Console.ReadLine();
             }
 
             return userInput;
@@ -96,7 +89,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("5.To fuel a vehicle press 5");
             Console.WriteLine("6.To charge a vehicle press 6");
             Console.WriteLine("7.To see vehicl's information press 7");
-            Console.WriteLine("To quit , press 0");
+            Console.WriteLine("To quit , press 0\n");
         }
 
         private object getEnumInputFromUser(Type i_EnumType)
@@ -106,7 +99,7 @@ namespace Ex03.ConsoleUI
                 try
                 {
                     string userInput = getStringInputFromUser();
-                    return parseInputToEnum(userInput, i_EnumType);
+                    return validateAndParseInputToEnum(userInput, i_EnumType);
                 }
                 catch (FormatException ex)
                 {
@@ -150,22 +143,21 @@ namespace Ex03.ConsoleUI
             return numericValue;
         }
 
-        private object parseInputToEnum(string i_UserInput, Type i_EnumType)
+        private object validateAndParseInputToEnum(string i_UserInput, Type i_EnumType)
         {
-            bool isInt = int.TryParse(i_UserInput, out int numericValue);
-
-            if (!isInt)
+            if (!int.TryParse(i_UserInput, out int numericInput))
             {
-                throw new FormatException("Input must be and Integer");
+                throw new FormatException("Input must match one of the specified numeric options.");
             }
 
-            if (!Enum.IsDefined(i_EnumType, numericValue))
+            if (!Enum.IsDefined(i_EnumType, numericInput))
             {
-                throw new FormatException("Input must be from the specified options");
+                throw new FormatException("Input must match one of the specified numeric options.");
             }
 
-            return Enum.ToObject(i_EnumType, numericValue);
+            return Enum.ToObject(i_EnumType, numericInput);
         }
+
 
         internal Wheel[] GetWheelsFromUser()
         {
@@ -173,31 +165,80 @@ namespace Ex03.ConsoleUI
             return new Wheel[0];
         }
 
-        internal bool GetIfUserWantToTryAgain()
+        internal bool getIfUserWantToGoBackToMenu()
         {
-            Console.WriteLine("To go back to the menu press 1, to quit press 0? (y/n)");
-            string userInput = getStringInputFromUser();
-  
-            while (userInput != "1" && userInput != "0")
-            {
-              Console.WriteLine("Please enter 1 or 0");
-              userInput = Console.ReadLine();
-            }
-            
-            return userInput == "1";
+            Console.WriteLine("Would you like to go back to menu? (y/n)");
+            return Convert.ToBoolean(getBooleanInputFromUser());
+        }
+        
+        internal bool getIfUserWantToTryAgain()
+        {
+            Console.WriteLine("Would you like to try again? (y/n)");
+            return Convert.ToBoolean(getBooleanInputFromUser());
         }
 
-        public Dictionary<string, string> GetAddedFieldsFromUser(List<string> i_VehicleAddedFields)
+        public Dictionary<string, string> GetAddedFieldsFromUser(Dictionary<string, Type> i_VehicleAddedFields)
         {
             Dictionary<string, string> fieldsFromUser = new Dictionary<string, string>();
-            
-            foreach (string field in i_VehicleAddedFields)
+
+            foreach (string field in i_VehicleAddedFields.Keys)
             {
-                Console.WriteLine("Enter {0} value", field);
-                fieldsFromUser.Add(field,getStringInputFromUser()); 
+                Console.WriteLine("Enter {0}:", field);
+                Type fieldType = i_VehicleAddedFields[field];
+                fieldsFromUser.Add(field, getGeneralInputFromUser(fieldType));
             }
-            
+
             return fieldsFromUser;
+        }
+
+        private string getGeneralInputFromUser(Type i_FieldType)
+        {
+            while (true)
+            {
+                try
+                {
+                    if (i_FieldType.IsEnum)
+                    {
+                        return displayAndGetEnumValueFromUser(i_FieldType).ToString();
+                    }
+
+                    if (i_FieldType == typeof(bool))
+                    {
+                        return getBooleanInputFromUser();
+                    }
+                    
+                    string input = getStringInputFromUser();
+                    object convertedValue = Convert.ChangeType(input, i_FieldType);
+                    return convertedValue.ToString();
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid input. Please try again");
+                }
+            }
+        }
+
+        private string getBooleanInputFromUser()
+        {
+            Console.WriteLine("y/n ?");
+            string stringInputFromUser = getStringInputFromUser().ToLower();
+            while (stringInputFromUser != "y" && stringInputFromUser != "n")
+            {
+                Console.WriteLine("Please enter y or n");
+                stringInputFromUser = getStringInputFromUser();
+            }
+
+            return stringInputFromUser == "y" ? bool.TrueString: bool.FalseString;
+        }
+
+        private object displayAndGetEnumValueFromUser(Type i_EnumType)
+        {
+            foreach (ValueType value in Enum.GetValues(i_EnumType))
+            {
+                Console.WriteLine("For {0} press {1}", value, (int)value);
+            }
+
+            return getEnumInputFromUser(i_EnumType);
         }
     }
 }

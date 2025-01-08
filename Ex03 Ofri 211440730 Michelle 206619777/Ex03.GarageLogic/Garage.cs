@@ -4,7 +4,7 @@ namespace ex03
 {
     public class Garage
     {
-        public Dictionary<string, Vehicle> m_Vehicles;
+        public Dictionary<string, Vehicle> m_Vehicles = new Dictionary<string, Vehicle>();
 
         public bool IsVehicleInTheGarage(string i_LicensePlate)
         {

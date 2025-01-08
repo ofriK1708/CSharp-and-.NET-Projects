@@ -11,6 +11,8 @@ namespace ex03
         public const float k_ElectricMotorcycleMaxEnergy = 2.9f;
         public const float k_FuelMotorcycleMaxEnergy = 6.2f;
         public const eFuelType k_FuelMotorcycleFuelType = eFuelType.Octan98;
+        const string k_EngineVolumeField = "Engine volume";
+        const string k_LicenseTypeField = "License type";
         internal int m_EngineVolume;
         internal eMotorcycleLicenseType m_LicenseType;
 
@@ -23,7 +25,7 @@ namespace ex03
             Type = VehicleFactory.eVehicleType.MotorCycle;
             NumOfWheels = k_MotorcycleNumOfWheels;
             MaxWheelAirPressure = k_MotorcycleMaxWheelAirPressure;
-            if(i_EnergySourceType == eEnergySourceType.Electric)
+            if(i_EnergySourceType == eEnergySourceType.Battery)
             {
                 EnergySource = new ElectricMotor(k_ElectricMotorcycleMaxEnergy, i_CurrentEnergy);
             }
@@ -47,14 +49,15 @@ namespace ex03
 
         public override void SetAddedFields(Dictionary<string, string> i_AddedFields)
         {
-            m_EngineVolume = int.Parse(i_AddedFields["EngineVolume"]);
-            //todo - add check is defined
-            m_LicenseType = (eMotorcycleLicenseType)Enum.Parse(typeof(eMotorcycleLicenseType),i_AddedFields["LicenseType"]);
+            m_EngineVolume = int.Parse(i_AddedFields[k_EngineVolumeField]);
+            m_LicenseType = (eMotorcycleLicenseType)Enum.Parse(typeof(eMotorcycleLicenseType),i_AddedFields[k_LicenseTypeField]);
         }
 
-        public override List<string> GetAddedFields()
+        public override Dictionary<string, Type> GetAddedFields()
         {
-            List<string> addedFields = new List<string> { "EngineVolume", "LicenseType" };
+            Dictionary<string, Type> addedFields = new Dictionary<string, Type>();
+            addedFields.Add(k_EngineVolumeField, typeof(int));
+            addedFields.Add(k_LicenseTypeField, typeof(eMotorcycleLicenseType));
             return addedFields;
         }
     }
