@@ -46,24 +46,9 @@ namespace Ex03.ConsoleUI
             return new CustomerInfo(name, phoneNumber);
         }
 
-        internal eEnergySourceType GetEnergySourceTypeFromUser()
+        internal float GetCurrentEnergyCapacityFromUser()
         {
-            Console.WriteLine("Enter Vehicles energy source type");
-            return (eEnergySourceType)displayAndGetEnumValueFromUser(typeof(eEnergySourceType));
-        }
-
-        internal float GetCurrentEnergyCapacityFromUser(eEnergySourceType i_EnergySourceType)
-        {
-            switch (i_EnergySourceType)
-            {
-                case eEnergySourceType.Battery:
-                    Console.WriteLine("Enter the current battery reserve in the vehicle in minutes");
-                    break;
-                case eEnergySourceType.Fuel:
-                    Console.WriteLine("Enter the current fuel reserve in the vehicle in liters");
-                    break;
-            }
-
+            Console.WriteLine("Enter the current reserve in the vehicle");
             return getPositivefloatInputFromUser();
         }
 
@@ -170,7 +155,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("Would you like to go back to menu? (y/n)");
             return Convert.ToBoolean(getBooleanInputFromUser());
         }
-        
+
         internal bool getIfUserWantToTryAgain()
         {
             Console.WriteLine("Would you like to try again? (y/n)");
@@ -206,7 +191,7 @@ namespace Ex03.ConsoleUI
                     {
                         return getBooleanInputFromUser();
                     }
-                    
+
                     string input = getStringInputFromUser();
                     object convertedValue = Convert.ChangeType(input, i_FieldType);
                     return convertedValue.ToString();
@@ -228,7 +213,7 @@ namespace Ex03.ConsoleUI
                 stringInputFromUser = getStringInputFromUser();
             }
 
-            return stringInputFromUser == "y" ? bool.TrueString: bool.FalseString;
+            return stringInputFromUser == "y" ? bool.TrueString : bool.FalseString;
         }
 
         private object displayAndGetEnumValueFromUser(Type i_EnumType)

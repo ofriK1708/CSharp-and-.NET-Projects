@@ -16,16 +16,16 @@ namespace ex03
         internal eCarColor m_Color;
         internal eCarDoorsNum m_DoorsNum;
 
-        internal Car(CustomerInfo i_CostumerAndVehicleInfo,
+        internal Car(VehicleFactory.eVehicleType i_VehicleType,
+            CustomerInfo i_CostumerAndVehicleInfo,
             string i_Model,
             string i_LicensePlate,
-            eEnergySourceType i_EnergySourceType,
             float i_CurrentEnergy) : base(i_CostumerAndVehicleInfo, i_Model, i_LicensePlate)
         {
-            Type = VehicleFactory.eVehicleType.Car;
+            Type = i_VehicleType;
             NumOfWheels = k_CarNumOfWheels;
             MaxWheelAirPressure = k_CarMaxWheelAirPressure;
-            if (i_EnergySourceType == eEnergySourceType.Battery)
+            if (Type == VehicleFactory.eVehicleType.ElectricCar)
             {
                 EnergySource = new ElectricMotor(k_ElectricCarMaxEnergyCapacity, i_CurrentEnergy);
             }

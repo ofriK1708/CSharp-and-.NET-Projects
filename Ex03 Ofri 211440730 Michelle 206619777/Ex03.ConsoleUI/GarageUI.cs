@@ -130,12 +130,9 @@ namespace Ex03.ConsoleUI
             VehicleFactory.eVehicleType vehicleType = r_ConsoleUtils.GetVehicleTypeFromUser();
             CustomerInfo customerInfo = r_ConsoleUtils.GetCustomerInfoFromUser();
             string model = r_ConsoleUtils.GetModelFromUser();
-            eEnergySourceType energySourceType = r_ConsoleUtils.GetEnergySourceTypeFromUser();
-            float energyCapacity = r_ConsoleUtils.GetCurrentEnergyCapacityFromUser(energySourceType);
+            float energyCapacity = r_ConsoleUtils.GetCurrentEnergyCapacityFromUser();
 
-            return r_VehicleFactory.CreateVehicle(vehicleType, customerInfo, model, i_LicensePlate,
-                energySourceType,
-                energyCapacity);
+            return r_VehicleFactory.CreateVehicle(vehicleType, customerInfo, model, i_LicensePlate, energyCapacity);
         }
     }
 }

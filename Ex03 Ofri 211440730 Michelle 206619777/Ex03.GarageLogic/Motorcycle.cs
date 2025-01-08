@@ -16,16 +16,16 @@ namespace ex03
         internal int m_EngineVolume;
         internal eMotorcycleLicenseType m_LicenseType;
 
-        public Motorcycle(CustomerInfo i_CostumerInfo,
+        public Motorcycle(VehicleFactory.eVehicleType i_VehicleType,
+            CustomerInfo i_CostumerInfo,
             string i_Model,
             string i_LicensePlate,
-            float i_CurrentEnergy,
-            eEnergySourceType i_EnergySourceType) : base(i_CostumerInfo, i_Model, i_LicensePlate)
+            float i_CurrentEnergy) : base(i_CostumerInfo, i_Model, i_LicensePlate)
         {
-            Type = VehicleFactory.eVehicleType.MotorCycle;
+            Type = i_VehicleType;
             NumOfWheels = k_MotorcycleNumOfWheels;
             MaxWheelAirPressure = k_MotorcycleMaxWheelAirPressure;
-            if(i_EnergySourceType == eEnergySourceType.Battery)
+            if(Type == VehicleFactory.eVehicleType.ElectricMotorCycle)
             {
                 EnergySource = new ElectricMotor(k_ElectricMotorcycleMaxEnergy, i_CurrentEnergy);
             }
