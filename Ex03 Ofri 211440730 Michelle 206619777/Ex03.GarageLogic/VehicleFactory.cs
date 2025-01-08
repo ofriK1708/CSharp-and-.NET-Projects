@@ -45,9 +45,9 @@ namespace ex03
             return new Car(i_CostumerAndVehicleInfo, i_Model, i_LicensePlate, i_EnergySourceType, i_CurrentEnergy);
         }
 
-        private Truck createTruck(CustomerInfo i_costumerInfo, string i_Model, string i_LicensePlate, float i_CurrentEnergy)
+        private Truck createTruck(CustomerInfo i_CostumerInfo, string i_Model, string i_LicensePlate, float i_CurrentEnergy)
         {
-            return new Truck(i_costumerInfo, i_Model, i_LicensePlate, i_CurrentEnergy);
+            return new Truck(i_CostumerInfo, i_Model, i_LicensePlate, i_CurrentEnergy);
         }
 
         private Motorcycle createMotorcycle(CustomerInfo i_CostumerAndVehicleInfo,
