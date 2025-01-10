@@ -144,21 +144,46 @@ namespace Ex03.ConsoleUI
         }
 
 
-        internal Wheel[] GetWheelsFromUser()
+        internal Wheel[] GetWheelsFromUser(int i_NumOfWheels, float i_MaxWheelAirPressure)
         {
-            //todo implement
-            return new Wheel[0];
+            Wheel[] wheels = new Wheel[i_NumOfWheels];
+
+            Console.WriteLine("Would you like to add same data for all wheels? (y/n)");
+            bool sameDataToAllWheels = bool.Parse(getBooleanInputFromUser());
+
+            if (sameDataToAllWheels)
+            {
+                Wheel wheelDataFromUser = getWheelDataFromUser(i_MaxWheelAirPressure);
+                for (int i = 0; i < i_NumOfWheels; i++)
+                {
+                    wheels[i] = wheelDataFromUser;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < i_NumOfWheels; i++)
+                {
+                    wheels[i] = getWheelDataFromUser(i_MaxWheelAirPressure);
+                }
+            }
+            
+            return wheels;
         }
 
-        internal bool getIfUserWantToGoBackToMenu()
+        private Wheel getWheelDataFromUser(float i_MaxWheelAirPressure)
         {
-            Console.WriteLine("Would you like to go back to menu? (y/n)");
-            return Convert.ToBoolean(getBooleanInputFromUser());
+            Console.WriteLine("Enter wheel air pressure");
+            float airPressure = getPositivefloatInputFromUser();
+
+            Console.WriteLine("Enter wheel manufacturer");
+            string manufacturer = getStringInputFromUser();
+
+            return new Wheel(manufacturer, i_MaxWheelAirPressure, airPressure);
         }
 
-        internal bool getIfUserWantToTryAgain()
+        internal bool GetBooleanAnswerFromUser(string i_Question)
         {
-            Console.WriteLine("Would you like to try again? (y/n)");
+            Console.WriteLine("Would you like to {0}? (y/n)", i_Question);
             return Convert.ToBoolean(getBooleanInputFromUser());
         }
 
@@ -178,28 +203,26 @@ namespace Ex03.ConsoleUI
 
         private string getGeneralInputFromUser(Type i_FieldType)
         {
-            while (true)
+            if (i_FieldType.IsEnum)
             {
-                try
-                {
-                    if (i_FieldType.IsEnum)
-                    {
-                        return displayAndGetEnumValueFromUser(i_FieldType).ToString();
-                    }
+                return displayAndGetEnumValueFromUser(i_FieldType).ToString();
+            }
 
-                    if (i_FieldType == typeof(bool))
-                    {
-                        return getBooleanInputFromUser();
-                    }
+            if (i_FieldType == typeof(bool))
+            {
+                return getBooleanInputFromUser();
+            }
 
-                    string input = getStringInputFromUser();
-                    object convertedValue = Convert.ChangeType(input, i_FieldType);
-                    return convertedValue.ToString();
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Invalid input. Please try again");
-                }
+            string input = getStringInputFromUser();
+
+            try
+            {
+                object convertedValue = Convert.ChangeType(input, i_FieldType);
+                return convertedValue.ToString();
+            }
+            catch (Exception e)
+            {
+                throw new FormatException("Answer input does not match the specified type");
             }
         }
 
