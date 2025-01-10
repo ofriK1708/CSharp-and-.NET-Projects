@@ -18,7 +18,6 @@ namespace Ex03.ConsoleUI
             while (!m_QuitGarage)
             {
                 eMenuOption menuOptionFromUser = r_ConsoleUtils.GetMenuChoiceFromUser();
-
                 Console.Clear();
                 if (menuOptionFromUser.Equals(eMenuOption.Quit))
                 {
@@ -27,8 +26,7 @@ namespace Ex03.ConsoleUI
                 else
                 {
                     handleUserChoice(menuOptionFromUser);
-                    Console.Clear();
-                    if (!r_ConsoleUtils.getIfUserWantToGoBackToMenu())
+                    if (!r_ConsoleUtils.GetBooleanAnswerFromUser("go back to menu"))
                     {
                         exitGarage();
                     }
@@ -80,10 +78,10 @@ namespace Ex03.ConsoleUI
 
             if (r_Garage.IsVehicleInTheGarage(licensePlate))
             {
-                Console.WriteLine("Vehicle with this license plate already exists, changing status to in repair");
+                Console.WriteLine("Vehicle with this license plate {0} already exists, changing status to in repair",
+                    licensePlate);
                 r_Garage.ChangeVehicleStatusToInRepare(licensePlate);
             }
-
             else
             {
                 addVehicleToGarageWithRetry(licensePlate);
@@ -92,37 +90,62 @@ namespace Ex03.ConsoleUI
 
         private void addVehicleToGarageWithRetry(string licensePlate)
         {
-            while (true)
+            try
             {
-                try
-                {
-                    Vehicle vehicle = createTypedVehicle(licensePlate);
-                    r_Garage.AddVehicle(vehicle);
-                    Console.WriteLine("Vehicle added successfully");
-                    return;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                    Console.WriteLine("Vehicle was not added");
-                    if (!r_ConsoleUtils.getIfUserWantToTryAgain())
-                    {
-                        return;
-                    }
-                    Console.Clear();
-                }
+                Vehicle vehicle = createTypedVehicle(licensePlate);
+                r_Garage.AddVehicle(vehicle);
+                Console.Clear();
+                Console.WriteLine("Vehicle {0} added successfully", licensePlate);
+            }
+            catch (Exception)
+            {
+                Console.Clear();
+                Console.WriteLine("Vehicle {0} was not added to the garage.", licensePlate);
             }
         }
 
         private Vehicle createTypedVehicle(string i_LicensePlate)
         {
             Vehicle vehicle = buildVehicleFromUserData(i_LicensePlate);
-            // Wheel[] wheels = r_ConsoleUtils.GetWheelsFromUser();
-            // vehicle.Wheels = wheels;
-            Dictionary<string, string> fieldsFromUser =
-                r_ConsoleUtils.GetAddedFieldsFromUser(vehicle.GetAddedFields());
-            vehicle.SetAddedFields(fieldsFromUser);
+            GetWheelsForVehicle(vehicle);
+            SetVehicleAddedFieldsFromUser(vehicle);
             return vehicle;
+        }
+
+        private void SetVehicleAddedFieldsFromUser(Vehicle vehicle)
+        {
+            while (true)
+            {
+                try
+                {
+                    Dictionary<string, string> fieldsFromUser =
+                        r_ConsoleUtils.GetAddedFieldsFromUser(vehicle.GetAddedFields());
+                    vehicle.SetAddedFields(fieldsFromUser);
+                    return;
+                }
+                catch (Exception exception)
+                {
+                    HandleExceptionAndAskUserIfToTryAgain(exception);
+                }
+            }
+        }
+
+        private void GetWheelsForVehicle(Vehicle vehicle)
+        {
+            while (true)
+            {
+                try
+                {
+                    Wheel[] wheels = r_ConsoleUtils.GetWheelsFromUser(vehicle.NumOfWheels, vehicle.MaxWheelAirPressure);
+                    vehicle.Wheels = wheels;
+                    return;
+                }
+                catch (Exception exception)
+                {
+                    HandleExceptionAndAskUserIfToTryAgain(exception);
+                }
+            }
+           
         }
 
         private Vehicle buildVehicleFromUserData(string i_LicensePlate)
@@ -130,9 +153,28 @@ namespace Ex03.ConsoleUI
             VehicleFactory.eVehicleType vehicleType = r_ConsoleUtils.GetVehicleTypeFromUser();
             CustomerInfo customerInfo = r_ConsoleUtils.GetCustomerInfoFromUser();
             string model = r_ConsoleUtils.GetModelFromUser();
-            float energyCapacity = r_ConsoleUtils.GetCurrentEnergyCapacityFromUser();
+            
+            while (true)
+            {
+                try
+                {
+                    float energyCapacity = r_ConsoleUtils.GetCurrentEnergyCapacityFromUser();
+                    return r_VehicleFactory.CreateVehicle(vehicleType, customerInfo, model, i_LicensePlate, energyCapacity);
+                }
+                catch (Exception exception)
+                {
+                    HandleExceptionAndAskUserIfToTryAgain(exception);
+                }
+            }
+        }
 
-            return r_VehicleFactory.CreateVehicle(vehicleType, customerInfo, model, i_LicensePlate, energyCapacity);
+        private void HandleExceptionAndAskUserIfToTryAgain(Exception exception)
+        {
+            Console.WriteLine(exception.Message);
+            if(!r_ConsoleUtils.GetBooleanAnswerFromUser("try again"))
+            {
+                throw exception;
+            }
         }
     }
 }

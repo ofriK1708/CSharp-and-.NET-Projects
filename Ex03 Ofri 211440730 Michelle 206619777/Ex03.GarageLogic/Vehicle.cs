@@ -11,9 +11,9 @@ namespace ex03
         public string Model { get; }
         public string LicensePlate { get; }
         protected VehicleFactory.eVehicleType Type { get; set; }
-        protected float MaxWheelAirPressure { get; set; }
-        protected int NumOfWheels { get; set; }
-        protected Wheel[] m_Wheels;
+        public float MaxWheelAirPressure { get; set; }
+        public int NumOfWheels { get; set; }
+        public Wheel[] m_Wheels;
         protected EnergySource EnergySource { get; set; }
 
         internal Vehicle(CustomerInfo i_CostumerInfo, string i_Model, string i_LicensePlate)
