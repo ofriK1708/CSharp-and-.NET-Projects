@@ -10,8 +10,8 @@ namespace ex03
         public const float k_TruckMaxWheelAirPressure = 29;
         public const eFuelType k_TruckFuelType = eFuelType.Soler;
         public const float k_TruckEnergyMaxCapacity = 125;
-        const string k_IsTransportingRefrigeratedMaterialsField = "Is transporting refrigerated materials";
-        const string k_CargoVolumeField = "Cargo volume";
+        private const string k_IsTransportingRefrigeratedMaterialsField = "Is transporting refrigerated materials";
+        private const string k_CargoVolumeField = "Cargo volume";
         internal bool m_IsTransportingRefrigeratedMaterials;
         internal float m_CargoVolume;
    
@@ -46,9 +46,11 @@ namespace ex03
 
         public override Dictionary<string, Type> GetAddedFields()
         {
-            Dictionary<string, Type> addedFields = new Dictionary<string, Type>();
-            addedFields.Add(k_IsTransportingRefrigeratedMaterialsField, typeof(bool));
-            addedFields.Add(k_CargoVolumeField, typeof(float));
+            Dictionary<string, Type> addedFields = new Dictionary<string, Type>()
+            {
+                { k_IsTransportingRefrigeratedMaterialsField, typeof(bool) },
+                { k_CargoVolumeField, typeof(float) }
+            };
          
             return addedFields;
         }

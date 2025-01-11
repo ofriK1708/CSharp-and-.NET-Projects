@@ -79,11 +79,11 @@ namespace ex03
                 throw new ArgumentException("This vehicle is not electric powered");
             }
         }
-        public void fillGas(float i_AmountOfGasToAdd, eFuelType i_FuelType)
+        public void FillGas(float i_AmountOfGasToAdd, eFuelType i_FuelType)
         {
             if(EnergySource is GasEngine gasEngine)
             {
-                gasEngine.fillGas(i_AmountOfGasToAdd, i_FuelType);
+                gasEngine.FillGas(i_AmountOfGasToAdd, i_FuelType);
             }
             else
             {

@@ -11,8 +11,8 @@ namespace ex03
         public const float k_ElectricCarMaxEnergyCapacity = 5.4f;
         public const float k_FuelCarMaxEnergyCapacity = 52f;
         public const eFuelType k_FuelCarFuelType = eFuelType.Octan95;
-        const string k_carColorField = "Car color";
-        const string k_carDoorsNumField = "Car doors number";
+        private const string k_CarColorField = "Car color";
+        private const string k_CarNumberOfDoorsField = "Car number of doors";
         internal eCarColor m_Color;
         internal eCarDoorsNum m_DoorsNum;
 
@@ -50,15 +50,18 @@ namespace ex03
 
         public override void SetAddedFields(Dictionary<string, string> i_AddedFields)
         {
-            m_Color = (eCarColor)Enum.Parse( typeof(eCarColor), i_AddedFields[k_carColorField]);
-            m_DoorsNum = (eCarDoorsNum)Enum.Parse(typeof(eCarDoorsNum), i_AddedFields[k_carDoorsNumField]);
+            m_Color = (eCarColor)Enum.Parse( typeof(eCarColor), i_AddedFields[k_CarColorField]);
+            m_DoorsNum = (eCarDoorsNum)Enum.Parse(typeof(eCarDoorsNum), i_AddedFields[k_CarNumberOfDoorsField]);
         }
 
         public override Dictionary<string, Type> GetAddedFields()
         {
-            Dictionary<string, Type> addedFields = new Dictionary<string, Type>();
-            addedFields.Add(k_carColorField, typeof(eCarColor));
-            addedFields.Add(k_carDoorsNumField, typeof(eCarDoorsNum));
+            Dictionary<string, Type> addedFields = new Dictionary<string, Type>
+            {
+                { k_CarColorField, typeof(eCarColor) },
+                { k_CarNumberOfDoorsField, typeof(eCarDoorsNum) }
+            };
+
             return addedFields;
         }
     }

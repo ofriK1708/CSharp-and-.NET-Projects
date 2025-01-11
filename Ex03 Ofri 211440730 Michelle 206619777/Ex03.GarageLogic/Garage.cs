@@ -46,13 +46,14 @@ namespace ex03
         }
 
         public void FillWheelsAirToMax(string i_LicensePlate)
+        public void FillWheelsAirPressureToMax(string i_LicensePlate)
         {
             m_Vehicles[i_LicensePlate].FillWheelsAirToMax();
         }
 
-        public void FillFuel(string i_LicensePlate, float i_EnergyToAdd, eFuelType i_FuelType)
+        public void RefuelVehicle(string i_LicensePlate, float i_EnergyToAdd, eFuelType i_FuelType)
         {
-            m_Vehicles[i_LicensePlate].fillGas(i_EnergyToAdd, i_FuelType);
+            m_Vehicles[i_LicensePlate].FillGas(i_EnergyToAdd, i_FuelType);
         }
 
         public void ChargeBattery(string i_LicensePlate, float i_MinutesToCharge)
@@ -60,7 +61,7 @@ namespace ex03
             m_Vehicles[i_LicensePlate].ChargeBattery(i_MinutesToCharge);
         }
 
-        public string getFullVehicleDetails(string i_LicensePlate)
+        public string GetFullVehicleDetails(string i_LicensePlate)
         {
             return m_Vehicles[i_LicensePlate].ToString();
         }
