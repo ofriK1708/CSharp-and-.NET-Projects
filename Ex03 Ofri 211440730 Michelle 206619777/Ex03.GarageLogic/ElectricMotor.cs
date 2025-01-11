@@ -27,19 +27,21 @@ namespace ex03
         public void ChargeBattery(float i_MinutesToChrage)
         {
             float hoursToCharge = i_MinutesToChrage / k_MinutesInHour;
+            
             if (hoursToCharge + CurrentEnergyCapacity > MaxEnergyCapacity || hoursToCharge < 0)
             {
-                throw new ValueOutOfRangeException(0, MaxEnergyCapacity * k_MinutesInHour,
+                throw new ValueOutOfRangeException(0, (MaxEnergyCapacity - CurrentEnergyCapacity)* k_MinutesInHour,
                     "Electricity Capacity to add is out of range");
             }
 
-            CurrentEnergyCapacity += i_MinutesToChrage;
+            CurrentEnergyCapacity += hoursToCharge;
             EnergyPrecentage = (CurrentEnergyCapacity / MaxEnergyCapacity) * 100;
         }
 
         public override string ToString()
         {
             StringBuilder energyMotorDetails = new StringBuilder();
+            
             energyMotorDetails.AppendLine("Electric Motor");
             energyMotorDetails.AppendLine(string.Format("Current Electricity Capacity: {0} hours",
                 CurrentEnergyCapacity));
