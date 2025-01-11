@@ -55,9 +55,11 @@ namespace ex03
 
         public override Dictionary<string, Type> GetAddedFields()
         {
-            Dictionary<string, Type> addedFields = new Dictionary<string, Type>();
-            addedFields.Add(k_EngineVolumeField, typeof(int));
-            addedFields.Add(k_LicenseTypeField, typeof(eMotorcycleLicenseType));
+            Dictionary<string, Type> addedFields = new Dictionary<string, Type>
+            {
+                { k_EngineVolumeField, typeof(int) },
+                { k_LicenseTypeField, typeof(eMotorcycleLicenseType) }
+            };
             return addedFields;
         }
     }
