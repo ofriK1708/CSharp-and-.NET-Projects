@@ -50,9 +50,9 @@ namespace ex03
             m_Vehicles[i_LicensePlate].FillGas(i_EnergyToAdd, i_FuelType);
         }
 
-        public void ChargeBattery(string i_LicensePlate, float i_MinutesToCharge)
+        public void ChargeBattery(string i_LicensePlate, float i_HoursToCharge)
         {
-            m_Vehicles[i_LicensePlate].ChargeBattery(i_MinutesToCharge);
+            m_Vehicles[i_LicensePlate].ChargeBattery(i_HoursToCharge);
         }
 
         public string GetFullVehicleDetails(string i_LicensePlate)

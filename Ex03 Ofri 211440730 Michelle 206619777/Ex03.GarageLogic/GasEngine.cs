@@ -22,6 +22,7 @@ namespace ex03
 
             CurrentEnergyCapacity = i_CurrentFuelCapacity;
             r_FuelType = i_FuelType;
+            EnergyPrecentage = (CurrentEnergyCapacity / MaxEnergyCapacity) * 100;
         }
 
         internal void FillGas(float i_AmountOfGasToAdd, eFuelType i_FuelType)
@@ -35,7 +36,7 @@ namespace ex03
             if (i_FuelType != r_FuelType)
             {
                 throw new ArgumentException(string.Format("Wrong fuel type, should be {0}, got {1} ",
-                    i_FuelType.ToString(), r_FuelType.ToString()));
+                    r_FuelType, i_FuelType));
             }
 
             CurrentEnergyCapacity += i_AmountOfGasToAdd;
@@ -47,9 +48,9 @@ namespace ex03
             StringBuilder energyMotorDetails = new StringBuilder();
 
             energyMotorDetails.AppendLine("Gas Engine");
-            energyMotorDetails.AppendLine(string.Format("Current Fuel Capacity: {0}", CurrentEnergyCapacity));
-            energyMotorDetails.AppendLine(string.Format("Max Fuel Capacity: {0}", MaxEnergyCapacity));
-            energyMotorDetails.AppendLine(string.Format("Fuel Precentage: {0}", EnergyPrecentage));
+            energyMotorDetails.AppendLine(string.Format("Current Fuel Capacity {0} liter{1}", CurrentEnergyCapacity,CurrentEnergyCapacity <= 1 ? ' ':'s'));
+            energyMotorDetails.AppendLine(string.Format("Max Fuel Capacity {0} liters", MaxEnergyCapacity));
+            energyMotorDetails.AppendLine(string.Format("Fuel Precentage: {0}%", EnergyPrecentage));
 
             return energyMotorDetails.ToString();
         }

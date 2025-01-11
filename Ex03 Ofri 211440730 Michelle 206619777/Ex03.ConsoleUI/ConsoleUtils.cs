@@ -6,36 +6,36 @@ namespace Ex03.ConsoleUI
 {
     internal class ConsoleUtils
     {
-        internal void PrintStartMessage()
+        internal static void PrintStartMessage()
         {
             Console.WriteLine("Welcome to the garage\n");
         }
 
-        internal VehicleFactory.eVehicleType GetVehicleTypeFromUser()
+        internal static VehicleFactory.eVehicleType GetVehicleTypeFromUser()
         {
             Console.WriteLine("Please enter Vehicle type:");
             return (VehicleFactory.eVehicleType)displayAndGetEnumValueFromUser(typeof(VehicleFactory.eVehicleType));
         }
 
-        internal eMenuOption GetMenuChoiceFromUser()
+        internal static eMenuOption GetMenuChoiceFromUser()
         {
             printMainMenu();
             return (eMenuOption)getEnumInputFromUser(typeof(eMenuOption));
         }
 
-        internal string GetLicensePlateFromUser()
+        internal static string GetLicensePlateFromUser()
         {
             Console.WriteLine("Please enter license plate");
             return getStringInputFromUser();
         }
 
-        internal string GetModelFromUser()
+        internal static string GetModelFromUser()
         {
             Console.WriteLine("Please enter vehicle model");
             return getStringInputFromUser();
         }
 
-        internal CustomerInfo GetCustomerInfoFromUser()
+        internal static CustomerInfo GetCustomerInfoFromUser()
         {
             Console.WriteLine("Please enter vehicles owner name");
             string name = getStringInputFromUser();
@@ -46,19 +46,19 @@ namespace Ex03.ConsoleUI
             return new CustomerInfo(name, phoneNumber);
         }
 
-        internal float GetCurrentEnergyCapacityFromUser()
+        internal static float GetCurrentEnergyCapacityFromUser()
         {
-            Console.WriteLine("Please enter the current fuel level or battery charge of the vehicle:");
+            Console.WriteLine("Please enter the current fuel level (in liters) or battery charge (in houres left) of the vehicle:");
             return GetPositiveFloatInputFromUser();
         }
 
-        internal eFuelType GetFuelTypeFromUser()
+        internal static eFuelType GetFuelTypeFromUser()
         {
             Console.WriteLine("Please enter the fuel type you wish");
             return (eFuelType)displayAndGetEnumValueFromUser(typeof(eFuelType));
         }
 
-        private string getStringInputFromUser()
+        private static string getStringInputFromUser()
         {
             string userInput = Console.ReadLine();
             while (string.IsNullOrWhiteSpace(userInput))
@@ -70,7 +70,7 @@ namespace Ex03.ConsoleUI
             return userInput;
         }
 
-        private void printMainMenu()
+        private static void printMainMenu()
         {
             Console.WriteLine("Please choose an option from the menue and press enter:");
             Console.WriteLine("1.To add new vehicle to the garage press 1");
@@ -83,7 +83,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("To quit , press 0\n");
         }
 
-        private object getEnumInputFromUser(Type i_EnumType)
+        private static object getEnumInputFromUser(Type i_EnumType)
         {
             while (true)
             {
@@ -100,7 +100,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        internal float GetPositiveFloatInputFromUser()
+        internal static float GetPositiveFloatInputFromUser()
         {
             while (true)
             {
@@ -117,7 +117,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private float parseInputToPositiveFloat(string i_UserInput)
+        private static float parseInputToPositiveFloat(string i_UserInput)
         {
             bool isFloat = float.TryParse(i_UserInput, out float numericValue);
 
@@ -134,7 +134,7 @@ namespace Ex03.ConsoleUI
             return numericValue;
         }
 
-        private object validateAndParseInputToEnum(string i_UserInput, Type i_EnumType)
+        private static object validateAndParseInputToEnum(string i_UserInput, Type i_EnumType)
         {
             if (!int.TryParse(i_UserInput, out int numericInput))
             {
@@ -150,7 +150,7 @@ namespace Ex03.ConsoleUI
         }
 
 
-        internal Wheel[] GetWheelsFromUser(int i_NumOfWheels, float i_MaxWheelAirPressure)
+        internal static Wheel[] GetWheelsFromUser(int i_NumOfWheels, float i_MaxWheelAirPressure)
         {
             Wheel[] wheels = new Wheel[i_NumOfWheels];
 
@@ -159,7 +159,7 @@ namespace Ex03.ConsoleUI
 
             if (sameDataToAllWheels)
             {
-                Wheel wheelDataFromUser = getWheelDataFromUser(i_MaxWheelAirPressure);
+                Wheel wheelDataFromUser = getWheelDataFromUser(i_MaxWheelAirPressure,1);
                 for (int i = 0; i < i_NumOfWheels; i++)
                 {
                     wheels[i] = wheelDataFromUser;
@@ -169,32 +169,42 @@ namespace Ex03.ConsoleUI
             {
                 for (int i = 0; i < i_NumOfWheels; i++)
                 {
-                    wheels[i] = getWheelDataFromUser(i_MaxWheelAirPressure);
+                    wheels[i] = getWheelDataFromUser(i_MaxWheelAirPressure,(uint)i+1);
                 }
             }
 
             return wheels;
         }
 
-        private Wheel getWheelDataFromUser(float i_MaxWheelAirPressure)
+        private static Wheel getWheelDataFromUser(float i_MaxWheelAirPressure,uint i_NumOfWheel)
         {
-            Console.WriteLine("Enter wheel air pressure");
-            float airPressure = GetPositiveFloatInputFromUser();
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("Enter #{0} wheel air pressure",i_NumOfWheel);
+                    float airPressure = GetPositiveFloatInputFromUser();
 
-            Console.WriteLine("Enter wheel manufacturer");
-            string manufacturer = getStringInputFromUser();
+                    Console.WriteLine("Enter #{0} wheel manufacturer",i_NumOfWheel);
+                    string manufacturer = getStringInputFromUser();
 
-            return new Wheel(manufacturer, i_MaxWheelAirPressure, airPressure);
+                    return new Wheel(manufacturer, i_MaxWheelAirPressure, airPressure);
+                }
+                catch (Exception ex)
+                {
+                    HandleExceptionAndAskUserIfToTryAgain(ex);
+                }
+            }
         }
 
-        internal bool GetBooleanAnswerFromUser(string i_Question)
+        internal static bool GetBooleanAnswerFromUser(string i_Question)
         {
             Console.WriteLine("Would you like to {0}? (y/n)", i_Question);
 
             return getBooleanInputFromUser();
         }
 
-        public Dictionary<string, string> GetAddedFieldsFromUser(Dictionary<string, Type> i_VehicleAddedFields)
+        public static Dictionary<string, string> GetAddedFieldsFromUser(Dictionary<string, Type> i_VehicleAddedFields)
         {
             Dictionary<string, string> fieldsFromUser = new Dictionary<string, string>();
 
@@ -208,7 +218,7 @@ namespace Ex03.ConsoleUI
             return fieldsFromUser;
         }
 
-        private string getGeneralInputFromUser(Type i_FieldType)
+        private static string getGeneralInputFromUser(Type i_FieldType)
         {
             string userInput;
             if (i_FieldType.IsEnum)
@@ -236,20 +246,20 @@ namespace Ex03.ConsoleUI
             return userInput;
         }
 
-        private bool getBooleanInputFromUser()
+        private static bool getBooleanInputFromUser()
         {
             Console.WriteLine("y/n ?");
             string stringInputFromUser = getStringInputFromUser().ToLower();
             while (stringInputFromUser != "y" && stringInputFromUser != "n")
             {
                 Console.WriteLine("Please enter 'y' (yes) or 'n' (no)");
-                stringInputFromUser = getStringInputFromUser();
+                stringInputFromUser = getStringInputFromUser().ToLower();
             }
 
             return stringInputFromUser == "y";
         }
 
-        private object displayAndGetEnumValueFromUser(Type i_EnumType)
+        private static object displayAndGetEnumValueFromUser(Type i_EnumType)
         {
             foreach (ValueType value in Enum.GetValues(i_EnumType))
             {
@@ -259,7 +269,7 @@ namespace Ex03.ConsoleUI
             return getEnumInputFromUser(i_EnumType);
         }
 
-        public void PrintLicensePlates(List<string> i_LicensePlates)
+        public static void PrintLicensePlates(List<string> i_LicensePlates)
         {
             foreach (string licensePlate in i_LicensePlates)
             {
@@ -267,22 +277,30 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        public eVehicleStatus GetVehicleStatusFromUser()
+        public static eVehicleStatus GetVehicleStatusFromUser()
         {
             Console.WriteLine("Enter vehicle status:");
             return (eVehicleStatus)displayAndGetEnumValueFromUser(typeof(eVehicleStatus));
         }
 
-        public float GetLitersToRefuelFromUser()
+        public static float GetLitersToRefuelFromUser()
         {
             Console.WriteLine("Enter liters to refuel:");
             return GetPositiveFloatInputFromUser();
         }
 
-        public float GetMinutesToChargeFromUser()
+        public static float GetHoursToChargeFromUser()
         {
-            Console.WriteLine("Enter minutes to charge:");
+            Console.WriteLine("Enter hours to charge:");
             return GetPositiveFloatInputFromUser();
+        }
+        internal static void HandleExceptionAndAskUserIfToTryAgain(Exception i_Exception)
+        {
+            Console.WriteLine(i_Exception.Message);
+            if (!ConsoleUtils.GetBooleanAnswerFromUser("try again"))
+            {
+                throw i_Exception;
+            }
         }
     }
 }

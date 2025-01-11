@@ -21,6 +21,7 @@ namespace ex03
             m_CostumerInfo = i_CostumerInfo;
             Model = i_Model;
             LicensePlate = i_LicensePlate;
+            VehicleStatus = eVehicleStatus.InRepair;
         }
 
         public Wheel[] Wheels
@@ -61,11 +62,11 @@ namespace ex03
             }
         }
 
-        public void ChargeBattery(float i_AmountOfMinutesToCharge)
+        public void ChargeBattery(float i_AmountOfHoursToCharge)
         {
             if (EnergySource is ElectricMotor electricMotor)
             {
-                electricMotor.ChargeBattery(i_AmountOfMinutesToCharge);
+                electricMotor.ChargeBattery(i_AmountOfHoursToCharge);
             }
             else
             {

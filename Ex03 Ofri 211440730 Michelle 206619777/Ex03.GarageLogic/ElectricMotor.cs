@@ -5,8 +5,6 @@ namespace ex03
 {
     internal class ElectricMotor : EnergySource
     {
-        private float k_MinutesInHour = 60;
-
         internal ElectricMotor(float i_MaxElectricityCapacity, float i_CurrentElectricityCapacity)
         {
             if (i_MaxElectricityCapacity <= 0)
@@ -22,19 +20,18 @@ namespace ex03
             }
 
             CurrentEnergyCapacity = i_CurrentElectricityCapacity;
+            EnergyPrecentage = (CurrentEnergyCapacity / MaxEnergyCapacity) * 100;
         }
 
-        public void ChargeBattery(float i_MinutesToChrage)
+        public void ChargeBattery(float i_HoursToCharge)
         {
-            float hoursToCharge = i_MinutesToChrage / k_MinutesInHour;
-            
-            if (hoursToCharge + CurrentEnergyCapacity > MaxEnergyCapacity || hoursToCharge < 0)
+            if (i_HoursToCharge + CurrentEnergyCapacity > MaxEnergyCapacity || i_HoursToCharge < 0)
             {
-                throw new ValueOutOfRangeException(0, (MaxEnergyCapacity - CurrentEnergyCapacity)* k_MinutesInHour,
+                throw new ValueOutOfRangeException(0, (MaxEnergyCapacity - CurrentEnergyCapacity),
                     "Electricity Capacity to add is out of range");
             }
 
-            CurrentEnergyCapacity += hoursToCharge;
+            CurrentEnergyCapacity += i_HoursToCharge;
             EnergyPrecentage = (CurrentEnergyCapacity / MaxEnergyCapacity) * 100;
         }
 
@@ -43,10 +40,10 @@ namespace ex03
             StringBuilder energyMotorDetails = new StringBuilder();
             
             energyMotorDetails.AppendLine("Electric Motor");
-            energyMotorDetails.AppendLine(string.Format("Current Electricity Capacity: {0} hours",
-                CurrentEnergyCapacity));
+            energyMotorDetails.AppendLine(string.Format("Current Electricity Capacity {0} hour{1}",
+                CurrentEnergyCapacity, CurrentEnergyCapacity <= 1 ? ' ':'s'));
             energyMotorDetails.AppendLine(string.Format("Max Electricity Capacity: {0} hours", MaxEnergyCapacity));
-            energyMotorDetails.AppendLine(string.Format("Electricity Precentage: {0}", EnergyPrecentage));
+            energyMotorDetails.AppendLine(string.Format("Electricity Precentage: {0}%", EnergyPrecentage));
 
             return energyMotorDetails.ToString();
         }
