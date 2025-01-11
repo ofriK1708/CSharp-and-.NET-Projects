@@ -5,11 +5,11 @@ namespace ex03
 {
     public class Wheel
     {
-        internal string ManufacturerName { get; }
+        private string ManufacturerName { get; }
 
-        internal float MaxAirPressure { get; }
+        private float MaxAirPressure { get; }
 
-        internal float CurrentAirPressure { get; private set; }
+        private float CurrentAirPressure { get; set; }
 
 
         public Wheel(string i_ManufacturerName, float i_MaxAirPressure, float i_CurentAirPressure)

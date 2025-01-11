@@ -21,6 +21,7 @@ namespace ex03
             CurrentEnergyCapacity = i_CurrentFuelCapacity;
             r_FuelType = i_FuelType;
         }
+        
         internal void FillGas(float i_AmountOfGasToAdd, eFuelType i_FuelType)
         {
             if (i_AmountOfGasToAdd + CurrentEnergyCapacity > MaxEnergyCapacity || i_AmountOfGasToAdd < 0)
@@ -34,6 +35,7 @@ namespace ex03
             CurrentEnergyCapacity += i_AmountOfGasToAdd;
             EnergyPrecentage = (CurrentEnergyCapacity / MaxEnergyCapacity) * 100;
         }
+        
         public override string ToString()
         {
             StringBuilder energyMotorDetails = new StringBuilder();

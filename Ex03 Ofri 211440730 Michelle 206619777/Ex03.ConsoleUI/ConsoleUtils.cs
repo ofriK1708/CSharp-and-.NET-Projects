@@ -49,7 +49,7 @@ namespace Ex03.ConsoleUI
         internal float GetCurrentEnergyCapacityFromUser()
         {
             Console.WriteLine("Please enter the current fuel level or battery charge of the vehicle:");
-            return GetPositivefloatInputFromUser();
+            return GetPositiveFloatInputFromUser();
         }
 
         internal eFuelType GetFuelTypeFromUser()
@@ -100,7 +100,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        internal float GetPositivefloatInputFromUser()
+        internal float GetPositiveFloatInputFromUser()
         {
             while (true)
             {
@@ -172,14 +172,14 @@ namespace Ex03.ConsoleUI
                     wheels[i] = getWheelDataFromUser(i_MaxWheelAirPressure);
                 }
             }
-            
+
             return wheels;
         }
 
         private Wheel getWheelDataFromUser(float i_MaxWheelAirPressure)
         {
             Console.WriteLine("Enter wheel air pressure");
-            float airPressure = GetPositivefloatInputFromUser();
+            float airPressure = GetPositiveFloatInputFromUser();
 
             Console.WriteLine("Enter wheel manufacturer");
             string manufacturer = getStringInputFromUser();
@@ -227,12 +227,12 @@ namespace Ex03.ConsoleUI
                     object convertedValue = Convert.ChangeType(userInput, i_FieldType);
                     userInput = convertedValue.ToString();
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     throw new FormatException("Answer input does not match the specified type");
                 }
             }
-            
+
             return userInput;
         }
 
@@ -263,14 +263,26 @@ namespace Ex03.ConsoleUI
         {
             foreach (string licensePlate in i_LicensePlates)
             {
-                Console.WriteLine(licensePlate);  
+                Console.WriteLine(licensePlate);
             }
         }
 
-        public eVehicleState GetVehicleStateToShowFromUser()
+        public eVehicleStatus GetVehicleStatusFromUser()
         {
-            Console.WriteLine("Enter vehicle state to show:");
-            return (eVehicleState)displayAndGetEnumValueFromUser(typeof(eVehicleState));
+            Console.WriteLine("Enter vehicle status:");
+            return (eVehicleStatus)displayAndGetEnumValueFromUser(typeof(eVehicleStatus));
+        }
+
+        public float GetLitersToRefuelFromUser()
+        {
+            Console.WriteLine("Enter liters to refuel:");
+            return GetPositiveFloatInputFromUser();
+        }
+
+        public float GetMinutesToChargeFromUser()
+        {
+            Console.WriteLine("Enter minutes to charge:");
+            return GetPositiveFloatInputFromUser();
         }
     }
 }
