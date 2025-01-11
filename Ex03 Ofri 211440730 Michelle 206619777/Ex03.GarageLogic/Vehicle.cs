@@ -7,7 +7,7 @@ namespace ex03
     public abstract class Vehicle
     {
         public CustomerInfo m_CostumerInfo;
-        public eVehicleState VehicleState { get; set; }
+        public eVehicleStatus VehicleStatus { get; set; }
         public string Model { get; }
         public string LicensePlate { get; }
         protected VehicleFactory.eVehicleType Type { get; set; }
@@ -31,7 +31,7 @@ namespace ex03
             }
             set
             {
-                ValidateNumberOfWheels(value);
+                validateNumberOfWheels(value);
                 m_Wheels = value;
             }
         }
@@ -40,14 +40,7 @@ namespace ex03
 
         public abstract Dictionary<string, Type> GetAddedFields();
 
-        protected eFuelType FuelType { set; get; }
-
-        internal void ChangeVehicleState(eVehicleState i_NewState)
-        {
-            VehicleState = i_NewState;
-        }
-
-        protected void ValidateNumberOfWheels(Wheel[] i_Wheels)
+        private void validateNumberOfWheels(Wheel[] i_Wheels)
         {
             if(i_Wheels.Length != NumOfWheels)
             {
@@ -79,6 +72,7 @@ namespace ex03
                 throw new ArgumentException("This vehicle is not electric powered");
             }
         }
+        
         public void FillGas(float i_AmountOfGasToAdd, eFuelType i_FuelType)
         {
             if(EnergySource is GasEngine gasEngine)
@@ -90,6 +84,7 @@ namespace ex03
                 throw new ArgumentException("This vehicle is not gas powered");
             }
         }
+        
         public override string ToString()
         {
             StringBuilder vehicleDetails = new StringBuilder();
@@ -98,7 +93,7 @@ namespace ex03
             vehicleDetails.AppendLine(string.Format("Model: {0}", Model));
             vehicleDetails.AppendLine(string.Format("Owner Name: {0}", m_CostumerInfo.CustomerName));
             vehicleDetails.AppendLine(string.Format("Owner Phone Number: {0}", m_CostumerInfo.CustomerPhoneNumber));
-            vehicleDetails.AppendLine(string.Format("State In Garage: {0}", VehicleState));
+            vehicleDetails.AppendLine(string.Format("Status In Garage: {0}", VehicleStatus));
             vehicleDetails.AppendLine(EnergySource.ToString());
             vehicleDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
             for(int i = 0; i < m_Wheels.Length; i++)

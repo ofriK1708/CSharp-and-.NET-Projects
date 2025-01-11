@@ -1,6 +1,6 @@
 ﻿namespace ex03
 {
-    public enum eVehicleState
+    public enum eVehicleStatus
     {
         InRepair = 1,
         Repaired = 2,

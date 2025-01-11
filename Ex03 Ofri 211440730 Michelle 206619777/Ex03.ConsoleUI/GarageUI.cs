@@ -10,7 +10,7 @@ namespace Ex03.ConsoleUI
         private readonly Garage r_Garage = new Garage();
         private readonly VehicleFactory r_VehicleFactory = new VehicleFactory();
         private bool m_QuitGarage = false;
-        private bool m_ContinueAction;
+
         internal void Start()
         {
             r_ConsoleUtils.PrintStartMessage();
@@ -46,47 +46,90 @@ namespace Ex03.ConsoleUI
 
         private void handleUserChoice(eMenuOption i_MenuOption)
         {
-            string licensePlate = r_ConsoleUtils.GetLicensePlateFromUser();
-            
             switch (i_MenuOption)
             {
                 case eMenuOption.AddVehicle:
-                    handleAddVehicle(licensePlate);
+                    addVehicleToTheGarage();
                     break;
                 case eMenuOption.LicencePlateList:
-                    //
+                    displayLicensePlateList();
                     break;
                 case eMenuOption.FillWheelsAirPressureToMax:
-                    fillWheelsAirPressureToMax(licensePlate);
+                    fillWheelsAirPressureToMax();
                     break;
                 case eMenuOption.ChangeVehicleStatus:
-                    //
+                    changeVehicleStatus();
                     break;
                 case eMenuOption.RefuelVehicle:
-                    refuelVehicle(licensePlate);
+                    refuelVehicle();
                     break;
                 case eMenuOption.ChargeVehicle:
-                    //
+                    chargeVehicle();
                     break;
                 case eMenuOption.DisplayVehicleDetails:
-                    displayVehicleDetails(licensePlate);
+                    displayVehicleDetails();
                     break;
             }
         }
 
-        private void handleAddVehicle(string i_LicensePlate)
+        private void changeVehicleStatus()
         {
-            
-
-            if (r_Garage.IsVehicleInTheGarage(i_LicensePlate))
+            string licensePlate = r_ConsoleUtils.GetLicensePlateFromUser();
+            if (isVehicleInTheGarage(licensePlate))
             {
-                Console.WriteLine("Vehicle with this license plate - {0} already exists, changing status to \"in repair\"",
-                    i_LicensePlate);
-                r_Garage.ChangeVehicleStatus(i_LicensePlate, eVehicleState.InRepair);
+                eVehicleStatus vehicleStatusFromUser = r_ConsoleUtils.GetVehicleStatusFromUser();
+                r_Garage.ChangeVehicleStatus(licensePlate, vehicleStatusFromUser);
+                Console.WriteLine("Vehicle {0}, status changed to {1}", licensePlate, vehicleStatusFromUser);
+            }
+        }
+
+        private void displayLicensePlateList()
+        {
+            bool showAllVehicles = r_ConsoleUtils.GetBooleanAnswerFromUser("show all vehicles");
+
+            if (showAllVehicles)
+            {
+                List<string> allLicensePlates = r_Garage.GetAllLicensePlates();
+                printLicensePlatesOrMessage(allLicensePlates, "All vehicles in the garage",
+                    "No vehicles in the garage");
             }
             else
             {
-                addVehicleToGarageWithRetry(i_LicensePlate);
+                eVehicleStatus vehicleStatus = r_ConsoleUtils.GetVehicleStatusFromUser();
+                List<string> filteredLicensePlates = r_Garage.GetLicensePlatesByVehicleStatus(vehicleStatus);
+                printLicensePlatesOrMessage(filteredLicensePlates,
+                    $"All {vehicleStatus} vehicles in the garage:",
+                    $"No {vehicleStatus} vehicles in the garage");
+            }
+        }
+
+        private void printLicensePlatesOrMessage(List<string> i_LicensePlates, string i_SuccessMessage,
+            string i_FailureMessage)
+        {
+            if (i_LicensePlates.Count == 0)
+            {
+                Console.WriteLine(i_FailureMessage);
+            }
+            else
+            {
+                Console.WriteLine(i_SuccessMessage);
+                r_ConsoleUtils.PrintLicensePlates(i_LicensePlates);
+            }
+        }
+
+        private void addVehicleToTheGarage()
+        {
+            string licensePlate = r_ConsoleUtils.GetLicensePlateFromUser();
+            if (r_Garage.IsVehicleInTheGarage(licensePlate))
+            {
+                Console.WriteLine(
+                    "Vehicle with this license plate - {0} already exists, changing status to \"in repair\"",
+                    licensePlate);
+                r_Garage.ChangeVehicleStatus(licensePlate, eVehicleStatus.InRepair);
+            }
+            else
+            {
+                addVehicleToGarageWithRetry(licensePlate);
             }
         }
 
@@ -113,19 +156,20 @@ namespace Ex03.ConsoleUI
             setVehicleAddedFieldsFromUser(vehicle);
             return vehicle;
         }
-        
+
         private Vehicle buildVehicleFromUserData(string i_LicensePlate)
         {
             VehicleFactory.eVehicleType vehicleType = r_ConsoleUtils.GetVehicleTypeFromUser();
             CustomerInfo customerInfo = r_ConsoleUtils.GetCustomerInfoFromUser();
             string model = r_ConsoleUtils.GetModelFromUser();
-            
+
             while (true)
             {
                 try
                 {
                     float energyCapacity = r_ConsoleUtils.GetCurrentEnergyCapacityFromUser();
-                    return r_VehicleFactory.CreateVehicle(vehicleType, customerInfo, model, i_LicensePlate, energyCapacity);
+                    return r_VehicleFactory.CreateVehicle(vehicleType, customerInfo, model, i_LicensePlate,
+                        energyCapacity);
                 }
                 catch (Exception exception)
                 {
@@ -133,14 +177,15 @@ namespace Ex03.ConsoleUI
                 }
             }
         }
-        
+
         private void getWheelsForVehicle(Vehicle i_Vehicle)
         {
             while (true)
             {
                 try
                 {
-                    Wheel[] wheels = r_ConsoleUtils.GetWheelsFromUser(i_Vehicle.NumOfWheels, i_Vehicle.MaxWheelAirPressure);
+                    Wheel[] wheels =
+                        r_ConsoleUtils.GetWheelsFromUser(i_Vehicle.NumOfWheels, i_Vehicle.MaxWheelAirPressure);
                     i_Vehicle.Wheels = wheels;
                     return;
                 }
@@ -149,7 +194,6 @@ namespace Ex03.ConsoleUI
                     handleExceptionAndAskUserIfToTryAgain(exception);
                 }
             }
-           
         }
 
         private void setVehicleAddedFieldsFromUser(Vehicle i_Vehicle)
@@ -170,32 +214,72 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private void checkIfCarIsInGarage(string i_LicensePlate)
+        private bool isVehicleInTheGarage(string i_LicensePlate)
         {
-            m_ContinueAction = true;
-            while (m_ContinueAction)
+            bool isVehicleInTheGarage = false;
+            bool continueAction = true;
+
+            while (continueAction)
             {
-                if (!r_Garage.IsVehicleInTheGarage(i_LicensePlate))
+                if (r_Garage.IsVehicleInTheGarage(i_LicensePlate))
                 {
-                    handleExceptionAndAskUserIfToTryAgain(new ArgumentException(string.Format("Vehicle {0} not found in garage",i_LicensePlate)));
+                    isVehicleInTheGarage = true;
+                    continueAction = false;
                 }
                 else
                 {
-                    m_ContinueAction = false;
+                    Console.WriteLine("Vehicle with this license plate - {0} is not in the garage", i_LicensePlate);
+                    if (r_ConsoleUtils.GetBooleanAnswerFromUser("insert different license plate"))
+                    {
+                        i_LicensePlate = r_ConsoleUtils.GetLicensePlateFromUser();
+                    }
+                    else
+                    {
+                        continueAction = false;
+                    }
+                }
+            }
+
+            return isVehicleInTheGarage;
+        }
+
+        private void fillWheelsAirPressureToMax()
+        {
+            string licensePlate = r_ConsoleUtils.GetLicensePlateFromUser();
+            if (isVehicleInTheGarage(licensePlate))
+            {
+                r_Garage.FillWheelsAirPressureToMax(licensePlate);
+                Console.WriteLine("Vehicles {0}, wheels air pressure filled to max", licensePlate);
+            }
+        }
+
+        private void refuelVehicle()
+        {
+            string licensePlate = r_ConsoleUtils.GetLicensePlateFromUser();
+            if (isVehicleInTheGarage(licensePlate))
+            {
+                try
+                {
+                    refuelVehicleWithRetry(licensePlate);
+                    Console.WriteLine("Vehicle {0}, refueled successfully", licensePlate);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Vehicle {0}, was not refueled", licensePlate);
                 }
             }
         }
 
-        private void fillWheelsAirPressureToMax(string i_LicensePlate)
+        private void refuelVehicleWithRetry(string licensePlate)
         {
-            checkIfCarIsInGarage(i_LicensePlate);
-            m_ContinueAction = true;
-            while (m_ContinueAction)
+            while (true)
             {
+                eFuelType fuelType = r_ConsoleUtils.GetFuelTypeFromUser();
+                float amountToFill = r_ConsoleUtils.GetLitersToRefuelFromUser();
                 try
                 {
-                    r_Garage.FillWheelsAirPressureToMax(i_LicensePlate);
-                    Console.WriteLine("car {0}, wheels air pressure filled to max", i_LicensePlate);
+                    r_Garage.RefuelVehicle(licensePlate, amountToFill, fuelType);
+                    return;
                 }
                 catch (Exception exception)
                 {
@@ -204,36 +288,53 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private void refuelVehicle(string i_LicensePlate)
+        private void chargeVehicle()
         {
-            checkIfCarIsInGarage(i_LicensePlate);
-            m_ContinueAction = true;
-            while(m_ContinueAction)
+            string licensePlate = r_ConsoleUtils.GetLicensePlateFromUser();
+            if (isVehicleInTheGarage(licensePlate))
             {
-                eFuelType fuelType = r_ConsoleUtils.GetFuelTypeFromUser();
                 try
                 {
-                    float amountToFill = r_ConsoleUtils.GetPositivefloatInputFromUser();
-                    r_Garage.RefuelVehicle(i_LicensePlate, amountToFill, fuelType);
-                    Console.WriteLine("car {0}, refueled successfully", i_LicensePlate);
-                    m_ContinueAction = false;
+                    chargeVehicleWithRetry(licensePlate);
+                    Console.WriteLine("Vehicle {0}, charged successfully", licensePlate);
                 }
-                catch(Exception exception)
+                catch (Exception)
+                {
+                    Console.WriteLine("Vehicle {0}, was not charged", licensePlate);
+                }
+            }
+        }
+
+        private void chargeVehicleWithRetry(string licensePlate)
+        {
+            while (true)
+            {
+                float amountToFill = r_ConsoleUtils.GetMinutesToChargeFromUser();
+                try
+                {
+                    r_Garage.ChargeBattery(licensePlate, amountToFill);
+                    return;
+                }
+                catch (Exception exception)
                 {
                     handleExceptionAndAskUserIfToTryAgain(exception);
                 }
             }
         }
 
-        private void displayVehicleDetails(string i_LicensePlate)
+        private void displayVehicleDetails()
         {
-            checkIfCarIsInGarage(i_LicensePlate);
-            Console.WriteLine(r_Garage.GetFullVehicleDetails(i_LicensePlate));
+            string licensePlate = r_ConsoleUtils.GetLicensePlateFromUser();
+            if (isVehicleInTheGarage(licensePlate))
+            {
+                Console.WriteLine(r_Garage.GetFullVehicleDetails(licensePlate));
+            }
         }
+
         private void handleExceptionAndAskUserIfToTryAgain(Exception i_Exception)
         {
             Console.WriteLine(i_Exception.Message);
-            if(!r_ConsoleUtils.GetBooleanAnswerFromUser("try again"))
+            if (!r_ConsoleUtils.GetBooleanAnswerFromUser("try again"))
             {
                 throw i_Exception;
             }

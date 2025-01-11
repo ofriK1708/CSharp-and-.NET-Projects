@@ -16,11 +16,30 @@ namespace ex03
             m_Vehicles.Add(i_Vehicle.LicensePlate, i_Vehicle);
         }
 
-        public void ChangeVehicleStatus(string i_LicensePlate, eVehicleState i_NewVehicleState)
+        public void ChangeVehicleStatus(string i_LicensePlate, eVehicleStatus iNewVehicleStatus)
         {
-            m_Vehicles[i_LicensePlate].VehicleState = i_NewVehicleState;
+            m_Vehicles[i_LicensePlate].VehicleStatus = iNewVehicleStatus;
         }
 
+        public List<string> GetAllLicensePlates()
+        {
+            return new List<string>(m_Vehicles.Keys);
+        }
+
+        public List<string> GetLicensePlatesByVehicleStatus(eVehicleStatus iVehicleStatus)
+        {
+            List<string> licensePlates = new List<string>();
+            foreach (Vehicle vehicle in m_Vehicles.Values)
+            {
+                if (vehicle.VehicleStatus == iVehicleStatus)
+                {
+                    licensePlates.Add(vehicle.LicensePlate);
+                }
+            }
+
+            return licensePlates;
+        }
+        
         public void FillWheelsAirPressureToMax(string i_LicensePlate)
         {
             m_Vehicles[i_LicensePlate].FillWheelsAirToMax();
