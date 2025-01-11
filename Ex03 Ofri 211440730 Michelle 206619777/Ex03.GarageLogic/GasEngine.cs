@@ -21,7 +21,7 @@ namespace ex03
             CurrentEnergyCapacity = i_CurrentFuelCapacity;
             r_FuelType = i_FuelType;
         }
-        internal void fillGas(float i_AmountOfGasToAdd, eFuelType i_FuelType)
+        internal void FillGas(float i_AmountOfGasToAdd, eFuelType i_FuelType)
         {
             if (i_AmountOfGasToAdd + CurrentEnergyCapacity > MaxEnergyCapacity || i_AmountOfGasToAdd < 0)
             {
