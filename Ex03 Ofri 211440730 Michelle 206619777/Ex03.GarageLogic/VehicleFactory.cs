@@ -8,8 +8,8 @@ namespace ex03
         {
             ElectricCar = 1,
             FueledCar = 2,
-            ElectricMotorCycle = 3,
-            FueledMotorCycle = 4,
+            ElectricMotorcycle = 3,
+            FueledMotorcycle = 4,
             Truck = 5
         }
 
@@ -24,8 +24,8 @@ namespace ex03
                     vehicle = new Car(i_VehicleType, i_CostumerAndVehicleInfo, i_Model, i_LicensePlate,
                         i_CurrentEnergy);
                     break;
-                case eVehicleType.ElectricMotorCycle:
-                case eVehicleType.FueledMotorCycle:
+                case eVehicleType.ElectricMotorcycle:
+                case eVehicleType.FueledMotorcycle:
                     vehicle = new Motorcycle(i_VehicleType, i_CostumerAndVehicleInfo, i_Model, i_LicensePlate,
                         i_CurrentEnergy);
                     break;

@@ -13,7 +13,7 @@ namespace Ex03.ConsoleUI
 
         internal VehicleFactory.eVehicleType GetVehicleTypeFromUser()
         {
-            Console.WriteLine("Enter Vehicle type:");
+            Console.WriteLine("Please enter Vehicle type:");
             return (VehicleFactory.eVehicleType)displayAndGetEnumValueFromUser(typeof(VehicleFactory.eVehicleType));
         }
 
@@ -25,22 +25,22 @@ namespace Ex03.ConsoleUI
 
         internal string GetLicensePlateFromUser()
         {
-            Console.WriteLine("Enter license plate");
+            Console.WriteLine("Please enter license plate");
             return getStringInputFromUser();
         }
 
         internal string GetModelFromUser()
         {
-            Console.WriteLine("Enter vehicle model");
+            Console.WriteLine("Please enter vehicle model");
             return getStringInputFromUser();
         }
 
         internal CustomerInfo GetCustomerInfoFromUser()
         {
-            Console.WriteLine("Enter vehicles owner name");
+            Console.WriteLine("Please enter vehicles owner name");
             string name = getStringInputFromUser();
 
-            Console.WriteLine("Enter vehicles owner phone number");
+            Console.WriteLine("Please enter vehicles owner phone number");
             string phoneNumber = getStringInputFromUser();
 
             return new CustomerInfo(name, phoneNumber);
@@ -48,8 +48,14 @@ namespace Ex03.ConsoleUI
 
         internal float GetCurrentEnergyCapacityFromUser()
         {
-            Console.WriteLine("Enter the current reserve in the vehicle");
-            return getPositivefloatInputFromUser();
+            Console.WriteLine("Please enter the current fuel level or battery charge of the vehicle:");
+            return GetPositivefloatInputFromUser();
+        }
+
+        internal eFuelType GetFuelTypeFromUser()
+        {
+            Console.WriteLine("Please enter the fuel type you wish");
+            return (eFuelType)displayAndGetEnumValueFromUser(typeof(eFuelType));
         }
 
         private string getStringInputFromUser()
@@ -57,7 +63,7 @@ namespace Ex03.ConsoleUI
             string userInput = Console.ReadLine();
             while (string.IsNullOrWhiteSpace(userInput))
             {
-                Console.WriteLine("Input cant be empty, please try again");
+                Console.WriteLine("Input can't be empty, please try again");
                 userInput = Console.ReadLine();
             }
 
@@ -70,9 +76,9 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("1.To add new vehicle to the garage press 1");
             Console.WriteLine("2.To see a list of vehicles (license plates) that in the garage press 2");
             Console.WriteLine("3.To change vehicl's status in the garage press 3");
-            Console.WriteLine("4.To fill vehicl's air pressure to maximum press 4");
-            Console.WriteLine("5.To fuel a vehicle press 5");
-            Console.WriteLine("6.To charge a vehicle press 6");
+            Console.WriteLine("4.To fill vehicl's wheels air pressure to maximum press 4");
+            Console.WriteLine("5.To refuel a vehicle press 5");
+            Console.WriteLine("6.To recharge a vehicle press 6");
             Console.WriteLine("7.To see vehicl's information press 7");
             Console.WriteLine("To quit , press 0\n");
         }
@@ -94,7 +100,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private float getPositivefloatInputFromUser()
+        internal float GetPositivefloatInputFromUser()
         {
             while (true)
             {
@@ -149,7 +155,7 @@ namespace Ex03.ConsoleUI
             Wheel[] wheels = new Wheel[i_NumOfWheels];
 
             Console.WriteLine("Would you like to add same data for all wheels? (y/n)");
-            bool sameDataToAllWheels = bool.Parse(getBooleanInputFromUser());
+            bool sameDataToAllWheels = getBooleanInputFromUser();
 
             if (sameDataToAllWheels)
             {
@@ -173,7 +179,7 @@ namespace Ex03.ConsoleUI
         private Wheel getWheelDataFromUser(float i_MaxWheelAirPressure)
         {
             Console.WriteLine("Enter wheel air pressure");
-            float airPressure = getPositivefloatInputFromUser();
+            float airPressure = GetPositivefloatInputFromUser();
 
             Console.WriteLine("Enter wheel manufacturer");
             string manufacturer = getStringInputFromUser();
@@ -184,7 +190,8 @@ namespace Ex03.ConsoleUI
         internal bool GetBooleanAnswerFromUser(string i_Question)
         {
             Console.WriteLine("Would you like to {0}? (y/n)", i_Question);
-            return Convert.ToBoolean(getBooleanInputFromUser());
+
+            return getBooleanInputFromUser();
         }
 
         public Dictionary<string, string> GetAddedFieldsFromUser(Dictionary<string, Type> i_VehicleAddedFields)
@@ -193,7 +200,7 @@ namespace Ex03.ConsoleUI
 
             foreach (string field in i_VehicleAddedFields.Keys)
             {
-                Console.WriteLine("Enter {0}:", field);
+                Console.WriteLine("Please enter {0}:", field);
                 Type fieldType = i_VehicleAddedFields[field];
                 fieldsFromUser.Add(field, getGeneralInputFromUser(fieldType));
             }
@@ -203,40 +210,43 @@ namespace Ex03.ConsoleUI
 
         private string getGeneralInputFromUser(Type i_FieldType)
         {
+            string userInput;
             if (i_FieldType.IsEnum)
             {
-                return displayAndGetEnumValueFromUser(i_FieldType).ToString();
+                userInput = displayAndGetEnumValueFromUser(i_FieldType).ToString();
             }
-
-            if (i_FieldType == typeof(bool))
+            else if (i_FieldType == typeof(bool))
             {
-                return getBooleanInputFromUser();
+                userInput = getBooleanInputFromUser().ToString();
             }
-
-            string input = getStringInputFromUser();
-
-            try
+            else
             {
-                object convertedValue = Convert.ChangeType(input, i_FieldType);
-                return convertedValue.ToString();
+                userInput = getStringInputFromUser();
+                try
+                {
+                    object convertedValue = Convert.ChangeType(userInput, i_FieldType);
+                    userInput = convertedValue.ToString();
+                }
+                catch(Exception)
+                {
+                    throw new FormatException("Answer input does not match the specified type");
+                }
             }
-            catch (Exception e)
-            {
-                throw new FormatException("Answer input does not match the specified type");
-            }
+            
+            return userInput;
         }
 
-        private string getBooleanInputFromUser()
+        private bool getBooleanInputFromUser()
         {
             Console.WriteLine("y/n ?");
             string stringInputFromUser = getStringInputFromUser().ToLower();
             while (stringInputFromUser != "y" && stringInputFromUser != "n")
             {
-                Console.WriteLine("Please enter y or n");
+                Console.WriteLine("Please enter 'y' (yes) or 'n' (no)");
                 stringInputFromUser = getStringInputFromUser();
             }
 
-            return stringInputFromUser == "y" ? bool.TrueString : bool.FalseString;
+            return stringInputFromUser == "y";
         }
 
         private object displayAndGetEnumValueFromUser(Type i_EnumType)
