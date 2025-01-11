@@ -52,7 +52,7 @@ namespace Ex03.ConsoleUI
                     handleAddVehicle();
                     break;
                 case eMenuOption.LicencePlateList:
-                    //
+                    handleGetLicensePlateList();
                     break;
                 case eMenuOption.FillAirPressure:
                     //
@@ -72,6 +72,38 @@ namespace Ex03.ConsoleUI
             }
         }
 
+        private void handleGetLicensePlateList()
+        {
+            bool showAllVehicles = r_ConsoleUtils.GetBooleanAnswerFromUser("show all vehicles");
+
+            if (showAllVehicles)
+            {
+                List<string> allLicensePlates = r_Garage.GetAllLicensePlates();
+                PrintLicensePlatesOrMessage(allLicensePlates, "All vehicles in the garage", "No vehicles in the garage");
+            }
+            else
+            {
+                eVehicleState vehicleState = r_ConsoleUtils.GetVehicleStateToShowFromUser();
+                List<string> filteredLicensePlates = r_Garage.GetLicensePlatesByState(vehicleState);
+                PrintLicensePlatesOrMessage(filteredLicensePlates, 
+                    $"All {vehicleState} vehicles in the garage:", 
+                    $"No {vehicleState} vehicles in the garage");
+            }
+        }
+
+        private void PrintLicensePlatesOrMessage(List<string> licensePlates, string successMessage, string failureMessage)
+        {
+            if (licensePlates.Count == 0)
+            {
+                Console.WriteLine(failureMessage);
+            }
+            else
+            {
+                Console.WriteLine(successMessage);
+                r_ConsoleUtils.PrintLicensePlates(licensePlates);
+            }
+        }
+
         private void handleAddVehicle()
         {
             string licensePlate = r_ConsoleUtils.GetLicensePlateFromUser();
@@ -80,7 +112,7 @@ namespace Ex03.ConsoleUI
             {
                 Console.WriteLine("Vehicle with this license plate {0} already exists, changing status to in repair",
                     licensePlate);
-                r_Garage.ChangeVehicleStatusToInRepare(licensePlate);
+                r_Garage.ChangeVehicleStatusToInRepair(licensePlate);
             }
             else
             {

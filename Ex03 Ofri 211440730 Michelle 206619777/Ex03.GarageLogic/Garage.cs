@@ -21,9 +21,28 @@ namespace ex03
             m_Vehicles[i_LicensePlate].VehicleState = i_NewVehicleState;
         }
 
-        public void ChangeVehicleStatusToInRepare(string i_LicensePlate)
+        public void ChangeVehicleStatusToInRepair(string i_LicensePlate)
         {
             ChangeVehicleStatus(i_LicensePlate, eVehicleState.InRepair);
+        }
+
+        public List<string> GetAllLicensePlates()
+        {
+            return new List<string>(m_Vehicles.Keys);
+        }
+
+        public List<string> GetLicensePlatesByState(eVehicleState i_VehicleState)
+        {
+            List<string> licensePlates = new List<string>();
+            foreach (Vehicle vehicle in m_Vehicles.Values)
+            {
+                if (vehicle.VehicleState == i_VehicleState)
+                {
+                    licensePlates.Add(vehicle.LicensePlate);
+                }
+            }
+
+            return licensePlates;
         }
 
         public void FillWheelsAirToMax(string i_LicensePlate)

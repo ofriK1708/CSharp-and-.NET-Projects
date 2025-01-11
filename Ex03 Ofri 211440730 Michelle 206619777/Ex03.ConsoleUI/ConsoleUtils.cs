@@ -248,5 +248,19 @@ namespace Ex03.ConsoleUI
 
             return getEnumInputFromUser(i_EnumType);
         }
+
+        public void PrintLicensePlates(List<string> i_LicensePlates)
+        {
+            foreach (string licensePlate in i_LicensePlates)
+            {
+                Console.WriteLine(licensePlate);  
+            }
+        }
+
+        public eVehicleState GetVehicleStateToShowFromUser()
+        {
+            Console.WriteLine("Enter vehicle state to show:");
+            return (eVehicleState)displayAndGetEnumValueFromUser(typeof(eVehicleState));
+        }
     }
 }
