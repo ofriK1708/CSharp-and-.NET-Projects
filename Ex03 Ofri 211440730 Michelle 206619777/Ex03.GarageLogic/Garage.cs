@@ -16,9 +16,9 @@ namespace ex03
             m_Vehicles.Add(i_Vehicle.LicensePlate, i_Vehicle);
         }
 
-        public void ChangeVehicleStatus(string i_LicensePlate, eVehicleStatus iNewVehicleStatus)
+        public void ChangeVehicleStatus(string i_LicensePlate, eVehicleStatus i_NewVehicleStatus)
         {
-            m_Vehicles[i_LicensePlate].VehicleStatus = iNewVehicleStatus;
+            m_Vehicles[i_LicensePlate].VehicleStatus = i_NewVehicleStatus;
         }
 
         public List<string> GetAllLicensePlates()
@@ -26,12 +26,12 @@ namespace ex03
             return new List<string>(m_Vehicles.Keys);
         }
 
-        public List<string> GetLicensePlatesByVehicleStatus(eVehicleStatus iVehicleStatus)
+        public List<string> GetLicensePlatesByVehicleStatus(eVehicleStatus i_VehicleStatus)
         {
             List<string> licensePlates = new List<string>();
             foreach (Vehicle vehicle in m_Vehicles.Values)
             {
-                if (vehicle.VehicleStatus == iVehicleStatus)
+                if (vehicle.VehicleStatus == i_VehicleStatus)
                 {
                     licensePlates.Add(vehicle.LicensePlate);
                 }
@@ -50,9 +50,9 @@ namespace ex03
             m_Vehicles[i_LicensePlate].FillGas(i_EnergyToAdd, i_FuelType);
         }
 
-        public void ChargeBattery(string i_LicensePlate, float i_HoursToCharge)
+        public void ChargeBattery(string i_LicensePlate, float i_MinutesToCharge)
         {
-            m_Vehicles[i_LicensePlate].ChargeBattery(i_HoursToCharge);
+            m_Vehicles[i_LicensePlate].ChargeBattery(i_MinutesToCharge * ElectricMotor.k_MinutesInHour);
         }
 
         public string GetFullVehicleDetails(string i_LicensePlate)

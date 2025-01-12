@@ -296,10 +296,10 @@ namespace Ex03.ConsoleUI
         {
             while (true)
             {
-                float amountToFill = ConsoleUtils.GetHoursToChargeFromUser();
+                float minutesToCharge = ConsoleUtils.GetMinutesToChargeFromUser();
                 try
                 {
-                    r_Garage.ChargeBattery(i_LicensePlate, amountToFill);
+                    r_Garage.ChargeBattery(i_LicensePlate, minutesToCharge);
                     break;
                 }
                 catch (Exception exception)
@@ -318,7 +318,5 @@ namespace Ex03.ConsoleUI
                 Console.WriteLine(r_Garage.GetFullVehicleDetails(licensePlate));
             }
         }
-
-        
     }
 }
