@@ -289,15 +289,16 @@ namespace Ex03.ConsoleUI
             return GetPositiveFloatInputFromUser();
         }
 
-        public static float GetHoursToChargeFromUser()
+        public static float GetMinutesToChargeFromUser()
         {
-            Console.WriteLine("Enter hours to charge:");
+            Console.WriteLine("Enter minutes to charge:");
             return GetPositiveFloatInputFromUser();
         }
+        
         internal static void HandleExceptionAndAskUserIfToTryAgain(Exception i_Exception)
         {
             Console.WriteLine(i_Exception.Message);
-            if (!ConsoleUtils.GetBooleanAnswerFromUser("try again"))
+            if (!GetBooleanAnswerFromUser("try again"))
             {
                 throw i_Exception;
             }

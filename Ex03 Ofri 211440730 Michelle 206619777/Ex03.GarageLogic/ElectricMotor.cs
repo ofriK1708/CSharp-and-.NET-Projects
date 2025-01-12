@@ -5,11 +5,12 @@ namespace ex03
 {
     internal class ElectricMotor : EnergySource
     {
+        public const float k_MinutesInHour = 60;
         internal ElectricMotor(float i_MaxElectricityCapacity, float i_CurrentElectricityCapacity)
         {
             if (i_MaxElectricityCapacity <= 0)
             {
-                throw new ArgumentException("Max Electric Capacity must be postive!");
+                throw new ArgumentException("Max Electric Capacity must be positive!");
             }
 
             MaxEnergyCapacity = i_MaxElectricityCapacity;
@@ -27,7 +28,7 @@ namespace ex03
         {
             if (i_HoursToCharge + CurrentEnergyCapacity > MaxEnergyCapacity || i_HoursToCharge < 0)
             {
-                throw new ValueOutOfRangeException(0, (MaxEnergyCapacity - CurrentEnergyCapacity),
+                throw new ValueOutOfRangeException(0, (MaxEnergyCapacity - CurrentEnergyCapacity) * k_MinutesInHour,
                     "Electricity Capacity to add is out of range");
             }
 
@@ -43,7 +44,7 @@ namespace ex03
             energyMotorDetails.AppendLine(string.Format("Current Electricity Capacity {0} hour{1}",
                 CurrentEnergyCapacity, CurrentEnergyCapacity <= 1 ? ' ':'s'));
             energyMotorDetails.AppendLine(string.Format("Max Electricity Capacity: {0} hours", MaxEnergyCapacity));
-            energyMotorDetails.AppendLine(string.Format("Electricity Precentage: {0}%", EnergyPrecentage));
+            energyMotorDetails.AppendLine(string.Format("Electricity Percentage: {0}%", EnergyPrecentage));
 
             return energyMotorDetails.ToString();
         }
