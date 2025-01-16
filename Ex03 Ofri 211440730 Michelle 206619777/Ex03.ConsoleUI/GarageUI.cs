@@ -74,6 +74,7 @@ namespace Ex03.ConsoleUI
         private void changeVehicleStatus()
         {
             string licensePlate = ConsoleUtils.GetLicensePlateFromUser();
+
             if (isVehicleInTheGarage(ref licensePlate))
             {
                 eVehicleStatus vehicleStatusFromUser = ConsoleUtils.GetVehicleStatusFromUser();
@@ -119,6 +120,7 @@ namespace Ex03.ConsoleUI
         private void addVehicleToTheGarage()
         {
             string licensePlate = ConsoleUtils.GetLicensePlateFromUser();
+
             if (r_Garage.IsVehicleInTheGarage(licensePlate))
             {
                 Console.WriteLine(
@@ -141,6 +143,7 @@ namespace Ex03.ConsoleUI
                 Console.Clear();
                 Console.WriteLine("Vehicle {0} added successfully", i_LicensePlate);
             }
+            
             catch (Exception)
             {
                 Console.Clear();
@@ -151,8 +154,10 @@ namespace Ex03.ConsoleUI
         private Vehicle createTypedVehicle(string i_LicensePlate)
         {
             Vehicle vehicle = buildVehicleFromUserData(i_LicensePlate);
+
             getWheelsForVehicle(vehicle);
             setVehicleAddedFieldsFromUser(vehicle);
+
             return vehicle;
         }
 
@@ -170,6 +175,7 @@ namespace Ex03.ConsoleUI
                     return r_VehicleFactory.CreateVehicle(vehicleType, customerInfo, model, i_LicensePlate,
                         energyCapacity);
                 }
+                
                 catch (Exception exception)
                 {
                     ConsoleUtils.HandleExceptionAndAskUserIfToTryAgain(exception);
@@ -194,6 +200,7 @@ namespace Ex03.ConsoleUI
                     i_Vehicle.SetAddedFields(fieldsFromUser);
                     break;
                 }
+                
                 catch (Exception exception)
                 {
                     ConsoleUtils.HandleExceptionAndAskUserIfToTryAgain(exception);
@@ -216,6 +223,7 @@ namespace Ex03.ConsoleUI
                 else
                 {
                     Console.WriteLine("Vehicle with this license plate - {0} is not in the garage", io_LicensePlate);
+
                     if (ConsoleUtils.GetBooleanAnswerFromUser("insert different license plate"))
                     {
                         io_LicensePlate = ConsoleUtils.GetLicensePlateFromUser();
@@ -233,6 +241,7 @@ namespace Ex03.ConsoleUI
         private void fillWheelsAirPressureToMax()
         {
             string licensePlate = ConsoleUtils.GetLicensePlateFromUser();
+
             if (isVehicleInTheGarage(ref licensePlate))
             {
                 r_Garage.FillWheelsAirPressureToMax(licensePlate);
@@ -243,6 +252,7 @@ namespace Ex03.ConsoleUI
         private void refuelVehicle()
         {
             string licensePlate = ConsoleUtils.GetLicensePlateFromUser();
+
             if (isVehicleInTheGarage(ref licensePlate))
             {
                 try
@@ -250,6 +260,7 @@ namespace Ex03.ConsoleUI
                     refuelVehicleWithRetry(licensePlate);
                     Console.WriteLine("Vehicle {0}, refueled successfully", licensePlate);
                 }
+                
                 catch (Exception)
                 {
                     Console.WriteLine("Vehicle {0}, was not refueled", licensePlate);
@@ -263,11 +274,13 @@ namespace Ex03.ConsoleUI
             {
                 eFuelType fuelType = ConsoleUtils.GetFuelTypeFromUser();
                 float amountToFill = ConsoleUtils.GetLitersToRefuelFromUser();
+                
                 try
                 {
                     r_Garage.RefuelVehicle(i_LicensePlate, amountToFill, fuelType);
                     break;
                 }
+                
                 catch (Exception exception)
                 {
                     ConsoleUtils.HandleExceptionAndAskUserIfToTryAgain(exception);
@@ -278,6 +291,7 @@ namespace Ex03.ConsoleUI
         private void chargeVehicle()
         {
             string licensePlate = ConsoleUtils.GetLicensePlateFromUser();
+
             if (isVehicleInTheGarage(ref licensePlate))
             {
                 try
@@ -285,6 +299,7 @@ namespace Ex03.ConsoleUI
                     chargeVehicleWithRetry(licensePlate);
                     Console.WriteLine("Vehicle {0}, charged successfully", licensePlate);
                 }
+                
                 catch (Exception)
                 {
                     Console.WriteLine("Vehicle {0}, was not charged", licensePlate);
@@ -297,11 +312,13 @@ namespace Ex03.ConsoleUI
             while (true)
             {
                 float minutesToCharge = ConsoleUtils.GetMinutesToChargeFromUser();
+                
                 try
                 {
                     r_Garage.ChargeBattery(i_LicensePlate, minutesToCharge);
                     break;
                 }
+               
                 catch (Exception exception)
                 {
                     ConsoleUtils.HandleExceptionAndAskUserIfToTryAgain(exception);
@@ -312,6 +329,7 @@ namespace Ex03.ConsoleUI
         private void displayVehicleDetails()
         {
             string licensePlate = ConsoleUtils.GetLicensePlateFromUser();
+
             if (isVehicleInTheGarage(ref licensePlate))
             {
                 Console.Clear();

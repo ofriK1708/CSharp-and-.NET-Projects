@@ -14,24 +14,28 @@ namespace Ex03.ConsoleUI
         internal static VehicleFactory.eVehicleType GetVehicleTypeFromUser()
         {
             Console.WriteLine("Please enter Vehicle type:");
+            
             return (VehicleFactory.eVehicleType)displayAndGetEnumValueFromUser(typeof(VehicleFactory.eVehicleType));
         }
 
         internal static eMenuOption GetMenuChoiceFromUser()
         {
             printMainMenu();
+            
             return (eMenuOption)getEnumInputFromUser(typeof(eMenuOption));
         }
 
         internal static string GetLicensePlateFromUser()
         {
             Console.WriteLine("Please enter license plate");
+            
             return getStringInputFromUser();
         }
 
         internal static string GetModelFromUser()
         {
             Console.WriteLine("Please enter vehicle model");
+            
             return getStringInputFromUser();
         }
 
@@ -49,18 +53,21 @@ namespace Ex03.ConsoleUI
         internal static float GetCurrentEnergyCapacityFromUser()
         {
             Console.WriteLine("Please enter the current fuel level (in liters) or battery charge (in houres left) of the vehicle:");
+            
             return GetPositiveFloatInputFromUser();
         }
 
         internal static eFuelType GetFuelTypeFromUser()
         {
             Console.WriteLine("Please enter the fuel type you wish");
+            
             return (eFuelType)displayAndGetEnumValueFromUser(typeof(eFuelType));
         }
 
         private static string getStringInputFromUser()
         {
             string userInput = Console.ReadLine();
+
             while (string.IsNullOrWhiteSpace(userInput))
             {
                 Console.WriteLine("Input can't be empty, please try again");
@@ -90,6 +97,7 @@ namespace Ex03.ConsoleUI
                 try
                 {
                     string userInput = getStringInputFromUser();
+                    
                     return validateAndParseInputToEnum(userInput, i_EnumType);
                 }
                 catch (FormatException ex)
@@ -107,6 +115,7 @@ namespace Ex03.ConsoleUI
                 try
                 {
                     string userInput = getStringInputFromUser();
+                    
                     return parseInputToPositiveFloat(userInput);
                 }
                 catch (Exception ex)
@@ -153,7 +162,6 @@ namespace Ex03.ConsoleUI
         internal static Wheel[] GetWheelsFromUser(int i_NumOfWheels, float i_MaxWheelAirPressure)
         {
             Wheel[] wheels = new Wheel[i_NumOfWheels];
-
             Console.WriteLine("Would you like to add same data for all wheels? (y/n)");
             bool sameDataToAllWheels = getBooleanInputFromUser();
 
@@ -190,6 +198,7 @@ namespace Ex03.ConsoleUI
 
                     return new Wheel(manufacturer, i_MaxWheelAirPressure, airPressure);
                 }
+                
                 catch (Exception ex)
                 {
                     HandleExceptionAndAskUserIfToTryAgain(ex);
@@ -221,6 +230,7 @@ namespace Ex03.ConsoleUI
         private static string getGeneralInputFromUser(Type i_FieldType)
         {
             string userInput;
+
             if (i_FieldType.IsEnum)
             {
                 userInput = displayAndGetEnumValueFromUser(i_FieldType).ToString();
@@ -232,11 +242,13 @@ namespace Ex03.ConsoleUI
             else
             {
                 userInput = getStringInputFromUser();
+
                 try
                 {
                     object convertedValue = Convert.ChangeType(userInput, i_FieldType);
                     userInput = convertedValue.ToString();
                 }
+                
                 catch (Exception)
                 {
                     throw new FormatException("Answer input does not match the specified type");
@@ -250,6 +262,7 @@ namespace Ex03.ConsoleUI
         {
             Console.WriteLine("y/n ?");
             string stringInputFromUser = getStringInputFromUser().ToLower();
+
             while (stringInputFromUser != "y" && stringInputFromUser != "n")
             {
                 Console.WriteLine("Please enter 'y' (yes) or 'n' (no)");
@@ -280,24 +293,28 @@ namespace Ex03.ConsoleUI
         public static eVehicleStatus GetVehicleStatusFromUser()
         {
             Console.WriteLine("Enter vehicle status:");
+
             return (eVehicleStatus)displayAndGetEnumValueFromUser(typeof(eVehicleStatus));
         }
 
         public static float GetLitersToRefuelFromUser()
         {
             Console.WriteLine("Enter liters to refuel:");
+
             return GetPositiveFloatInputFromUser();
         }
 
         public static float GetMinutesToChargeFromUser()
         {
             Console.WriteLine("Enter minutes to charge:");
+
             return GetPositiveFloatInputFromUser();
         }
         
         internal static void HandleExceptionAndAskUserIfToTryAgain(Exception i_Exception)
         {
             Console.WriteLine(i_Exception.Message);
+
             if (!GetBooleanAnswerFromUser("try again"))
             {
                 throw i_Exception;
