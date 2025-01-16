@@ -21,19 +21,20 @@ namespace ex03
             m_Vehicles[i_LicensePlate].VehicleStatus = i_NewVehicleStatus;
         }
 
-        public List<string> GetAllLicensePlates()
+        public LinkedList<string> GetAllLicensePlates()
         {
-            return new List<string>(m_Vehicles.Keys);
+            return new LinkedList<string>(m_Vehicles.Keys);
         }
 
-        public List<string> GetLicensePlatesByVehicleStatus(eVehicleStatus i_VehicleStatus)
+        public LinkedList<string> GetLicensePlatesByVehicleStatus(eVehicleStatus i_VehicleStatus)
         {
-            List<string> licensePlates = new List<string>();
+            LinkedList<string> licensePlates = new LinkedList<string>();
+
             foreach (Vehicle vehicle in m_Vehicles.Values)
             {
                 if (vehicle.VehicleStatus == i_VehicleStatus)
                 {
-                    licensePlates.Add(vehicle.LicensePlate);
+                    licensePlates.AddLast(vehicle.LicensePlate);
                 }
             }
 

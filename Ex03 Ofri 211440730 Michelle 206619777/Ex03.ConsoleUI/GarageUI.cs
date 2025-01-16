@@ -50,7 +50,7 @@ namespace Ex03.ConsoleUI
                 case eMenuOption.AddVehicle:
                     addVehicleToTheGarage();
                     break;
-                case eMenuOption.LicencePlateList:
+                case eMenuOption.LicensePlateList:
                     displayLicensePlateList();
                     break;
                 case eMenuOption.FillWheelsAirPressureToMax:
@@ -85,17 +85,17 @@ namespace Ex03.ConsoleUI
 
         private void displayLicensePlateList()
         {
-            List<string> allLicensePlates = r_Garage.GetAllLicensePlates();
+            LinkedList<string> allLicensePlates = r_Garage.GetAllLicensePlates();
             printLicensePlatesOrMessage(allLicensePlates, "All vehicles in the garage",
                 "No vehicles in the garage");
 
             if (allLicensePlates.Count > 0)
             {
-                bool filterByStatus = ConsoleUtils.GetBooleanAnswerFromUser("filter by vehicle status?");
+                bool filterByStatus = ConsoleUtils.GetBooleanAnswerFromUser("filter by vehicle status");
                 if (filterByStatus)
                 {
                     eVehicleStatus vehicleStatus = ConsoleUtils.GetVehicleStatusFromUser();
-                    List<string> filteredLicensePlates = r_Garage.GetLicensePlatesByVehicleStatus(vehicleStatus);
+                    LinkedList<string> filteredLicensePlates = r_Garage.GetLicensePlatesByVehicleStatus(vehicleStatus);
                     Console.Clear();
                     printLicensePlatesOrMessage(filteredLicensePlates,
                         $"All {vehicleStatus} vehicles in the garage:",
@@ -104,7 +104,7 @@ namespace Ex03.ConsoleUI
             }
         }
 
-        private void printLicensePlatesOrMessage(List<string> i_LicensePlates, string i_SuccessMessage,
+        private void printLicensePlatesOrMessage(LinkedList<string> i_LicensePlates, string i_SuccessMessage,
             string i_FailureMessage)
         {
             if (i_LicensePlates.Count == 0)

@@ -15,6 +15,7 @@ namespace ex03
             }
 
             MaxEnergyCapacity = i_MaxFuelCapacity;
+
             if (i_CurrentFuelCapacity > MaxEnergyCapacity || i_CurrentFuelCapacity < 0)
             {
                 throw new ValueOutOfRangeException(0, MaxEnergyCapacity, "Fuel Capacity is out of range");

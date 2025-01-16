@@ -25,6 +25,7 @@ namespace ex03
             Type = i_VehicleType;
             NumOfWheels = k_MotorcycleNumOfWheels;
             MaxWheelAirPressure = k_MotorcycleMaxWheelAirPressure;
+
             if(Type == VehicleFactory.eVehicleType.ElectricMotorcycle)
             {
                 EnergySource = new ElectricMotor(k_ElectricMotorcycleMaxEnergy, i_CurrentEnergy);
@@ -60,6 +61,7 @@ namespace ex03
                 { k_EngineVolumeField, typeof(int) },
                 { k_LicenseTypeField, typeof(eMotorcycleLicenseType) }
             };
+            
             return addedFields;
         }
     }

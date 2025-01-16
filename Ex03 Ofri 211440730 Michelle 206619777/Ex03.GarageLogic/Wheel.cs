@@ -31,7 +31,7 @@ namespace ex03
             CurrentAirPressure = i_CurentAirPressure;
         }
 
-        internal void fillAirPressureToMax()
+        internal void FillAirPressureToMax()
         {
             CurrentAirPressure = MaxAirPressure;
         }

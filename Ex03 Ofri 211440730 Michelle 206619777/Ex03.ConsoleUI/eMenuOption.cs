@@ -3,7 +3,7 @@
     internal enum eMenuOption
     {
         AddVehicle = 1,
-        LicencePlateList = 2,
+        LicensePlateList = 2,
         ChangeVehicleStatus = 3,
         FillWheelsAirPressureToMax = 4,
         RefuelVehicle = 5,

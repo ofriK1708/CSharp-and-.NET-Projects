@@ -30,6 +30,7 @@ namespace ex03
             {
                 return m_Wheels;
             }
+            
             set
             {
                 validateNumberOfWheels(value);
@@ -58,7 +59,7 @@ namespace ex03
         {
             foreach (Wheel wheel in m_Wheels)
             {
-                wheel.fillAirPressureToMax();
+                wheel.FillAirPressureToMax();
             }
         }
 
@@ -97,6 +98,7 @@ namespace ex03
             vehicleDetails.AppendLine(string.Format("Status In Garage: {0}", VehicleStatus));
             vehicleDetails.AppendLine(EnergySource.ToString());
             vehicleDetails.AppendLine(string.Format("Number of Wheels: {0}", NumOfWheels));
+            
             for(int i = 0; i < m_Wheels.Length; i++)
             {
                 vehicleDetails.AppendLine(string.Format("Wheel {0}#: {1}", i + 1, m_Wheels[i]));

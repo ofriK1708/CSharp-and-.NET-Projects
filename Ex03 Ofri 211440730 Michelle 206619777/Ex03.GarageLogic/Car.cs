@@ -26,6 +26,7 @@ namespace ex03
             NumOfWheels = k_CarNumOfWheels;
             Wheels = new Wheel[NumOfWheels];
             MaxWheelAirPressure = k_CarMaxWheelAirPressure;
+
             if (Type == VehicleFactory.eVehicleType.ElectricCar)
             {
                 EnergySource = new ElectricMotor(k_ElectricCarMaxEnergyCapacity, i_CurrentEnergy);
