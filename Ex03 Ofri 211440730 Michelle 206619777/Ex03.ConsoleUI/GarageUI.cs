@@ -85,21 +85,22 @@ namespace Ex03.ConsoleUI
 
         private void displayLicensePlateList()
         {
-            bool showAllVehicles = ConsoleUtils.GetBooleanAnswerFromUser("show all vehicles");
+            List<string> allLicensePlates = r_Garage.GetAllLicensePlates();
+            printLicensePlatesOrMessage(allLicensePlates, "All vehicles in the garage",
+                "No vehicles in the garage");
 
-            if (showAllVehicles)
+            if (allLicensePlates.Count > 0)
             {
-                List<string> allLicensePlates = r_Garage.GetAllLicensePlates();
-                printLicensePlatesOrMessage(allLicensePlates, "All vehicles in the garage",
-                    "No vehicles in the garage");
-            }
-            else
-            {
-                eVehicleStatus vehicleStatus = ConsoleUtils.GetVehicleStatusFromUser();
-                List<string> filteredLicensePlates = r_Garage.GetLicensePlatesByVehicleStatus(vehicleStatus);
-                printLicensePlatesOrMessage(filteredLicensePlates,
-                    $"All {vehicleStatus} vehicles in the garage:",
-                    $"No {vehicleStatus} vehicles in the garage");
+                bool filterByStatus = ConsoleUtils.GetBooleanAnswerFromUser("filter by vehicle status?");
+                if (filterByStatus)
+                {
+                    eVehicleStatus vehicleStatus = ConsoleUtils.GetVehicleStatusFromUser();
+                    List<string> filteredLicensePlates = r_Garage.GetLicensePlatesByVehicleStatus(vehicleStatus);
+                    Console.Clear();
+                    printLicensePlatesOrMessage(filteredLicensePlates,
+                        $"All {vehicleStatus} vehicles in the garage:",
+                        $"No {vehicleStatus} vehicles in the garage");
+                }
             }
         }
 
@@ -143,7 +144,7 @@ namespace Ex03.ConsoleUI
                 Console.Clear();
                 Console.WriteLine("Vehicle {0} added successfully", i_LicensePlate);
             }
-            
+
             catch (Exception)
             {
                 Console.Clear();
@@ -175,7 +176,7 @@ namespace Ex03.ConsoleUI
                     return r_VehicleFactory.CreateVehicle(vehicleType, customerInfo, model, i_LicensePlate,
                         energyCapacity);
                 }
-                
+
                 catch (Exception exception)
                 {
                     ConsoleUtils.HandleExceptionAndAskUserIfToTryAgain(exception);
@@ -200,7 +201,7 @@ namespace Ex03.ConsoleUI
                     i_Vehicle.SetAddedFields(fieldsFromUser);
                     break;
                 }
-                
+
                 catch (Exception exception)
                 {
                     ConsoleUtils.HandleExceptionAndAskUserIfToTryAgain(exception);
@@ -260,7 +261,7 @@ namespace Ex03.ConsoleUI
                     refuelVehicleWithRetry(licensePlate);
                     Console.WriteLine("Vehicle {0}, refueled successfully", licensePlate);
                 }
-                
+
                 catch (Exception)
                 {
                     Console.WriteLine("Vehicle {0}, was not refueled", licensePlate);
@@ -274,13 +275,13 @@ namespace Ex03.ConsoleUI
             {
                 eFuelType fuelType = ConsoleUtils.GetFuelTypeFromUser();
                 float amountToFill = ConsoleUtils.GetLitersToRefuelFromUser();
-                
+
                 try
                 {
                     r_Garage.RefuelVehicle(i_LicensePlate, amountToFill, fuelType);
                     break;
                 }
-                
+
                 catch (Exception exception)
                 {
                     ConsoleUtils.HandleExceptionAndAskUserIfToTryAgain(exception);
@@ -299,7 +300,7 @@ namespace Ex03.ConsoleUI
                     chargeVehicleWithRetry(licensePlate);
                     Console.WriteLine("Vehicle {0}, charged successfully", licensePlate);
                 }
-                
+
                 catch (Exception)
                 {
                     Console.WriteLine("Vehicle {0}, was not charged", licensePlate);
@@ -312,13 +313,13 @@ namespace Ex03.ConsoleUI
             while (true)
             {
                 float minutesToCharge = ConsoleUtils.GetMinutesToChargeFromUser();
-                
+
                 try
                 {
                     r_Garage.ChargeBattery(i_LicensePlate, minutesToCharge);
                     break;
                 }
-               
+
                 catch (Exception exception)
                 {
                     ConsoleUtils.HandleExceptionAndAskUserIfToTryAgain(exception);
