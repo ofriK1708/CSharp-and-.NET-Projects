@@ -25,7 +25,7 @@ namespace Ex04.Menus.Interfaces
             }
         }
         
-        private static int getInputAndValidate(int i_Count, bool i_MainMenu)
+        private static int getInputAndValidate(int i_Count, bool i_MainMenu = false)
         {
             Console.WriteLine("Please enter your choice (1 - {0}) or 0 to {1}:", i_Count, i_MainMenu ? "exit" : "back");
             string userInput = Console.ReadLine();

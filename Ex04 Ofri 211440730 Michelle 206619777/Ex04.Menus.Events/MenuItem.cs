@@ -6,14 +6,14 @@ namespace Ex04.Menus.Interfaces
     public class MenuItem
     {
         internal string Title { get;}
-        private readonly IMenuItem m_Action;
+        private readonly Action r_Action;
         private readonly List<MenuItem> r_SubMenuItems;
         private readonly bool r_IsSubMenu;
         
-        public MenuItem(string i_Name, IMenuItem i_Action)
+        public MenuItem(string i_Name, Action i_Action)
         {
             Title = i_Name;
-            m_Action = i_Action;
+            r_Action = i_Action;
             r_IsSubMenu = false;
         }
 
@@ -28,7 +28,7 @@ namespace Ex04.Menus.Interfaces
         {
             if (!r_IsSubMenu)
             {
-                m_Action.Invoke();
+                r_Action.Invoke();
             }
             else
             {
