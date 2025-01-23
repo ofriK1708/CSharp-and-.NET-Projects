@@ -5,12 +5,14 @@ namespace Ex04.Menus.Events
 {
     public class MenuItem
     {
-        internal string Title { get;}
+        internal string Title { get; }
+
         public event Action ExcutableMethod;
+
         private readonly List<MenuItem> r_SubMenuItems;
         private readonly bool r_IsSubMenu;
         private const string k_LastOptionTitle = "Back";
-        
+
         public MenuItem(string i_Name, Action i_Action)
         {
             Title = i_Name;
@@ -27,9 +29,9 @@ namespace Ex04.Menus.Events
 
         public void HandleSelection()
         {
-            if (!r_IsSubMenu)
+            if(!r_IsSubMenu)
             {
-              OnExecutableSelect();
+                OnExecutableSelect();
             }
             else
             {
@@ -41,7 +43,7 @@ namespace Ex04.Menus.Events
         {
             int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
 
-            while (userChoice != 0)
+            while(userChoice != 0)
             {
                 r_SubMenuItems[userChoice - 1].HandleSelection();
                 Console.WriteLine();

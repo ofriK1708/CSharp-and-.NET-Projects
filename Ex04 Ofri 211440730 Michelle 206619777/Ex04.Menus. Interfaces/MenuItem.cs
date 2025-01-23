@@ -40,6 +40,7 @@ namespace Ex04.Menus.Interfaces
         private void showSubMenu()
         {
             int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
+
             while (userChoice != 0)
             {
                 r_SubMenuItems[userChoice - 1].HandleChoice();

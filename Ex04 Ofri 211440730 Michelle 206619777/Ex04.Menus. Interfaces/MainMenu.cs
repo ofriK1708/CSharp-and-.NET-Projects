@@ -27,6 +27,7 @@ namespace Ex04.Menus.Interfaces
         public void Show()
         {
             int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
+
             while (userChoice != 0)
             {
                 Console.Clear();
@@ -34,6 +35,7 @@ namespace Ex04.Menus.Interfaces
                 Console.Clear();
                 userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
             }
+
             Console.Clear();
         }
     }
