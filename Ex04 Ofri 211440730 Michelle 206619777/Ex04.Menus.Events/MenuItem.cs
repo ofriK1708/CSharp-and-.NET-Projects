@@ -44,13 +44,14 @@ namespace Ex04.Menus.Events
             while (userChoice != 0)
             {
                 r_SubMenuItems[userChoice - 1].HandleSelection();
-                Console.WriteLine("\n");
+                Console.WriteLine();
                 userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
             }
         }
 
         protected virtual void OnExecutableSelect()
         {
+            Console.WriteLine();
             ExcutableMethod?.Invoke();
         }
     }

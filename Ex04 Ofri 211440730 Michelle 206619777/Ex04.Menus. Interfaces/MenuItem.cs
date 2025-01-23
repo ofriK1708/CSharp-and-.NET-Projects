@@ -28,7 +28,7 @@ namespace Ex04.Menus.Interfaces
         {
             if (!r_IsSubMenu)
             {
-                Console.WriteLine("\n"); 
+                Console.WriteLine(); 
                 r_ExecutableMenuItem.Invoke();
             }
             else
@@ -43,8 +43,8 @@ namespace Ex04.Menus.Interfaces
             while (userChoice != 0)
             {
                 r_SubMenuItems[userChoice - 1].HandleChoice();
+                Console.WriteLine();
                 userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
-                Console.WriteLine("\n");
             }
         }
     }

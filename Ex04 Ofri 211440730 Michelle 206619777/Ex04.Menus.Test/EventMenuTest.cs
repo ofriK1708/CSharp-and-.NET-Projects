@@ -46,14 +46,12 @@ namespace Ex04.Menus.Test
 
         private void showCurrentTime_Select()
         {
-            DateTime now = DateTime.Now;
-            Console.WriteLine(now.TimeOfDay.ToString());
+            Console.WriteLine("The time now is {0:HH:mm:ss}",DateTime.Now);
         }
 
         private void showCurrentDate_Select()
         {
-            DateTime today= DateTime.Today;
-            Console.WriteLine(today.Date.ToString("d"));
+            Console.WriteLine("Current date is {0:d}", DateTime.Now);
         }
         
     }

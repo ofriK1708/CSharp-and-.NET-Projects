@@ -56,8 +56,7 @@ namespace Ex04.Menus.Test
         {
             public void Invoke()
             {
-                DateTime now = DateTime.Now;
-                Console.WriteLine(now.TimeOfDay.ToString());
+                Console.WriteLine("The time now is {0:HH:mm:ss}", DateTime.Now);
             }
         }
 
@@ -65,8 +64,7 @@ namespace Ex04.Menus.Test
         {
             public void Invoke()
             {
-                DateTime today= DateTime.Today;
-                Console.WriteLine(today.Date.ToString("d"));
+                Console.WriteLine("Current date is {0:d}", DateTime.Now);
             }
         }
     }

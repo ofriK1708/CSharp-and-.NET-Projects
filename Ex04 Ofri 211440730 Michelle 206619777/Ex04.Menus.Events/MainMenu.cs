@@ -31,10 +31,10 @@ namespace Ex04.Menus.Events
             {
                 Console.Clear();
                 r_SubMenuItems[userChoice - 1].HandleSelection();
-                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
                 Console.Clear();
+                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
             }
-            Console.WriteLine("Exiting...");
+            Console.Clear();
         }
     }
 }
