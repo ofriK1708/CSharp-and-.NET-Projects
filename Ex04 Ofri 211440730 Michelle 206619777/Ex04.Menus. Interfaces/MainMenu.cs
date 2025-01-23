@@ -7,6 +7,11 @@ namespace Ex04.Menus.Interfaces
         private readonly List<MenuItem> r_SubMenuItems = new List<MenuItem>();
         private string Title { get; }
 
+        public MainMenu(string i_Title)
+        {
+            Title = i_Title;
+        }
+        
         public void AddMenuItem(MenuItem i_Item)
         {
             r_SubMenuItems.Add(i_Item);
@@ -22,7 +27,7 @@ namespace Ex04.Menus.Interfaces
             int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, true);
             if (userChoice != 0)
             {
-                r_SubMenuItems[userChoice].Execute();
+                r_SubMenuItems[userChoice].HandleChoice();
             }
         }
     }
