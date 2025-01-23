@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Ex04.Menus.Interfaces
@@ -27,6 +28,7 @@ namespace Ex04.Menus.Interfaces
         {
             if (!r_IsSubMenu)
             {
+                Console.WriteLine("\n"); 
                 r_ExecutableMenuItem.Invoke();
             }
             else
@@ -40,12 +42,9 @@ namespace Ex04.Menus.Interfaces
             int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
             while (userChoice != 0)
             {
-                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
-                if (userChoice == 0)
-                {
-                    break;
-                }
                 r_SubMenuItems[userChoice - 1].HandleChoice();
+                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
+                Console.WriteLine("\n");
             }
         }
     }

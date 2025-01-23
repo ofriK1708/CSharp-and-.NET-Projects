@@ -12,11 +12,10 @@ namespace Ex04.Menus.Test
             MenuItem showVersion = new MenuItem("Show Version", this.showVersion_Select);
             MenuItem countLowercaseLetters = new MenuItem("Count Lowercase Letters", this.countLowercaseLetters_Select);
             MenuItem lettersAndVersion = new MenuItem("Letters and Version", new List<MenuItem> { showVersion, countLowercaseLetters });
-            mainMenu.AddMenuItem(lettersAndVersion);
             MenuItem showCurrentTime = new MenuItem("Show Current Time", this.showCurrentTime_Select);
             MenuItem showCurrentDate = new MenuItem("Show Current Date", this.showCurrentDate_Select);
             MenuItem showCurrentDateOrTime = new MenuItem("Show Current Date/Time", new List<MenuItem> { showCurrentTime, showCurrentDate });
-            mainMenu.AddMenuItem(showCurrentDateOrTime);
+            mainMenu.AddMenuItmes(new List<MenuItem> { lettersAndVersion, showCurrentDateOrTime });
             return mainMenu;
         }
 

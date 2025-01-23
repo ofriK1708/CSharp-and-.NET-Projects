@@ -19,7 +19,7 @@ namespace Ex04.Menus.Interfaces
             r_SubMenuItems.Add(i_Item);
         }
 
-        public void AddRange(List<MenuItem> i_Items)
+        public void AddMenuItems(List<MenuItem> i_Items)
         {
             r_SubMenuItems.AddRange(i_Items);
         }
@@ -30,14 +30,11 @@ namespace Ex04.Menus.Interfaces
             while (userChoice != 0)
             {
                 Console.Clear();
-                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
-                if (userChoice == 0)
-                {
-                    Console.WriteLine("Exiting...");
-                    break;
-                }
                 r_SubMenuItems[userChoice - 1].HandleChoice();
+                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
+                Console.Clear();
             }
+            Console.WriteLine("Exiting...");
         }
     }
 }

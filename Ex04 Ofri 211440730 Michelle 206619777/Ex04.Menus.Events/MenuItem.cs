@@ -40,14 +40,12 @@ namespace Ex04.Menus.Events
         private void showSubMenu()
         {
             int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
+
             while (userChoice != 0)
             {
-                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
-                if (userChoice == 0)
-                {
-                    break;
-                }
                 r_SubMenuItems[userChoice - 1].HandleSelection();
+                Console.WriteLine("\n");
+                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
             }
         }
 
