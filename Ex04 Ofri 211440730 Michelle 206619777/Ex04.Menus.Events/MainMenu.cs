@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Ex04.Menus.Events
@@ -24,10 +25,11 @@ namespace Ex04.Menus.Events
 
         public void Show()
         {
+            Console.Clear();
             int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, true);
             if (userChoice != 0)
             {
-                r_SubMenuItems[userChoice].HandleChoice();
+                r_SubMenuItems[userChoice - 1].HandleSelection();
             }
         }
     }

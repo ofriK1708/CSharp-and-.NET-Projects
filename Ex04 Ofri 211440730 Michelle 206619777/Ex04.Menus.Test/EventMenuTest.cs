@@ -9,46 +9,49 @@ namespace Ex04.Menus.Test
         public MainMenu CreateMenu()
         {
             MainMenu mainMenu = new MainMenu("Delegates Main Menu");
-            MenuItem showVersion = new MenuItem("Show Version", this.showVersion);
-            MenuItem countLowercaseLetters = new MenuItem("Count Lowercase Letters", this.countLowercaseLetters);
+            MenuItem showVersion = new MenuItem("Show Version", this.showVersion_Select);
+            MenuItem countLowercaseLetters = new MenuItem("Count Lowercase Letters", this.countLowercaseLetters_Select);
             MenuItem lettersAndVersion = new MenuItem("Letters and Version", new List<MenuItem> { showVersion, countLowercaseLetters });
             mainMenu.AddMenuItem(lettersAndVersion);
-            MenuItem showCurrentTime = new MenuItem("Show Current Time", this.showCurrentTime);
-            MenuItem showCurrentDate = new MenuItem("Show Current Date", this.showCurrentDate);
+            MenuItem showCurrentTime = new MenuItem("Show Current Time", this.showCurrentTime_Select);
+            MenuItem showCurrentDate = new MenuItem("Show Current Date", this.showCurrentDate_Select);
             MenuItem showCurrentDateOrTime = new MenuItem("Show Current Date/Time", new List<MenuItem> { showCurrentTime, showCurrentDate });
             mainMenu.AddMenuItem(showCurrentDateOrTime);
             return mainMenu;
         }
 
-        private void showVersion()
+        private void showVersion_Select()
         {
             Console.WriteLine("App Version: 25.1.4.5480");
         }
 
-        private void countLowercaseLetters()
+        private void countLowercaseLetters_Select()
         {
             uint count = 0;
             
             Console.WriteLine("Insert a sentence:");
             string userInput = Console.ReadLine();
-            
-            foreach (char letter in userInput)
+            if(!string.IsNullOrWhiteSpace(userInput))
             {
-                if (char.IsLower(letter))
+                foreach(char letter in userInput)
                 {
-                    count++;
+                    if(char.IsLower(letter))
+                    {
+                        count++;
+                    }
                 }
             }
+
             Console.WriteLine($"Lowercase letters: {count}");
         }
 
-        private void showCurrentTime()
+        private void showCurrentTime_Select()
         {
             DateTime now = DateTime.Now;
             Console.WriteLine(now.TimeOfDay.ToString());
         }
 
-        private void showCurrentDate()
+        private void showCurrentDate_Select()
         {
             DateTime today= DateTime.Today;
             Console.WriteLine(today.Date.ToString("d"));

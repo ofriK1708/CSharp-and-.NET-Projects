@@ -36,14 +36,18 @@ namespace Ex04.Menus.Test
             
                 Console.WriteLine("Insert a sentence:");
                 string userInput = Console.ReadLine();
-            
-                foreach (char letter in userInput)
+
+                if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    if (char.IsLower(letter))
+                    foreach (char letter in userInput)
                     {
-                        count++;
+                        if (char.IsLower(letter))
+                        {
+                            count++;
+                        }
                     }
                 }
+
                 Console.WriteLine($"Lowercase letters: {count}");
             }  
         }

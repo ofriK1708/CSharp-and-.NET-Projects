@@ -6,14 +6,14 @@ namespace Ex04.Menus.Events
     public class MenuItem
     {
         internal string Title { get;}
-        public event Action m_Action;
+        public event Action ExcutableMethod;
         private readonly List<MenuItem> r_SubMenuItems;
         private readonly bool r_IsSubMenu;
         
         public MenuItem(string i_Name, Action i_Action)
         {
             Title = i_Name;
-            m_Action = i_Action;
+            ExcutableMethod = i_Action;
             r_IsSubMenu = false;
         }
 
@@ -24,11 +24,11 @@ namespace Ex04.Menus.Events
             r_IsSubMenu = true;
         }
 
-        public void HandleChoice()
+        public void HandleSelection()
         {
             if (!r_IsSubMenu)
             {
-              OnExecutableChoice();
+              OnExecutableSelect();
             }
             else
             {
@@ -36,14 +36,14 @@ namespace Ex04.Menus.Events
                 int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, false);
                 if (userChoice != 0)
                 {
-                    r_SubMenuItems[userChoice].HandleChoice();
+                    r_SubMenuItems[userChoice - 1].HandleSelection();
                 }
             }
         }
 
-        protected virtual void OnExecutableChoice()
+        protected virtual void OnExecutableSelect()
         {
-            m_Action?.Invoke();
+            ExcutableMethod?.Invoke();
         }
     }
 }

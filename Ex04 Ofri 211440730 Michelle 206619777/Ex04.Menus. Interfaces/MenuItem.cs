@@ -6,14 +6,14 @@ namespace Ex04.Menus.Interfaces
     public class MenuItem
     {
         internal string Title { get;}
-        private readonly IMenuItem m_ExecutableMenuItem;
+        private readonly IMenuItem r_ExecutableMenuItem;
         private readonly List<MenuItem> r_SubMenuItems;
         private readonly bool r_IsSubMenu;
         
         public MenuItem(string i_Name, IMenuItem i_ExecutableMenuItem)
         {
             Title = i_Name;
-            m_ExecutableMenuItem = i_ExecutableMenuItem;
+            r_ExecutableMenuItem = i_ExecutableMenuItem;
             r_IsSubMenu = false;
         }
 
@@ -28,7 +28,7 @@ namespace Ex04.Menus.Interfaces
         {
             if (!r_IsSubMenu)
             {
-                m_ExecutableMenuItem.Invoke();
+                r_ExecutableMenuItem.Invoke();
             }
             else
             {
@@ -36,7 +36,7 @@ namespace Ex04.Menus.Interfaces
                 int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, false);
                 if (userChoice != 0)
                 {
-                    r_SubMenuItems[userChoice].HandleChoice();
+                    r_SubMenuItems[userChoice - 1].HandleChoice();
                 }
             }
         }

@@ -27,7 +27,7 @@ namespace Ex04.Menus.Interfaces
             int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, true);
             if (userChoice != 0)
             {
-                r_SubMenuItems[userChoice].HandleChoice();
+                r_SubMenuItems[userChoice - 1].HandleChoice();
             }
         }
     }
