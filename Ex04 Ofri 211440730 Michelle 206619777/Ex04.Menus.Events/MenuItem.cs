@@ -9,6 +9,7 @@ namespace Ex04.Menus.Events
         public event Action ExcutableMethod;
         private readonly List<MenuItem> r_SubMenuItems;
         private readonly bool r_IsSubMenu;
+        private const bool v_MainMenu = true;
         
         public MenuItem(string i_Name, Action i_Action)
         {
@@ -32,12 +33,21 @@ namespace Ex04.Menus.Events
             }
             else
             {
-                Console.Clear();
-                int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, false);
-                if (userChoice != 0)
+                showSubMenu();
+            }
+        }
+
+        private void showSubMenu()
+        {
+            int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, !v_MainMenu);
+            while (userChoice != 0)
+            {
+                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, !v_MainMenu);
+                if (userChoice == 0)
                 {
-                    r_SubMenuItems[userChoice - 1].HandleSelection();
+                    break;
                 }
+                r_SubMenuItems[userChoice - 1].HandleSelection();
             }
         }
 

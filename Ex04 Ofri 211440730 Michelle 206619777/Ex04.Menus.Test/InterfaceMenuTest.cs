@@ -8,7 +8,7 @@ namespace Ex04.Menus.Test
     {
         public MainMenu CreateMenu()
         {
-            MainMenu mainMenu = new MainMenu("Delegates Main Menu");
+            MainMenu mainMenu = new MainMenu("Interfaces Main Menu");
             MenuItem showVersion = new MenuItem("Show Version", new ShowVersion());
             MenuItem countLowercaseLetters = new MenuItem("Count Lowercase Letters",new CountLowercaseLetters());
             MenuItem lettersAndVersion = new MenuItem("Letters and Version", new List<MenuItem> { showVersion, countLowercaseLetters });

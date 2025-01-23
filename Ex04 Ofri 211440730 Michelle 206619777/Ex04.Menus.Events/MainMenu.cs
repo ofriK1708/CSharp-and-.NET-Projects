@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Ex04.Menus.Events
@@ -7,6 +8,7 @@ namespace Ex04.Menus.Events
     {
         private readonly List<MenuItem> r_SubMenuItems = new List<MenuItem>();
         private string Title { get; }
+        private const bool v_MainMenu = true;
 
         public MainMenu(string i_Title)
         {
@@ -25,10 +27,16 @@ namespace Ex04.Menus.Events
 
         public void Show()
         {
-            Console.Clear();
-            int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, true);
-            if (userChoice != 0)
+            int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, v_MainMenu);
+            while (userChoice != 0)
             {
+                Console.Clear();
+                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, v_MainMenu);
+                if (userChoice == 0)
+                {
+                    Console.WriteLine("Exiting...");
+                    break;
+                }
                 r_SubMenuItems[userChoice - 1].HandleSelection();
             }
         }

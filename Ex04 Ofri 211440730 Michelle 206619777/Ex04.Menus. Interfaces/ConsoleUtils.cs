@@ -6,13 +6,13 @@ namespace Ex04.Menus.Interfaces
     public class ConsoleUtils
     {
 
-        public static int ShowMenuAndGetUserChoice(string i_Title, List<MenuItem> i_MenuItems, bool i_MainMenu)
+        public static int ShowMenuAndGetUserChoice(string i_Title, List<MenuItem> i_MenuItems, bool i_IsMainMenu)
         {
             Console.WriteLine("** {0} **", i_Title);
             Console.WriteLine("-----------------------------------");
             printMenuItems(i_MenuItems);
-            Console.WriteLine("0 - {0}", i_MainMenu ? "Exit" : "Back");
-            int userChoice = getInputAndValidate(i_MenuItems.Count, i_MainMenu);
+            Console.WriteLine("0 - {0}", i_IsMainMenu ? "Exit" : "Back");
+            int userChoice = getInputAndValidate(i_MenuItems.Count, i_IsMainMenu);
             
             return userChoice;
         }
