@@ -15,7 +15,7 @@ namespace Ex04.Menus.Test
             MenuItem showCurrentTime = new MenuItem("Show Current Time", this.showCurrentTime_Select);
             MenuItem showCurrentDate = new MenuItem("Show Current Date", this.showCurrentDate_Select);
             MenuItem showCurrentDateOrTime = new MenuItem("Show Current Date/Time", new List<MenuItem> { showCurrentTime, showCurrentDate });
-            mainMenu.AddMenuItmes(new List<MenuItem> { lettersAndVersion, showCurrentDateOrTime });
+            mainMenu.AddMenuItems(new List<MenuItem> { lettersAndVersion, showCurrentDateOrTime });
             
             return mainMenu;
         }

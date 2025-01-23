@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ex04.Menus.Events
 {
-    public class ConsoleUtils
+    public static class ConsoleUtils
     {
 
         public static int ShowMenuAndGetUserChoice(string i_Title, List<MenuItem> i_MenuItems, string i_LastOptionTitle)

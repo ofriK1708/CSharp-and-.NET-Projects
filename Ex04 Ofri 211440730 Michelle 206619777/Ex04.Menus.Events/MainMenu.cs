@@ -19,7 +19,7 @@ namespace Ex04.Menus.Events
             r_SubMenuItems.Add(i_Item);
         }
 
-        public void AddMenuItmes(List<MenuItem> i_Items)
+        public void AddMenuItems(List<MenuItem> i_Items)
         {
             r_SubMenuItems.AddRange(i_Items);
         }
