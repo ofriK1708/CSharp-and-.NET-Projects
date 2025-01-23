@@ -9,7 +9,7 @@ namespace Ex04.Menus.Events
         public event Action ExcutableMethod;
         private readonly List<MenuItem> r_SubMenuItems;
         private readonly bool r_IsSubMenu;
-        private const bool v_MainMenu = true;
+        private const string k_LastOptionTitle = "Back";
         
         public MenuItem(string i_Name, Action i_Action)
         {
@@ -39,10 +39,10 @@ namespace Ex04.Menus.Events
 
         private void showSubMenu()
         {
-            int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, !v_MainMenu);
+            int userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
             while (userChoice != 0)
             {
-                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, !v_MainMenu);
+                userChoice = ConsoleUtils.ShowMenuAndGetUserChoice(Title, r_SubMenuItems, k_LastOptionTitle);
                 if (userChoice == 0)
                 {
                     break;

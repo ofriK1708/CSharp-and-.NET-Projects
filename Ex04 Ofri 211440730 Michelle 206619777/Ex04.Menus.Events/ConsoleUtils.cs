@@ -6,13 +6,13 @@ namespace Ex04.Menus.Events
     public class ConsoleUtils
     {
 
-        public static int ShowMenuAndGetUserChoice(string i_Title, List<MenuItem> i_MenuItems, bool i_IsMainMenu)
+        public static int ShowMenuAndGetUserChoice(string i_Title, List<MenuItem> i_MenuItems, string i_LastOptionTitle)
         {
             Console.WriteLine("** {0} **", i_Title);
             Console.WriteLine("-----------------------------------");
             printMenuItems(i_MenuItems);
-            Console.WriteLine("0 - {0}", i_IsMainMenu ? "Exit" : "Back");
-            int userChoice = getInputAndValidate(i_MenuItems.Count, i_IsMainMenu);
+            Console.WriteLine("0 - {0}", i_LastOptionTitle);
+            int userChoice = getInputAndValidate(i_MenuItems.Count, i_LastOptionTitle);
             
             return userChoice;
         }
@@ -25,9 +25,9 @@ namespace Ex04.Menus.Events
             }
         }
         
-        private static int getInputAndValidate(int i_Count, bool i_MainMenu = false)
+        private static int getInputAndValidate(int i_Count, string i_LastOptionTitle)
         {
-            Console.WriteLine("Please enter your choice (1 - {0}) or 0 to {1}:", i_Count, i_MainMenu ? "exit" : "back");
+            Console.WriteLine("Please enter your choice (1 - {0}) or 0 to {1}:", i_Count, i_LastOptionTitle);
             string userInput = Console.ReadLine();
             bool tryParse = int.TryParse(userInput, out int userChoice);
 

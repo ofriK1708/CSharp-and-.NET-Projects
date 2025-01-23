@@ -6,14 +6,14 @@ namespace Ex04.Menus.Interfaces
     public class ConsoleUtils
     {
 
-        public static int ShowMenuAndGetUserChoice(string i_Title, List<MenuItem> i_MenuItems, bool i_IsMainMenu)
+        public static int ShowMenuAndGetUserChoice(string i_Title, List<MenuItem> i_MenuItems, string i_LastOptionTitle)
         {
             Console.WriteLine("** {0} **", i_Title);
             Console.WriteLine("-----------------------------------");
             printMenuItems(i_MenuItems);
-            Console.WriteLine("0 - {0}", i_IsMainMenu ? "Exit" : "Back");
-            int userChoice = getInputAndValidate(i_MenuItems.Count, i_IsMainMenu);
-            
+            Console.WriteLine("0 - {0}", i_LastOptionTitle);
+            int userChoice = getInputAndValidate(i_MenuItems.Count, i_LastOptionTitle);
+
             return userChoice;
         }
 
@@ -24,10 +24,10 @@ namespace Ex04.Menus.Interfaces
                 Console.WriteLine("{0} - {1}", i + 1, i_Menu[i].Title);
             }
         }
-        
-        private static int getInputAndValidate(int i_Count, bool i_MainMenu)
+
+        private static int getInputAndValidate(int i_Count, string i_LastOptionTitle)
         {
-            Console.WriteLine("Please enter your choice (1 - {0}) or 0 to {1}:", i_Count, i_MainMenu ? "exit" : "back");
+            Console.WriteLine("Please enter your choice (1 - {0}) or 0 to {1}:", i_Count, i_LastOptionTitle);
             string userInput = Console.ReadLine();
             bool tryParse = int.TryParse(userInput, out int userChoice);
 
@@ -37,7 +37,7 @@ namespace Ex04.Menus.Interfaces
                 userInput = Console.ReadLine();
                 tryParse = int.TryParse(userInput, out userChoice);
             }
-            
+
             return userChoice;
         }
     }
