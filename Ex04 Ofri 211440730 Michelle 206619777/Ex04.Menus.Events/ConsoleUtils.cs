@@ -5,7 +5,6 @@ namespace Ex04.Menus.Events
 {
     public static class ConsoleUtils
     {
-
         public static int ShowMenuAndGetUserChoice(string i_Title, List<MenuItem> i_MenuItems, string i_LastOptionTitle)
         {
             Console.WriteLine("** {0} **", i_Title);

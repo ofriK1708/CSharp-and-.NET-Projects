@@ -10,6 +10,7 @@ namespace Ex04.Menus.Interfaces
         private readonly List<MenuItem> r_SubMenuItems;
         private readonly bool r_IsSubMenu;
         private const string k_LastOptionTitle = "Back";
+        
         public MenuItem(string i_Name, IMenuItem i_ExecutableMenuItem)
         {
             Title = i_Name;

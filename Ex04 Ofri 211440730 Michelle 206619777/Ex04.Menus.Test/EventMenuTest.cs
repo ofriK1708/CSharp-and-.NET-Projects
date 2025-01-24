@@ -54,6 +54,5 @@ namespace Ex04.Menus.Test
         {
             Console.WriteLine("Current date is {0:d}", DateTime.Now);
         }
-        
     }
 }
