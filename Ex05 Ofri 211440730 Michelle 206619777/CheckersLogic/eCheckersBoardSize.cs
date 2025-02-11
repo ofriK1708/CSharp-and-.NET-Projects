@@ -1,7 +1,7 @@
 ﻿
 namespace CheckersLogic
 {
-    internal enum eCheckersBoardSize
+    public enum eCheckersBoardSize
     {
         Size6 = 6,
         Size8 = 8,

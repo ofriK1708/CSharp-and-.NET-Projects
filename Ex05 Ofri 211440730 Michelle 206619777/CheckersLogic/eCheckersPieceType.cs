@@ -1,7 +1,7 @@
 ﻿
 namespace CheckersLogic
 {
-    internal enum eCheckersPieceType
+    public enum eCheckersPieceType
     { 
        XPiece = 'X',
        OPiece = 'O',

@@ -2,7 +2,7 @@
 using System.Linq;
 using CheckersLogic;
 
-namespace CheckersLogic
+namespace CheckersUI
 {
     internal class CheckersUI
     {

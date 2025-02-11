@@ -1,13 +1,13 @@
 ﻿namespace CheckersLogic
 {
-    internal class Player
+    public class Player
     {
-        internal string Name { get;}
-        internal ePlayerType PlayerType { get; set; }
-        internal uint Score { get; set; }
-        internal eCheckersPieceType PieceType { get; }
+        public string Name { get;}
+        public ePlayerType PlayerType { get; set; }
+        public uint Score { get; set; }
+        public eCheckersPieceType PieceType { get; }
 
-        internal Player(string i_Name, ePlayerType i_PlayerType, eCheckersPieceType i_PieceType)
+        public Player(string i_Name, ePlayerType i_PlayerType, eCheckersPieceType i_PieceType)
         {
             this.Name = i_Name;
             this.PlayerType = i_PlayerType;

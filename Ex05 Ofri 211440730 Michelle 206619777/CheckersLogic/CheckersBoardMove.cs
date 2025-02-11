@@ -2,10 +2,10 @@
 
 namespace CheckersLogic
 {
-    internal struct CheckersBoardMove
+    public struct CheckersBoardMove
     {
-        internal BoardPosition From { get; set; }
-        internal BoardPosition To { get; set; }
+        public BoardPosition From { get; set; }
+        public BoardPosition To { get; set; }
 
         internal CheckersBoardMove(BoardPosition i_From, BoardPosition i_To)
         {
@@ -13,7 +13,7 @@ namespace CheckersLogic
             this.To = i_To;
         }
 
-        internal void SetMove(String i_MoveInput)
+        public void SetMove(String i_MoveInput)
         {
             this.From = new BoardPosition(i_MoveInput[0], i_MoveInput[1]);
             this.To = new BoardPosition(i_MoveInput[3], i_MoveInput[4]);
