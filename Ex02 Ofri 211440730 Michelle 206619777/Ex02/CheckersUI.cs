@@ -15,8 +15,9 @@ namespace Ex02
         private CheckersGame m_CheckersGame;
         private int m_GameNumber = 1;
         private const string k_ComputerPlayerName = "Computer";
-        private bool m_GameQuitedByPlayer = false;
+        private bool m_GameQuittedByPlayer = false;
         private bool m_GameFinished = false;
+        private readonly Random r_RandomGenerator = new Random();
 
         internal void StartGame()
         {
@@ -47,10 +48,10 @@ namespace Ex02
 
         private void playGame()
         {
-            m_GameQuitedByPlayer = false;
+            m_GameQuittedByPlayer = false;
             m_GameFinished = false;
 
-            while (!m_GameFinished && !m_GameQuitedByPlayer)
+            while (!m_GameFinished && !m_GameQuittedByPlayer)
             {
                 m_CheckersGame.handleGameStateBeforeNextMove();
                 if (m_CheckersGame.IsStalemate)
@@ -69,7 +70,7 @@ namespace Ex02
 
                 printPlayerTurn(m_CheckersGame.ActivePlayer);
                 CheckersBoardMove move = getNextValidMoveOrQuitGame();
-                if (m_GameQuitedByPlayer)
+                if (m_GameQuittedByPlayer)
                 {
                     m_CheckersGame.HandleOpponentWin();
                     printWinMessage(m_CheckersGame.ActivePlayer, m_CheckersGame.Player1, m_CheckersGame.Player2);
@@ -96,13 +97,13 @@ namespace Ex02
             if (m_CheckersGame.ActivePlayer.PlayerType == ePlayerType.Computer)
             {
                 printComputerMessage();
-                uint randomIndex = (uint)new Random().Next(m_CheckersGame.ValidMoves.Count);
+                uint randomIndex = (uint)r_RandomGenerator.Next(m_CheckersGame.ValidMoves.Count);
                 move = m_CheckersGame.ValidMoves[(int)randomIndex];
             }
             else
             {
                 getMoveOrQuitGameByPlayer(out move);
-                while (!m_GameQuitedByPlayer && !m_CheckersGame.CheckMovePartOfValidMoves(move))
+                while (!m_GameQuittedByPlayer && !m_CheckersGame.CheckMovePartOfValidMoves(move))
                 {
                     printMoveInvalid();
                     getMoveOrQuitGameByPlayer(out move);
@@ -155,7 +156,7 @@ namespace Ex02
 
             while (!isInputPartOfIntEnum(boardSize, typeof(eCheckersBoardSize)))
             {
-                Console.WriteLine("Boasd size is not valid, the options are 6, 8, or 10");
+                Console.WriteLine("Board size is not valid, the options are 6, 8, or 10");
                 boardSize = getUserInput();
             }
 
@@ -178,25 +179,25 @@ namespace Ex02
 
         private void printBoard(CheckersBoard i_CheckersBoard)
         {
-            eCheckersPieceType[,] i_Board = i_CheckersBoard.Board;
-            eCheckersBoardSize i_BoardSize = i_CheckersBoard.Size;
+            eCheckersPieceType[,] board = i_CheckersBoard.Board;
+            eCheckersBoardSize boardSize = i_CheckersBoard.Size;
             char rowLetter = 'A', colLetter = 'a';
 
-            Ex02.ConsoleUtils.Screen.Clear();
-            for (int col = 0; col < (int)i_BoardSize; col++)
+            ConsoleUtils.Screen.Clear();
+            for (int col = 0; col < (int)boardSize; col++)
             {
                 Console.Write("   {0}", colLetter++);
             }
 
             Console.WriteLine();
-            for (int row = 0; row <= (int)i_BoardSize * 2; row++)
+            for (int row = 0; row <= (int)boardSize * 2; row++)
             {
                 if (row % 2 == 0)
                 {
                     Console.Write(" ");
                 }
 
-                for (int col = 0; col < (int)i_BoardSize; col++)
+                for (int col = 0; col < (int)boardSize; col++)
                 {
                     if (row % 2 == 0)
                     {
@@ -208,7 +209,7 @@ namespace Ex02
                         {
                             Console.Write("{0}", rowLetter++);
                         }
-                        Console.Write("| {0} ", (char)i_Board[(row - 1) / 2, col]);
+                        Console.Write("| {0} ", (char)board[(row - 1) / 2, col]);
                     }
                 }
 
@@ -239,7 +240,7 @@ namespace Ex02
 
             if (moveInput == k_QuitChar)
             {
-                m_GameQuitedByPlayer = true;
+                m_GameQuittedByPlayer = true;
             }
             else
             {

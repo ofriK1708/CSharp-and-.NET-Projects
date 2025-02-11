@@ -1,6 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Ex02
 {
@@ -61,7 +59,7 @@ namespace Ex02
             if (skippedOpponentsPiece)
             {
                 ValidMoves = getValidSkipsFromPosition(i_ValidMove.To, ActivePlayer);
-                m_ContinueTurnForCurrentPlayer = ValidMoves.Count > 0 ? true : false;
+                m_ContinueTurnForCurrentPlayer = ValidMoves.Count > 0;
             }
             else
             {
@@ -116,7 +114,7 @@ namespace Ex02
 
         private bool checkIfPlayerWon(Player i_ActivePlayer)
         {
-            bool isPlayerWon = false;
+            bool isPlayerWon;
             eCheckersPieceType pieceType = i_ActivePlayer.PieceType;
 
             if(pieceType.Equals(eCheckersPieceType.XPiece) || pieceType.Equals(eCheckersPieceType.XKingPiece))
@@ -168,7 +166,7 @@ namespace Ex02
 
             foreach (BoardPosition position in winningPositions)
             {
-                if (GameBoard.isPieceKing(position.Row, position.Column))
+                if (GameBoard.IsPieceKing(position.Row, position.Column))
                 {
                     winnerScore = winnerScore + 4;
                 }
@@ -180,7 +178,7 @@ namespace Ex02
 
             foreach (BoardPosition position in loosingPositions)
             {
-                if (GameBoard.isPieceKing(position.Row, position.Column))
+                if (GameBoard.IsPieceKing(position.Row, position.Column))
                 {
                     looserScore = looserScore + 4;
                 }
@@ -214,24 +212,24 @@ namespace Ex02
                     int newColLeft = position.Column - 1;
                     int newKingRow = position.Row - directionToMoveInRow;
 
-                    if (GameBoard.isCellInRange(newRow, newColRight) && GameBoard.isCellEmpty(newRow, newColRight))
+                    if (GameBoard.IsCellInRange(newRow, newColRight) && GameBoard.IsCellEmpty(newRow, newColRight))
                     {
                         validBoardMoves.Add(new CheckersBoardMove(position, new BoardPosition(newRow, newColRight)));
                     }
 
-                    if (GameBoard.isCellInRange(newRow, newColLeft) && GameBoard.isCellEmpty(newRow, newColLeft))
+                    if (GameBoard.IsCellInRange(newRow, newColLeft) && GameBoard.IsCellEmpty(newRow, newColLeft))
                     {
                         validBoardMoves.Add(new CheckersBoardMove(position, new BoardPosition(newRow, newColLeft)));
                     }
 
-                    if (GameBoard.isPieceKing(position.Row, position.Column))
+                    if (GameBoard.IsPieceKing(position.Row, position.Column))
                     {
-                        if (GameBoard.isCellInRange(newKingRow, newColRight) && GameBoard.isCellEmpty(newKingRow, newColRight))
+                        if (GameBoard.IsCellInRange(newKingRow, newColRight) && GameBoard.IsCellEmpty(newKingRow, newColRight))
                         {
                             validBoardMoves.Add(new CheckersBoardMove(position, new BoardPosition(newKingRow, newColRight)));
                         }
 
-                        if (GameBoard.isCellInRange(newKingRow, newColLeft) && GameBoard.isCellEmpty(newKingRow, newColLeft))
+                        if (GameBoard.IsCellInRange(newKingRow, newColLeft) && GameBoard.IsCellEmpty(newKingRow, newColLeft))
                         {
                             validBoardMoves.Add(new CheckersBoardMove(position, new BoardPosition(newKingRow, newColLeft)));
                         }
@@ -256,24 +254,24 @@ namespace Ex02
             int newKingRow = i_Position.Row - directionToMoveInRow;
             int newKingRowDouble = i_Position.Row - directionToMoveInRow * 2;
 
-            if (GameBoard.isCellInRange(newRowDouble, newColRightDouble) && GameBoard.isCellEmpty(newRowDouble, newColRightDouble) && GameBoard.isOponentPiece(opponentPiece, newRow, newColRight))
+            if (GameBoard.IsCellInRange(newRowDouble, newColRightDouble) && GameBoard.IsCellEmpty(newRowDouble, newColRightDouble) && GameBoard.IsOpponentPiece(opponentPiece, newRow, newColRight))
             {
                 validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newRowDouble, newColRightDouble)));
             }
 
-            if (GameBoard.isCellInRange(newRowDouble, newColLeftDouble) && GameBoard.isCellEmpty(newRowDouble, newColLeftDouble) && GameBoard.isOponentPiece(opponentPiece, newRow, newColLeft))
+            if (GameBoard.IsCellInRange(newRowDouble, newColLeftDouble) && GameBoard.IsCellEmpty(newRowDouble, newColLeftDouble) && GameBoard.IsOpponentPiece(opponentPiece, newRow, newColLeft))
             {
                 validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newRowDouble, newColLeftDouble)));
             }
 
-            if (GameBoard.isPieceKing(i_Position.Row, i_Position.Column))
+            if (GameBoard.IsPieceKing(i_Position.Row, i_Position.Column))
             {
-                if (GameBoard.isCellInRange(newKingRowDouble, newColRightDouble) && GameBoard.isCellEmpty(newKingRowDouble, newColRightDouble) && GameBoard.isOponentPiece(opponentPiece, newKingRow, newColRight))
+                if (GameBoard.IsCellInRange(newKingRowDouble, newColRightDouble) && GameBoard.IsCellEmpty(newKingRowDouble, newColRightDouble) && GameBoard.IsOpponentPiece(opponentPiece, newKingRow, newColRight))
                 {
                     validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newKingRowDouble, newColRightDouble)));
                 }
 
-                if (GameBoard.isCellInRange(newKingRowDouble, newColLeftDouble) && GameBoard.isCellEmpty(newKingRowDouble, newColLeftDouble) && GameBoard.isOponentPiece(opponentPiece, newKingRow, newColLeft))
+                if (GameBoard.IsCellInRange(newKingRowDouble, newColLeftDouble) && GameBoard.IsCellEmpty(newKingRowDouble, newColLeftDouble) && GameBoard.IsOpponentPiece(opponentPiece, newKingRow, newColLeft))
                 {
                     validBoardPositions.Add(new CheckersBoardMove(i_Position, new BoardPosition(newKingRowDouble, newColLeftDouble)));
                 }

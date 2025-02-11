@@ -10,9 +10,9 @@ namespace Ex02
         internal eCheckersPieceType[,] Board { get; private set; }
         internal List<BoardPosition> XPositions { get; } = new List<BoardPosition>();
         internal List<BoardPosition> OPositions { get; } = new List<BoardPosition>();
-        internal CheckersBoard(eCheckersBoardSize i_size)
+        internal CheckersBoard(eCheckersBoardSize i_Size)
         {
-            Size = i_size;
+            Size = i_Size;
             Board = new eCheckersPieceType[(int)Size, (int)Size];
             resetBoard((int)Size);
         }
@@ -50,22 +50,22 @@ namespace Ex02
             }
         }
 
-        internal bool isCellEmpty(int i_Row, int i_Col)
+        internal bool IsCellEmpty(int i_Row, int i_Col)
         {
             return Board[i_Row, i_Col] == eCheckersPieceType.EmptyPlace;
         }
 
-        internal bool isCellInRange(int i_Row,int i_Col)
+        internal bool IsCellInRange(int i_Row,int i_Col)
         {
             return ((i_Row >= 0) && (i_Row < (int)Size)) && ((i_Col >= 0) && (i_Col < (int)Size));
         }
 
-        internal bool isPieceKing(int i_Row,int i_Col)
+        internal bool IsPieceKing(int i_Row,int i_Col)
         {
             return Board[i_Row, i_Col] == eCheckersPieceType.XKingPiece || Board[i_Row, i_Col] == eCheckersPieceType.OKingPiece;
         }
 
-        internal bool isOponentPiece(eCheckersPieceType i_OpponentPiece, int i_NewRow, int i_NewColRight)
+        internal bool IsOpponentPiece(eCheckersPieceType i_OpponentPiece, int i_NewRow, int i_NewColRight)
         {
             eCheckersPieceType oponentKingPiece;
 
@@ -88,7 +88,7 @@ namespace Ex02
             eCheckersPieceType pieceTypeInStartPos = Board[startPosition.Row, startPosition.Column];
             eCheckersPieceType pieceTypeInNextPos = getPieceTypeForNextPos(pieceTypeInStartPos, nextPosition.Row);
             bool isSkipMove = false;
-            int rowDiff = (int)Math.Abs(nextPosition.Row - startPosition.Row);
+            int rowDiff = Math.Abs(nextPosition.Row - startPosition.Row);
 
             Board[nextPosition.Row, nextPosition.Column] = pieceTypeInNextPos;
             Board[startPosition.Row, startPosition.Column] = eCheckersPieceType.EmptyPlace;

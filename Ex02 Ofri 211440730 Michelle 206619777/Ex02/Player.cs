@@ -1,7 +1,4 @@
-﻿
-using System;
-
-namespace Ex02
+﻿namespace Ex02
 {
     internal class Player
     {
