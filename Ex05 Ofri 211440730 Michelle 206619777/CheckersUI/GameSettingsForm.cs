@@ -1,6 +1,5 @@
 using System.Windows.Forms;
 using System.Drawing;
-using System.Net.NetworkInformation;
 namespace CheckersUI
 {
     public class GameSettingsForm : Form
