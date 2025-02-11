@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35707.178 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex05.CheckersUI", "CheckersUI\Ex05.CheckersUI.csproj", "{35EF593A-AE59-43F3-BA37-38F542ACFE69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckersLogic", "CheckersLogic\CheckersLogic.csproj", "{5C1D07F6-4D4E-44D6-9F76-3330F252BB93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{35EF593A-AE59-43F3-BA37-38F542ACFE69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35EF593A-AE59-43F3-BA37-38F542ACFE69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35EF593A-AE59-43F3-BA37-38F542ACFE69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C1D07F6-4D4E-44D6-9F76-3330F252BB93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C1D07F6-4D4E-44D6-9F76-3330F252BB93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C1D07F6-4D4E-44D6-9F76-3330F252BB93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C1D07F6-4D4E-44D6-9F76-3330F252BB93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
