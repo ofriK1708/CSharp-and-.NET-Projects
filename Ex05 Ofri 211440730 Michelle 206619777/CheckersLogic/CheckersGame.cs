@@ -2,7 +2,7 @@
 
 namespace CheckersLogic
 {
-    internal class CheckersGame
+    public class CheckersGame
     {
         internal CheckersBoard GameBoard { get; private set; }
         internal Player Player1 { get; set; }
