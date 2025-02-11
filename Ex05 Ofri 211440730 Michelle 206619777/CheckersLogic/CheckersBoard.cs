@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace CheckersLogic
 {
-    internal class CheckersBoard
+    public class CheckersBoard
     {
-        internal eCheckersBoardSize Size { get; private set; }
-        internal eCheckersPieceType[,] Board { get; private set; }
+        public eCheckersBoardSize Size { get; private set; }
+        public eCheckersPieceType[,] Board { get; private set; }
         internal List<BoardPosition> XPositions { get; } = new List<BoardPosition>();
         internal List<BoardPosition> OPositions { get; } = new List<BoardPosition>();
         internal CheckersBoard(eCheckersBoardSize i_Size)

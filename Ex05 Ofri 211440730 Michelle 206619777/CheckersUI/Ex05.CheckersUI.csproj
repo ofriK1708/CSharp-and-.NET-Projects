@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckersUI.cs" />
+    <Compile Include="GameSettingsForm.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>

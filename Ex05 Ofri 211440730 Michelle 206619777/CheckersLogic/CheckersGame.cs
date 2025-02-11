@@ -4,16 +4,16 @@ namespace CheckersLogic
 {
     public class CheckersGame
     {
-        internal CheckersBoard GameBoard { get; private set; }
-        internal Player Player1 { get; set; }
-        internal Player Player2 { get; set; }
-        internal Player ActivePlayer { get; private set; }
-        internal List<CheckersBoardMove> ValidMoves { get; private set; } = new List<CheckersBoardMove>();
+        public CheckersBoard GameBoard { get; private set; }
+        public Player Player1 { get; set; }
+        public Player Player2 { get; set; }
+        public Player ActivePlayer { get; private set; }
+        public List<CheckersBoardMove> ValidMoves { get; private set; } = new List<CheckersBoardMove>();
         private bool m_ContinueTurnForCurrentPlayer = false;
-        internal bool IsActivePlayerWon { get; private set; } = false;
-        internal bool IsStalemate { get; private set; } = false;
+        public bool IsActivePlayerWon { get; private set; } = false;
+        public bool IsStalemate { get; private set; } = false;
 
-        internal CheckersGame(Player i_Player1, Player i_Player2, eCheckersBoardSize i_CheckersBoardSize)
+        public CheckersGame(Player i_Player1, Player i_Player2, eCheckersBoardSize i_CheckersBoardSize)
         {
             Player1 = i_Player1;
             Player2 = i_Player2;
@@ -21,7 +21,7 @@ namespace CheckersLogic
             ActivePlayer = Player1;
         }
 
-        internal void ResetGame()
+        public void ResetGame()
         {
             GameBoard.resetBoard((int)GameBoard.Size);
             ActivePlayer = Player1;
@@ -30,7 +30,7 @@ namespace CheckersLogic
             m_ContinueTurnForCurrentPlayer = false;
         }
 
-        internal void handleGameStateBeforeNextMove()
+        public void handleGameStateBeforeNextMove()
         {
             if (!m_ContinueTurnForCurrentPlayer)
             {
@@ -52,7 +52,7 @@ namespace CheckersLogic
             }
         }
 
-        internal void playMove(CheckersBoardMove i_ValidMove)
+        public void playMove(CheckersBoardMove i_ValidMove)
         {
             bool skippedOpponentsPiece = GameBoard.executeMove(i_ValidMove);
 
@@ -67,7 +67,7 @@ namespace CheckersLogic
             }
         }
 
-        internal void handleGameStateAfterMove() 
+        public void handleGameStateAfterMove() 
         { 
            if (!m_ContinueTurnForCurrentPlayer)
            {
@@ -106,7 +106,7 @@ namespace CheckersLogic
             IsActivePlayerWon = true;
         }
 
-        internal void HandleOpponentWin()
+        public void HandleOpponentWin()
         {
             switchActivePlayer();
             handleActivePlayerWin();
@@ -141,7 +141,7 @@ namespace CheckersLogic
             }
         }
 
-        internal bool CheckMovePartOfValidMoves(CheckersBoardMove i_Move)
+        public bool CheckMovePartOfValidMoves(CheckersBoardMove i_Move)
         {
             return ValidMoves.Contains(i_Move);
         }

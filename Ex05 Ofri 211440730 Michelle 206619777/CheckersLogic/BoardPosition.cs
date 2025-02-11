@@ -1,9 +1,9 @@
 ﻿namespace CheckersLogic
 {
-    internal struct BoardPosition
+    public struct BoardPosition
     {
-        internal int Row { get; }
-        internal int Column { get; }
+        public int Row { get; }
+        public int Column { get; }
 
         internal BoardPosition(char i_Row, char i_Col)
         {
