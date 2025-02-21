@@ -82,7 +82,7 @@ namespace CheckersUI
         {
             Controls[i_Position.ToString()].Text = string.Empty;
         }
-        
+
         public void Game_PieceAdded(BoardPosition i_Position, eCheckersPieceType i_PieceType)
         {
             Controls[i_Position.ToString()].Text = ((char)i_PieceType).ToString();
@@ -110,7 +110,8 @@ namespace CheckersUI
         {
             try
             {
-                CheckersBoardMove move = new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, i_Button.BoardPosition);
+                CheckersBoardMove move =
+                    new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, i_Button.BoardPosition);
                 SecondPositionSelect?.Invoke(move);
             }
             catch (Exception e)
@@ -148,6 +149,46 @@ namespace CheckersUI
             else if (i_Button.BackColor == Color.LightSkyBlue)
             {
                 i_Button.BackColor = Color.White;
+            }
+        }
+
+        private void changeScore(Player i_Player)
+        {
+            if (i_Player.Name == labelPlayerOneName.Text)
+            {
+                labelPlayerOneScore.Text = i_Player.Score.ToString();
+            }
+            else
+            {
+                labelPlayerTwoScore.Text = i_Player.Score.ToString();
+            }
+        }
+
+        public void Game_PlayerWon(Player i_Winner)
+        {
+            DialogResult result = MessageBox.Show($@"{i_Winner.Name} Won! {Environment.NewLine}Another Round?",
+                @"Game Over", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                changeScore(i_Winner);
+                //todo - new game
+            }
+            else
+            {
+                Close();
+            }
+        }
+        
+        public void Game_Stalemate()
+        {
+            DialogResult result = MessageBox.Show($@"Tie! {Environment.NewLine}Another Round?", @"Game Over", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                //todo - new game
+            }
+            else
+            {
+                Close();
             }
         }
     }

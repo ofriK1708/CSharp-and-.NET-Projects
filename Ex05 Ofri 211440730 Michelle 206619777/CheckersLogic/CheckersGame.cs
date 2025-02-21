@@ -10,10 +10,10 @@ namespace CheckersLogic
         public Player Player2 { get; set; }
         public Player ActivePlayer { get; private set; }
         public List<CheckersBoardMove> ValidMoves { get; private set; } = new List<CheckersBoardMove>();
-        private bool m_ContinueTurnForCurrentPlayer = false;
-        public bool IsActivePlayerWon { get; private set; } = false;
-        public bool IsStalemate { get; private set; } = false;
+        private bool m_ContinueTurnForCurrentPlayer;
         public event Action<Player> ActivePlayerChanged;
+        public event Action<Player> PlayerWon;
+        public event Action Stalemate;
 
         public CheckersGame(Player i_Player1, Player i_Player2, int i_CheckersBoardSize)
         {
@@ -35,9 +35,13 @@ namespace CheckersLogic
         {
             GameBoard.resetBoard(GameBoard.Size);
             ActivePlayer = Player1;
-            IsActivePlayerWon = false;
-            IsStalemate = false;
+            ValidMoves = getAllValidMoves(ActivePlayer);
             m_ContinueTurnForCurrentPlayer = false;
+        }
+
+        public void GameForm_NewGame()
+        {
+           ResetGame();
         }
 
         public void GameForm_FirstPositionSelected(BoardPosition i_SelectedPosition)
@@ -47,11 +51,6 @@ namespace CheckersLogic
             if (eCheckersPieceType != ActivePlayer.PieceType)
             {
                 throw new ArgumentException("Illegal selection!, please choose a valid position!");
-            }
-
-            if (!m_ContinueTurnForCurrentPlayer)
-            {
-                ValidMoves = getAllValidMoves(ActivePlayer);
             }
         }
 
@@ -66,7 +65,7 @@ namespace CheckersLogic
             playMove(i_BoardMove);
         }
 
-        public void playMove(CheckersBoardMove i_ValidMove)
+        private void playMove(CheckersBoardMove i_ValidMove)
         {
             bool skippedOpponentsPiece = GameBoard.executeMove(i_ValidMove);
 
@@ -84,33 +83,54 @@ namespace CheckersLogic
             {
                 if (checkIfPlayerWon(ActivePlayer))
                 {
-                    handleActivePlayerWin();
+                    OnPlayerWon(ActivePlayer);
                 }
                 else
                 {
-                    switchActivePlayer();
                     handleGameStateBeforeNextMove();
-                    OnActivePlayerChanged();
                 }
             }
         }
 
-        public void handleGameStateBeforeNextMove()
+        private void handleGameStateBeforeNextMove()
         {
+            switchActivePlayer();
             ValidMoves = getAllValidMoves(ActivePlayer);
-            if (ValidMoves.Count <= 0)
+
+            if (ValidMoves.Count > 0)
+            {
+                OnActivePlayerChanged();
+            }
+            else
             {
                 Player opponent = getOpponent(ActivePlayer);
                 List<CheckersBoardMove> opponentsValidMoves = getAllValidMoves(opponent);
 
                 if (opponentsValidMoves.Count <= 0)
                 {
-                    IsStalemate = true;
+                    OnStalemate();
                 }
                 else
                 {
-                    HandleOpponentWin();
+                    OnPlayerWon(opponent);
                 }
+            }
+        }
+
+        private void OnStalemate()
+        {
+           Stalemate?.Invoke();
+        }
+
+        private void switchActivePlayer()
+        {
+            if (ActivePlayer.Equals(Player1))
+            {
+                ActivePlayer = Player2;
+            }
+            else
+            {
+                ActivePlayer = Player1;
             }
         }
 
@@ -130,18 +150,11 @@ namespace CheckersLogic
             return opponent;
         }
 
-        private void handleActivePlayerWin()
+        private void OnPlayerWon(Player i_Player)
         {
-            uint addedScore = calcScore(ActivePlayer.PieceType);
-
-            ActivePlayer.addToScore(addedScore);
-            IsActivePlayerWon = true;
-        }
-
-        public void HandleOpponentWin()
-        {
-            switchActivePlayer();
-            handleActivePlayerWin();
+            uint addedScore = calcScore(i_Player.PieceType);
+            i_Player.addToScore(addedScore);
+            PlayerWon?.Invoke(i_Player);
         }
 
         private bool checkIfPlayerWon(Player i_ActivePlayer)
@@ -159,18 +172,6 @@ namespace CheckersLogic
             }
 
             return isPlayerWon;
-        }
-
-        private void switchActivePlayer()
-        {
-            if (ActivePlayer.Equals(Player1))
-            {
-                ActivePlayer = Player2;
-            }
-            else
-            {
-                ActivePlayer = Player1;
-            }
         }
 
         private void OnActivePlayerChanged()
