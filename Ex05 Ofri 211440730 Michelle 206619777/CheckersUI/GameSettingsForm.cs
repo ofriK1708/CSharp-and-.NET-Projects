@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using CheckersLogic;
 
@@ -9,12 +8,12 @@ namespace CheckersUI
     {
         private const int k_MaxNameLength = 20;
         private const string k_ComputerPlayerName = "[Computer]";
-        private const string k_Player1DefaultName =   "Player 1";
+        private const string k_Player1DefaultName = "Player 1";
         public eCheckersBoardSize BoardSize { get; private set; }
-        public bool IsPlayerTwoActive {get; private set;}
+        public bool IsPlayerTwoActive { get; private set; }
         public string PlayerOneName { get; private set; }
         public string PlayerTwoName { get; private set; }
-        
+
         public GameSettingsForm()
         {
             InitializeComponent();
@@ -69,7 +68,7 @@ namespace CheckersUI
         private bool validateName(TextBox i_PlayerName)
         {
             bool isNameValid = i_PlayerName.Text.Equals(k_ComputerPlayerName) || (!i_PlayerName.Text.Contains(" ") && i_PlayerName.Text.Length <= k_MaxNameLength);
-            
+
             if (!isNameValid)
             {
                 errorProvider.SetError(i_PlayerName, "Please enter a valid name!");

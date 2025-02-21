@@ -5,7 +5,8 @@ namespace CheckersUI
     {
         public static void Main()
         {
-            
+            CheckersUI checkers = new CheckersUI();
+            checkers.StartGame();
         }
     }
 }
