@@ -101,18 +101,19 @@ namespace CheckersUI
                 undoPositionSelection(button);
             }
             else
-            {
-                playeMove(button);
+            { 
+                CheckersBoardMove move = new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, button.BoardPosition);
+                OnSecondPositionSelected(move);
+                changeButtonColor(m_CurrentPressedButton);
+                m_CurrentPressedButton = null;
             }
         }
 
-        private void playeMove(GameSquareButton i_Button)
+        private void OnSecondPositionSelected(CheckersBoardMove i_Move)
         {
             try
             {
-                CheckersBoardMove move =
-                    new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, i_Button.BoardPosition);
-                SecondPositionSelect?.Invoke(move);
+                SecondPositionSelect?.Invoke(i_Move);
             }
             catch (Exception e)
             {
@@ -130,7 +131,7 @@ namespace CheckersUI
         {
             try
             {
-                FirstPositionSelect?.Invoke(i_Button.BoardPosition);
+                OnFirstPositionSelected(i_Button);
                 m_CurrentPressedButton = i_Button;
                 changeButtonColor(i_Button);
             }
@@ -138,6 +139,11 @@ namespace CheckersUI
             {
                 MessageBox.Show(e.Message, k_ErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void OnFirstPositionSelected(GameSquareButton i_Button)
+        {
+            FirstPositionSelect?.Invoke(i_Button.BoardPosition);
         }
 
         private void changeButtonColor(GameSquareButton i_Button)
