@@ -8,7 +8,7 @@ namespace CheckersUI
 	{
 		public const int k_ButtonHeight = 50;
 		public const int k_ButtonWidth = 50;
-		private BoardPosition BoardPosition { get; set; }
+		public BoardPosition BoardPosition { get; set; }
 
 		public GameSquareButton(BoardPosition i_BoardPosition)
 		{

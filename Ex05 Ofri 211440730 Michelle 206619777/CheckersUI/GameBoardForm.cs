@@ -10,7 +10,11 @@ namespace CheckersUI
     {
         private const int k_ButtonStartX = 3;
         private const int k_ButtonStartY = 50;
+        private const String k_ErrorCaption = "Error";
         private int r_CheckersBoardSize;
+        private GameSquareButton m_CurrentPressedButton;
+        public event Action<BoardPosition> FirstPositionSelect;
+        public event Action<CheckersBoardMove> SecondPositionSelect;
 
         public GameBoardForm(String i_Player1Name, String i_Player2Name, int i_BoardSize)
         {
@@ -48,8 +52,8 @@ namespace CheckersUI
         {
             resetBoardForPieceType(i_OPositions, ((char)eCheckersPieceType.OPiece).ToString());
             resetBoardForPieceType(i_XPositions, ((char)eCheckersPieceType.XPiece).ToString());
-            labelPlayerOneName.BackColor = Color.CornflowerBlue;
-            labelPlayerTwoName.BackColor = Color.White;
+            labelPlayerOneName.BackColor = Color.LightBlue;
+            labelPlayerTwoName.BackColor = Color.Empty;
         }
 
         private void resetBoardForPieceType(List<BoardPosition> i_Positions, string i_PieceText)
@@ -64,18 +68,87 @@ namespace CheckersUI
         {
             if (i_ActivePlayer.Name == labelPlayerOneName.Text)
             {
-                labelPlayerOneName.BackColor = Color.CornflowerBlue;
-                labelPlayerTwoName.BackColor = Color.White;
+                labelPlayerOneName.BackColor = Color.LightBlue;
+                labelPlayerTwoName.BackColor = Color.Empty;
             }
             else
             {
-                labelPlayerOneName.BackColor = Color.White;
-                labelPlayerTwoName.BackColor = Color.CornflowerBlue;
+                labelPlayerOneName.BackColor = Color.Empty;
+                labelPlayerTwoName.BackColor = Color.LightBlue;
             }
+        }
+
+        public void Game_PieceRemoved(BoardPosition i_Position)
+        {
+            Controls[i_Position.ToString()].Text = string.Empty;
+        }
+        
+        public void Game_PieceAdded(BoardPosition i_Position, eCheckersPieceType i_PieceType)
+        {
+            Controls[i_Position.ToString()].Text = ((char)i_PieceType).ToString();
         }
 
         private void gameWindowButton_ButtonClicked(object i_Sender, EventArgs i_E)
         {
+            GameSquareButton button = i_Sender as GameSquareButton;
+            if (m_CurrentPressedButton == null)
+            {
+                // resetComputerActions();
+                selectFirstPosition(button);
+            }
+            else if (m_CurrentPressedButton == button)
+            {
+                undoPositionSelection(button);
+            }
+            else
+            {
+                playeMove(button);
+            }
+        }
+
+        private void playeMove(GameSquareButton i_Button)
+        {
+            try
+            {
+                CheckersBoardMove move = new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, i_Button.BoardPosition);
+                SecondPositionSelect?.Invoke(move);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, k_ErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void undoPositionSelection(GameSquareButton i_Button)
+        {
+            changeButtonColor(i_Button);
+            m_CurrentPressedButton = null;
+        }
+
+        private void selectFirstPosition(GameSquareButton i_Button)
+        {
+            try
+            {
+                FirstPositionSelect?.Invoke(i_Button.BoardPosition);
+                m_CurrentPressedButton = i_Button;
+                changeButtonColor(i_Button);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, k_ErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void changeButtonColor(GameSquareButton i_Button)
+        {
+            if (i_Button.BackColor == Color.White)
+            {
+                i_Button.BackColor = Color.LightSkyBlue;
+            }
+            else if (i_Button.BackColor == Color.LightSkyBlue)
+            {
+                i_Button.BackColor = Color.White;
+            }
         }
     }
 }

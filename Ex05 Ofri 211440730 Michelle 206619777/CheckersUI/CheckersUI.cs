@@ -20,11 +20,16 @@ namespace CheckersUI
             m_SettingsForm = new GameSettingsForm();
             Player player1 = new Player(m_SettingsForm.PlayerOneName, ePlayerType.Human, eCheckersPieceType.XPiece);
             Player player2 = initSecondPlayer(m_SettingsForm.IsPlayerTwoActive, m_SettingsForm.PlayerTwoName);
+            
             m_CheckersGame = new CheckersGame(player1, player2, m_SettingsForm.BoardSize);
             m_GameBoardForm = new GameBoardForm(player1.Name, player2.Name, m_SettingsForm.BoardSize);
-            m_CheckersGame.AddBoardResetListener(m_GameBoardForm.Game_BoardReset);
-            m_CheckersGame.ActivePlayerChanged += m_GameBoardForm.Game_ActivePlayerChanged;
+            
+            initEvents();
+
+            m_GameQuittedByPlayer = false;
+            m_GameFinished = false;
             m_CheckersGame.ResetGame();
+            
             m_GameBoardForm.ShowDialog();
 
             //m_GameNumber++;
@@ -36,6 +41,14 @@ namespace CheckersUI
             // }
         }
 
+        private void initEvents()
+        {
+            m_CheckersGame.AddBoardActionsListener(m_GameBoardForm.Game_BoardReset, m_GameBoardForm.Game_PieceAdded,m_GameBoardForm.Game_PieceRemoved);
+            m_CheckersGame.ActivePlayerChanged += m_GameBoardForm.Game_ActivePlayerChanged;
+            m_GameBoardForm.FirstPositionSelect += m_CheckersGame.GameForm_FirstPositionSelected;
+            m_GameBoardForm.SecondPositionSelect += m_CheckersGame.GameForm_SecondPositionSelected;
+        }
+
         private Player initSecondPlayer(bool i_SettingsFormIsPlayerTwoActive, string i_SettingsFormPlayerTwoName)
         {
             ePlayerType secondPlayerType = i_SettingsFormIsPlayerTwoActive ? ePlayerType.Human : ePlayerType.Computer;
@@ -44,9 +57,7 @@ namespace CheckersUI
 
         // private void playGame()
         // {
-        //     m_GameQuittedByPlayer = false;
-        //     m_GameFinished = false;
-        //
+        //     
         //     while (!m_GameFinished && !m_GameQuittedByPlayer)
         //     {
         //         m_CheckersGame.handleGameStateBeforeNextMove();
@@ -86,55 +97,51 @@ namespace CheckersUI
         //     }
         // }
 
-        // private CheckersBoardMove getNextValidMoveOrQuitGame()
-        // {
-        //     CheckersBoardMove move;
-        //
-        //     if (m_CheckersGame.ActivePlayer.PlayerType == ePlayerType.Computer)
-        //     {
-        //         printComputerMessage();
-        //         uint randomIndex = (uint)r_RandomGenerator.Next(m_CheckersGame.ValidMoves.Count);
-        //         move = m_CheckersGame.ValidMoves[(int)randomIndex];
-        //     }
-        //     else
-        //     {
-        //         getMoveOrQuitGameByPlayer(out move);
-        //         while (!m_GameQuittedByPlayer && !m_CheckersGame.CheckMovePartOfValidMoves(move))
-        //         {
-        //             printMoveInvalid();
-        //             getMoveOrQuitGameByPlayer(out move);
-        //         }
-        //     }
-        //
-        //     return move;
-        // }
-
-        private void printPlayerTurn(Player i_Player)
+        private CheckersBoardMove getNextValidMoveOrQuitGame()
         {
-            Console.WriteLine("{0}'s turn ({1}):", i_Player.Name, i_Player.PieceType);
+            CheckersBoardMove move;
+        
+            if (m_CheckersGame.ActivePlayer.PlayerType == ePlayerType.Computer)
+            {
+                printComputerMessage();
+                uint randomIndex = (uint)r_RandomGenerator.Next(m_CheckersGame.ValidMoves.Count);
+                move = m_CheckersGame.ValidMoves[(int)randomIndex];
+            }
+            else
+            {
+                getMoveOrQuitGameByPlayer(out move);
+                while (!m_GameQuittedByPlayer && !m_CheckersGame.CheckMovePartOfValidMoves(move))
+                {
+                    printMoveInvalid();
+                    getMoveOrQuitGameByPlayer(out move);
+                }
+            }
+        
+            return move;
         }
 
-        // private void getMoveOrQuitGameByPlayer(out CheckersBoardMove o_Move)
-        // {
-        //     Console.WriteLine("Enter move");
-        //     string moveInput = getUserInput();
-        //     o_Move = new CheckersBoardMove();
-        //     while (moveInput != k_QuitChar && !isValidMoveInput(moveInput))
-        //     {
-        //         Console.WriteLine(
-        //             "Invalid move input!, move should have the be in the format ROWCol>ROWCol, for example Fc>Fb");
-        //         moveInput = getUserInput();
-        //     }
-        //
-        //     if (moveInput == k_QuitChar)
-        //     {
-        //         m_GameQuittedByPlayer = true;
-        //     }
-        //     else
-        //     {
-        //         o_Move.SetMove(moveInput);
-        //     }
-        // }
+        private void getMoveOrQuitGameByPlayer(out CheckersBoardMove o_Move)
+        {
+            Console.WriteLine("Enter move");
+            string moveInput = getUserInput();
+            o_Move = new CheckersBoardMove();
+            while (moveInput != k_QuitChar && !isValidMoveInput(moveInput))
+            {
+                Console.WriteLine(
+                    "Invalid move input!, move should have the be in the format ROWCol>ROWCol, for example Fc>Fb");
+                moveInput = getUserInput();
+            }
+        
+            if (moveInput == k_QuitChar)
+            {
+                m_GameQuittedByPlayer = true;
+            }
+            
+            else
+            {
+                o_Move.SetMove(moveInput);
+            }
+        }
 
         private void printComputerMessage()
         {

@@ -7,7 +7,7 @@ namespace CheckersLogic
         public BoardPosition From { get; set; }
         public BoardPosition To { get; set; }
 
-        internal CheckersBoardMove(BoardPosition i_From, BoardPosition i_To)
+        public CheckersBoardMove(BoardPosition i_From, BoardPosition i_To)
         {
             this.From = i_From;
             this.To = i_To;

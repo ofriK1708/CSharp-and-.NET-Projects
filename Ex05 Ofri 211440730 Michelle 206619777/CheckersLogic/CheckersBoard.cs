@@ -10,6 +10,8 @@ namespace CheckersLogic
         internal List<BoardPosition> XPositions { get; } = new List<BoardPosition>();
         internal List<BoardPosition> OPositions { get; } = new List<BoardPosition>();
         public event Action<List<BoardPosition>,List<BoardPosition>> BoardReset;
+        public event Action<BoardPosition> PieceRemoved;
+        public event Action<BoardPosition, eCheckersPieceType> PieceAdded;
 
         internal CheckersBoard(int i_Size)
         {
@@ -17,9 +19,9 @@ namespace CheckersLogic
             Board = new eCheckersPieceType[Size, Size];
         }
 
-        public eCheckersPieceType GetPieceType(int i_Row, int i_Col)
+        public eCheckersPieceType GetPieceType(BoardPosition i_Position)
         {
-            return Board[i_Row, i_Col];
+            return Board[i_Position.Row,i_Position.Column];
         }
 
         internal void resetBoard(int i_BoardSize)
@@ -134,6 +136,13 @@ namespace CheckersLogic
                     OPositions.Remove(i_PositionToRemove);
                     break;
             }
+            
+            OnPieceRemoved(i_PositionToRemove);
+        }
+
+        private void OnPieceRemoved(BoardPosition i_PositionToRemove)
+        {
+            PieceRemoved?.Invoke(i_PositionToRemove);
         }
 
         private void addPieceToBoard(BoardPosition i_PositionToAdd, eCheckersPieceType i_PieceType)
@@ -149,6 +158,13 @@ namespace CheckersLogic
                     OPositions.Add(i_PositionToAdd);
                     break;
             }
+            
+            OnPieceAdded(i_PositionToAdd, i_PieceType);
+        }
+
+        private void OnPieceAdded(BoardPosition i_PositionToAdd, eCheckersPieceType i_PieceType)
+        {
+            PieceAdded?.Invoke(i_PositionToAdd, i_PieceType);
         }
 
         private eCheckersPieceType getPieceTypeForNextPos(eCheckersPieceType i_PieceTypeFromStartPos,
