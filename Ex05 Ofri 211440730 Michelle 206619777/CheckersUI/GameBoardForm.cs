@@ -66,15 +66,15 @@ namespace CheckersUI
 
         public void Game_ActivePlayerChanged(Player i_ActivePlayer)
         {
-            if (i_ActivePlayer.Name == labelPlayerOneName.Text)
+            if (labelPlayerOneName.BackColor  ==  Color.LightBlue)
             {
-                labelPlayerOneName.BackColor = Color.LightBlue;
-                labelPlayerTwoName.BackColor = Color.Empty;
+                labelPlayerTwoName.BackColor = Color.LightBlue;
+                labelPlayerOneName.BackColor= Color.Empty;
             }
             else
             {
-                labelPlayerOneName.BackColor = Color.Empty;
-                labelPlayerTwoName.BackColor = Color.LightBlue;
+                labelPlayerOneName.BackColor = Color.LightBlue;
+                labelPlayerTwoName.BackColor = Color.Empty;
             }
         }
 
