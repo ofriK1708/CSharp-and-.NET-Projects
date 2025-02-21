@@ -29,7 +29,7 @@ namespace CheckersUI
             {
                 for (int col = 0; col < r_CheckersBoardSize; col++)
                 {
-                    GameSquareButton currentSquare = new GameSquareButton(new BoardPosition(col, row));
+                    GameSquareButton currentSquare = new GameSquareButton(new BoardPosition(row, col));
                     if ((row % 2 == 0 && col % 2 == 0) || (row % 2 == 1 && col % 2 == 1))
                     {
                         currentSquare.Enabled = false;
@@ -46,14 +46,15 @@ namespace CheckersUI
 
         public void Game_BoardReset(List<BoardPosition> i_XPositions, List<BoardPosition> i_OPositions)
         {
-            foreach (BoardPosition boardPosition in i_OPositions)
+            resetBoardForPieceType(i_OPositions, ((char)eCheckersPieceType.OPiece).ToString());
+            resetBoardForPieceType(i_XPositions, ((char)eCheckersPieceType.XPiece).ToString());
+        }
+
+        private void resetBoardForPieceType(List<BoardPosition> i_Positions, string i_PieceText)
+        {
+            foreach (BoardPosition boardPosition in i_Positions)
             {
-                Controls[boardPosition.ToString()].Text = eCheckersPieceType.OPiece.ToString();
-            }
-            
-            foreach (BoardPosition boardPosition in i_XPositions)
-            {
-                Controls[boardPosition.ToString()].Text = eCheckersPieceType.XPiece.ToString();
+                Controls[boardPosition.ToString()].Text = i_PieceText;
             }
         }
 
