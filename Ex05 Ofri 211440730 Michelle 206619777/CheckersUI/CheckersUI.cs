@@ -26,11 +26,12 @@ namespace CheckersUI
             if (m_GameBoardForm.DialogResult != DialogResult.Cancel)
             {
                 m_CheckersGame.AddBoardResetListener(m_GameBoardForm.Game_BoardReset);
+                m_CheckersGame.ResetGame();
+
                 //todo - initialize events
-                
+
                 //m_GameNumber++;
                 m_GameBoardForm.ShowDialog();
-                // m_CheckersGame.ResetGame();
             }
 
             // bool anotherGame = getFromUserIsContinueToAnotherGame();

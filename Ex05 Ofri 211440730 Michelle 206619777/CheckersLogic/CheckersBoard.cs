@@ -15,7 +15,6 @@ namespace CheckersLogic
         {
             Size = i_Size;
             Board = new eCheckersPieceType[Size, Size];
-            resetBoard(Size);
         }
 
         public eCheckersPieceType GetPieceType(int i_Row, int i_Col)

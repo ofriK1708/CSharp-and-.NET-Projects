@@ -19,7 +19,6 @@ namespace CheckersLogic
             Player1 = i_Player1;
             Player2 = i_Player2;
             GameBoard = new CheckersBoard(i_CheckersBoardSize);
-            ActivePlayer = Player1;
         }
 
         public void AddBoardResetListener(Action<List<BoardPosition>,List<BoardPosition>> i_BoardResetEventHandler)
