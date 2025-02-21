@@ -48,7 +48,7 @@ namespace CheckersLogic
         {
             eCheckersPieceType eCheckersPieceType = GameBoard.GetPieceType(i_SelectedPosition);
 
-            if (eCheckersPieceType != ActivePlayer.PieceType)
+            if (eCheckersPieceType != ActivePlayer.PieceType && eCheckersPieceType != ActivePlayer.KingPieceType)
             {
                 throw new ArgumentException("Illegal selection!, please choose a valid position!");
             }
