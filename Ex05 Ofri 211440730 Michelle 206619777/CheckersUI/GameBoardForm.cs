@@ -48,6 +48,8 @@ namespace CheckersUI
         {
             resetBoardForPieceType(i_OPositions, ((char)eCheckersPieceType.OPiece).ToString());
             resetBoardForPieceType(i_XPositions, ((char)eCheckersPieceType.XPiece).ToString());
+            labelPlayerOneName.BackColor = Color.CornflowerBlue;
+            labelPlayerTwoName.BackColor = Color.White;
         }
 
         private void resetBoardForPieceType(List<BoardPosition> i_Positions, string i_PieceText)
@@ -55,6 +57,20 @@ namespace CheckersUI
             foreach (BoardPosition boardPosition in i_Positions)
             {
                 Controls[boardPosition.ToString()].Text = i_PieceText;
+            }
+        }
+
+        public void Game_ActivePlayerChanged(Player i_ActivePlayer)
+        {
+            if (i_ActivePlayer.Name == labelPlayerOneName.Text)
+            {
+                labelPlayerOneName.BackColor = Color.CornflowerBlue;
+                labelPlayerTwoName.BackColor = Color.White;
+            }
+            else
+            {
+                labelPlayerOneName.BackColor = Color.White;
+                labelPlayerTwoName.BackColor = Color.CornflowerBlue;
             }
         }
 

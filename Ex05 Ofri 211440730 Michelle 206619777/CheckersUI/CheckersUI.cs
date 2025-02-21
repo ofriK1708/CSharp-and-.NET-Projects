@@ -21,19 +21,13 @@ namespace CheckersUI
             Player player1 = new Player(m_SettingsForm.PlayerOneName, ePlayerType.Human, eCheckersPieceType.XPiece);
             Player player2 = initSecondPlayer(m_SettingsForm.IsPlayerTwoActive, m_SettingsForm.PlayerTwoName);
             m_CheckersGame = new CheckersGame(player1, player2, m_SettingsForm.BoardSize);
-            m_GameBoardForm = new GameBoardForm(player1.Name,player2.Name, m_SettingsForm.BoardSize);
+            m_GameBoardForm = new GameBoardForm(player1.Name, player2.Name, m_SettingsForm.BoardSize);
+            m_CheckersGame.AddBoardResetListener(m_GameBoardForm.Game_BoardReset);
+            m_CheckersGame.ActivePlayerChanged += m_GameBoardForm.Game_ActivePlayerChanged;
+            m_CheckersGame.ResetGame();
+            m_GameBoardForm.ShowDialog();
 
-            if (m_GameBoardForm.DialogResult != DialogResult.Cancel)
-            {
-                m_CheckersGame.AddBoardResetListener(m_GameBoardForm.Game_BoardReset);
-                m_CheckersGame.ResetGame();
-
-                //todo - initialize events
-
-                //m_GameNumber++;
-                m_GameBoardForm.ShowDialog();
-            }
-
+            //m_GameNumber++;
             // bool anotherGame = getFromUserIsContinueToAnotherGame();
             // while (anotherGame)
             // {
@@ -172,7 +166,7 @@ namespace CheckersUI
 
             return userInput.Trim();
         }
-        
+
 
         private void printWinMessage(Player i_ActivePlayer, Player i_Player1, Player i_Player2)
         {

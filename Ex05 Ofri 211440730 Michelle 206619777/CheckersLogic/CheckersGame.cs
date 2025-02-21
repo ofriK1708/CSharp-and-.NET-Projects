@@ -13,6 +13,7 @@ namespace CheckersLogic
         private bool m_ContinueTurnForCurrentPlayer = false;
         public bool IsActivePlayerWon { get; private set; } = false;
         public bool IsStalemate { get; private set; } = false;
+        public event Action<Player> ActivePlayerChanged;
 
         public CheckersGame(Player i_Player1, Player i_Player2, int i_CheckersBoardSize)
         {
@@ -144,6 +145,13 @@ namespace CheckersLogic
             {
                 ActivePlayer = Player1;
             }
+
+            OnActivePlayerChanged();
+        }
+
+        private void OnActivePlayerChanged()
+        {
+           ActivePlayerChanged?.Invoke(ActivePlayer);
         }
 
         public bool CheckMovePartOfValidMoves(CheckersBoardMove i_Move)
