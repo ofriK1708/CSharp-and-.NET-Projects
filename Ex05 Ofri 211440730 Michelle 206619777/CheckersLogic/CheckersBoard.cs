@@ -3,15 +3,13 @@ using System.Collections.Generic;
 
 namespace CheckersLogic
 {
-    public delegate void BoardResetEventHandler(List<BoardPosition> i_XPositions, List<BoardPosition> i_OPositions);
-
     public class CheckersBoard
     {
         public int Size { get; }
         public eCheckersPieceType[,] Board { get; }
         internal List<BoardPosition> XPositions { get; } = new List<BoardPosition>();
         internal List<BoardPosition> OPositions { get; } = new List<BoardPosition>();
-        public event BoardResetEventHandler BoardReset;
+        public event Action<List<BoardPosition>,List<BoardPosition>> BoardReset;
 
         internal CheckersBoard(int i_Size)
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CheckersLogic
 {
@@ -21,7 +22,7 @@ namespace CheckersLogic
             ActivePlayer = Player1;
         }
 
-        public void AddBoardResetListener(BoardResetEventHandler i_BoardResetEventHandler)
+        public void AddBoardResetListener(Action<List<BoardPosition>,List<BoardPosition>> i_BoardResetEventHandler)
         {
             GameBoard.BoardReset += i_BoardResetEventHandler;
         }
