@@ -22,7 +22,7 @@ namespace CheckersLogic
 
         public override string ToString()
         {
-            return new StringBuilder(Row - 'A', Column - 'a').ToString();
+            return Row.ToString() + " " + Column.ToString();
         }
     }
 }
