@@ -11,7 +11,7 @@
             this.Column = (i_Col - 'a');
         }
 
-        internal BoardPosition(int i_Row, int i_Col)
+        public BoardPosition(int i_Row, int i_Col)
         {
             this.Row = i_Row;
             this.Column = i_Col;

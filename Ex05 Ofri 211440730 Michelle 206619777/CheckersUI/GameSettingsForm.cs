@@ -9,7 +9,7 @@ namespace CheckersUI
         private const int k_MaxNameLength = 20;
         private const string k_ComputerPlayerName = "[Computer]";
         private const string k_Player1DefaultName = "Player 1";
-        public eCheckersBoardSize BoardSize { get; private set; }
+        public int BoardSize { get; private set; }
         public bool IsPlayerTwoActive { get; private set; }
         public string PlayerOneName { get; private set; }
         public string PlayerTwoName { get; private set; }
@@ -25,7 +25,7 @@ namespace CheckersUI
             RadioButton radioButton = i_Sender as RadioButton;
             if (i_Sender is RadioButton && radioButton.Checked)
             {
-                BoardSize = (eCheckersBoardSize)int.Parse(radioButton.Tag.ToString());
+                BoardSize = int.Parse(radioButton.Tag.ToString());
             }
         }
 

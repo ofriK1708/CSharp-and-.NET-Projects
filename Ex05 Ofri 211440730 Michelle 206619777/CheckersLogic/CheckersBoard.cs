@@ -6,15 +6,16 @@ namespace CheckersLogic
 {
     public class CheckersBoard
     {
-        public eCheckersBoardSize Size { get; private set; }
-        public eCheckersPieceType[,] Board { get; private set; }
+        public int Size { get;}
+        public eCheckersPieceType[,] Board { get;}
         internal List<BoardPosition> XPositions { get; } = new List<BoardPosition>();
         internal List<BoardPosition> OPositions { get; } = new List<BoardPosition>();
-        internal CheckersBoard(eCheckersBoardSize i_Size)
+        
+        internal CheckersBoard(int i_Size)
         {
             Size = i_Size;
-            Board = new eCheckersPieceType[(int)Size, (int)Size];
-            resetBoard((int)Size);
+            Board = new eCheckersPieceType[ Size, Size];
+            resetBoard(Size);
         }
         
         internal void resetBoard(int i_BoardSize)
@@ -57,7 +58,7 @@ namespace CheckersLogic
 
         internal bool IsCellInRange(int i_Row,int i_Col)
         {
-            return ((i_Row >= 0) && (i_Row < (int)Size)) && ((i_Col >= 0) && (i_Col < (int)Size));
+            return i_Row >= 0 && i_Row < Size && i_Col >= 0 && i_Col < Size;
         }
 
         internal bool IsPieceKing(int i_Row,int i_Col)

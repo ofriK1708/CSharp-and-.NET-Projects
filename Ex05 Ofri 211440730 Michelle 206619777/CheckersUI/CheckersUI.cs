@@ -18,33 +18,24 @@ namespace CheckersUI
 
         internal void StartGame()
         {
-            initGame();
-            playGame();
-
-            bool anotherGame = getFromUserIsContinueToAnotherGame();
-            while (anotherGame)
-            {
-                m_GameNumber++;
-                printStartGameMessage(m_GameNumber, m_CheckersGame.Player1.Name, m_CheckersGame.Player2.Name);
-                m_CheckersGame.ResetGame();
-                printBoard(m_CheckersGame.GameBoard);
-                playGame();
-                anotherGame = getFromUserIsContinueToAnotherGame();
-            }
-        }
-
-        private void initGame()
-        {
             GameSettingsForm settingsForm = new GameSettingsForm();
             Player player1 = new Player(settingsForm.PlayerOneName, ePlayerType.Human, eCheckersPieceType.XPiece);
             Player player2 = initSecondPlayer(settingsForm.IsPlayerTwoActive, settingsForm.PlayerTwoName);
             m_CheckersGame = new CheckersGame(player1, player2, settingsForm.BoardSize);
-            
-            
-            printStartGameMessage(m_GameNumber, player1.Name, player2.Name);
-            printBoard(m_CheckersGame.GameBoard);
+            GameBoardForm gameBoardForm = new GameBoardForm(m_CheckersGame.GameBoard, m_CheckersGame.Player1, m_CheckersGame.Player2);
+            gameBoardForm.ShowDialog();
+            // bool anotherGame = getFromUserIsContinueToAnotherGame();
+            // while (anotherGame)
+            // {
+            //     m_GameNumber++;
+            //     printStartGameMessage(m_GameNumber, m_CheckersGame.Player1.Name, m_CheckersGame.Player2.Name);
+            //     m_CheckersGame.ResetGame();
+            //     printBoard(m_CheckersGame.GameBoard);
+            //     playGame();
+            //     anotherGame = getFromUserIsContinueToAnotherGame();
+            // }
         }
-
+        
         private Player initSecondPlayer(bool i_SettingsFormIsPlayerTwoActive, string i_SettingsFormPlayerTwoName)
         {
             ePlayerType secondPlayerType = i_SettingsFormIsPlayerTwoActive ? ePlayerType.Human : ePlayerType.Computer;
@@ -84,7 +75,7 @@ namespace CheckersUI
                 }
 
                 m_CheckersGame.playMove(move);
-                printBoard(m_CheckersGame.GameBoard);
+                // printBoard(m_CheckersGame.GameBoard);
                 printPlayedMove(move, m_CheckersGame.ActivePlayer);
                 m_CheckersGame.handleGameStateAfterMove();
                 if (m_CheckersGame.IsActivePlayerWon)
@@ -116,51 +107,6 @@ namespace CheckersUI
             }
 
             return move;
-        }
-
-        private void printBoard(CheckersBoard i_CheckersBoard)
-        {
-            eCheckersPieceType[,] board = i_CheckersBoard.Board;
-            eCheckersBoardSize boardSize = i_CheckersBoard.Size;
-            char rowLetter = 'A', colLetter = 'a';
-
-            Console.Clear();
-            for (int col = 0; col < (int)boardSize; col++)
-            {
-                Console.Write("   {0}", colLetter++);
-            }
-
-            Console.WriteLine();
-            for (int row = 0; row <= (int)boardSize * 2; row++)
-            {
-                if (row % 2 == 0)
-                {
-                    Console.Write(" ");
-                }
-
-                for (int col = 0; col < (int)boardSize; col++)
-                {
-                    if (row % 2 == 0)
-                    {
-                        Console.Write("{0}", k_BoardStyle);
-                    }
-                    else
-                    {
-                        if (col == 0)
-                        {
-                            Console.Write("{0}", rowLetter++);
-                        }
-                        Console.Write("| {0} ", (char)board[(row - 1) / 2, col]);
-                    }
-                }
-
-                Console.WriteLine("{0}", row % 2 == 0 ? "=" : "|");
-            }
-        }
-
-        private void printStartGameMessage(int i_GameNumber, string i_FirstPlayerName, string i_SecondPlayerName)
-        {
-            Console.WriteLine("Starting game number {0}: {1} against {2}, ", i_GameNumber, i_FirstPlayerName, i_SecondPlayerName);
         }
 
         private void printPlayerTurn(Player i_Player)

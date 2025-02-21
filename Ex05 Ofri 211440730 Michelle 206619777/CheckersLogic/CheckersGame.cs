@@ -13,7 +13,7 @@ namespace CheckersLogic
         public bool IsActivePlayerWon { get; private set; } = false;
         public bool IsStalemate { get; private set; } = false;
 
-        public CheckersGame(Player i_Player1, Player i_Player2, eCheckersBoardSize i_CheckersBoardSize)
+        public CheckersGame(Player i_Player1, Player i_Player2, int i_CheckersBoardSize)
         {
             Player1 = i_Player1;
             Player2 = i_Player2;
@@ -23,7 +23,7 @@ namespace CheckersLogic
 
         public void ResetGame()
         {
-            GameBoard.resetBoard((int)GameBoard.Size);
+            GameBoard.resetBoard(GameBoard.Size);
             ActivePlayer = Player1;
             IsActivePlayerWon = false;
             IsStalemate = false;
@@ -79,7 +79,7 @@ namespace CheckersLogic
                 {
                     switchActivePlayer();
                 }
-            }
+           }
         }
 
         private Player getOpponent(Player i_ActivePlayer)
@@ -180,7 +180,7 @@ namespace CheckersLogic
             {
                 if (GameBoard.IsPieceKing(position.Row, position.Column))
                 {
-                    looserScore = looserScore + 4;
+                    looserScore += 4;
                 }
                 else
                 {

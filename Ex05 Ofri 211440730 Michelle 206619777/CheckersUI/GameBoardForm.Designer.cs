@@ -93,7 +93,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(942, 810);
             this.Controls.Add(this.labelPlayerOneScore);
-            this.Controls.Add(this.labelPlayerOneName);
+            this.Controls.Add(this.labelPlayerOneName); 
             this.Controls.Add(this.labelPlayerTwoScore);
             this.Controls.Add(this.labelPlayerTwoName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
