@@ -44,7 +44,6 @@
     <Compile Include="CheckersBoardMove.cs" />
     <Compile Include="CheckersGame.cs" />
     <Compile Include="CheckersMove.cs" />
-    <Compile Include="eCheckersBoardSize.cs" />
     <Compile Include="eCheckersPieceType.cs" />
     <Compile Include="ePlayerType.cs" />
     <Compile Include="Player.cs" />
