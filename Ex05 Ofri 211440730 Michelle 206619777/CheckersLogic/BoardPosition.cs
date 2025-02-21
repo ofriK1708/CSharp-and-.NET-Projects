@@ -1,4 +1,7 @@
-﻿namespace CheckersLogic
+﻿using System.Security;
+using System.Text;
+
+namespace CheckersLogic
 {
     public struct BoardPosition
     {
@@ -15,6 +18,11 @@
         {
             this.Row = i_Row;
             this.Column = i_Col;
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder(Row - 'A', Column - 'a').ToString();
         }
     }
 }

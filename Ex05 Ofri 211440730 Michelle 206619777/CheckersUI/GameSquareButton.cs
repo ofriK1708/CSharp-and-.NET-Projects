@@ -4,13 +4,13 @@ using CheckersLogic;
 
 namespace CheckersUI
 {
-	public class GameWindowButton : Button
+	public class GameSquareButton : Button
 	{
 		public const int k_ButtonHeight = 50;
 		public const int k_ButtonWidth = 50;
 		private BoardPosition BoardPosition { get; set; }
 
-		public GameWindowButton(BoardPosition i_BoardPosition)
+		public GameSquareButton(BoardPosition i_BoardPosition)
 		{
 			Name = i_BoardPosition.ToString();
 			Text = string.Empty;

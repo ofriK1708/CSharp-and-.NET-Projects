@@ -1,23 +1,30 @@
-
 using System;
 using System.Collections.Generic;
 
 namespace CheckersLogic
 {
+    public delegate void BoardResetEventHandler(List<BoardPosition> i_XPositions, List<BoardPosition> i_OPositions);
+
     public class CheckersBoard
     {
-        public int Size { get;}
-        public eCheckersPieceType[,] Board { get;}
+        public int Size { get; }
+        public eCheckersPieceType[,] Board { get; }
         internal List<BoardPosition> XPositions { get; } = new List<BoardPosition>();
         internal List<BoardPosition> OPositions { get; } = new List<BoardPosition>();
-        
+        public event BoardResetEventHandler BoardReset;
+
         internal CheckersBoard(int i_Size)
         {
             Size = i_Size;
-            Board = new eCheckersPieceType[ Size, Size];
+            Board = new eCheckersPieceType[Size, Size];
             resetBoard(Size);
         }
-        
+
+        public eCheckersPieceType GetPieceType(int i_Row, int i_Col)
+        {
+            return Board[i_Row, i_Col];
+        }
+
         internal void resetBoard(int i_BoardSize)
         {
             OPositions.Clear();
@@ -26,7 +33,7 @@ namespace CheckersLogic
             {
                 for (int col = 0; col < i_BoardSize; col++)
                 {
-                    if ((row + col) % 2 == 1) 
+                    if ((row + col) % 2 == 1)
                     {
                         if (row < (i_BoardSize - 2) / 2)
                         {
@@ -36,7 +43,7 @@ namespace CheckersLogic
                         else if (row > i_BoardSize / 2)
                         {
                             Board[row, col] = eCheckersPieceType.XPiece;
-                            XPositions.Add(new BoardPosition(row,col));
+                            XPositions.Add(new BoardPosition(row, col));
                         }
                         else
                         {
@@ -49,6 +56,13 @@ namespace CheckersLogic
                     }
                 }
             }
+
+            OnBoardReset();
+        }
+
+        protected virtual void OnBoardReset()
+        {
+            BoardReset?.Invoke(XPositions, OPositions);
         }
 
         internal bool IsCellEmpty(int i_Row, int i_Col)
@@ -56,14 +70,15 @@ namespace CheckersLogic
             return Board[i_Row, i_Col] == eCheckersPieceType.EmptyPlace;
         }
 
-        internal bool IsCellInRange(int i_Row,int i_Col)
+        internal bool IsCellInRange(int i_Row, int i_Col)
         {
             return i_Row >= 0 && i_Row < Size && i_Col >= 0 && i_Col < Size;
         }
 
-        internal bool IsPieceKing(int i_Row,int i_Col)
+        internal bool IsPieceKing(int i_Row, int i_Col)
         {
-            return Board[i_Row, i_Col] == eCheckersPieceType.XKingPiece || Board[i_Row, i_Col] == eCheckersPieceType.OKingPiece;
+            return Board[i_Row, i_Col] == eCheckersPieceType.XKingPiece ||
+                   Board[i_Row, i_Col] == eCheckersPieceType.OKingPiece;
         }
 
         internal bool IsOpponentPiece(eCheckersPieceType i_OpponentPiece, int i_NewRow, int i_NewColRight)
@@ -79,7 +94,8 @@ namespace CheckersLogic
                 oponentKingPiece = eCheckersPieceType.OKingPiece;
             }
 
-            return Board[i_NewRow, i_NewColRight] == i_OpponentPiece || Board[i_NewRow, i_NewColRight] == oponentKingPiece;
+            return Board[i_NewRow, i_NewColRight] == i_OpponentPiece ||
+                   Board[i_NewRow, i_NewColRight] == oponentKingPiece;
         }
 
         internal bool executeMove(CheckersBoardMove i_ValidMove)
@@ -97,8 +113,8 @@ namespace CheckersLogic
             addPieceToBoard(nextPosition, pieceTypeInNextPos);
             if (rowDiff == 2)
             {
-                int skippedColl = (nextPosition.Column + startPosition.Column)/2;
-                int skippedRow = (nextPosition.Row + startPosition.Row)  /2;
+                int skippedColl = (nextPosition.Column + startPosition.Column) / 2;
+                int skippedRow = (nextPosition.Row + startPosition.Row) / 2;
                 eCheckersPieceType removedPieceType = Board[skippedRow, skippedColl];
                 Board[skippedRow, skippedColl] = eCheckersPieceType.EmptyPlace;
                 removePieceFromBoard(new BoardPosition(skippedRow, skippedColl), removedPieceType);
@@ -138,21 +154,22 @@ namespace CheckersLogic
             }
         }
 
-        private eCheckersPieceType getPieceTypeForNextPos(eCheckersPieceType i_PieceTypeFromStartPos, int i_NextMoveRowNum)
+        private eCheckersPieceType getPieceTypeForNextPos(eCheckersPieceType i_PieceTypeFromStartPos,
+            int i_NextMoveRowNum)
         {
-           eCheckersPieceType pieceTypeForNextPos;
+            eCheckersPieceType pieceTypeForNextPos;
 
-           if (i_PieceTypeFromStartPos.Equals(eCheckersPieceType.XPiece) && i_NextMoveRowNum == 0)
+            if (i_PieceTypeFromStartPos.Equals(eCheckersPieceType.XPiece) && i_NextMoveRowNum == 0)
             {
-              pieceTypeForNextPos = eCheckersPieceType.XKingPiece;   
+                pieceTypeForNextPos = eCheckersPieceType.XKingPiece;
             }
-            else if (i_PieceTypeFromStartPos.Equals(eCheckersPieceType.OPiece) && (int)Size -1 == i_NextMoveRowNum )
+            else if (i_PieceTypeFromStartPos.Equals(eCheckersPieceType.OPiece) && (int)Size - 1 == i_NextMoveRowNum)
             {
-              pieceTypeForNextPos = eCheckersPieceType.OKingPiece;
+                pieceTypeForNextPos = eCheckersPieceType.OKingPiece;
             }
             else
             {
-              pieceTypeForNextPos = i_PieceTypeFromStartPos;
+                pieceTypeForNextPos = i_PieceTypeFromStartPos;
             }
 
             return pieceTypeForNextPos;

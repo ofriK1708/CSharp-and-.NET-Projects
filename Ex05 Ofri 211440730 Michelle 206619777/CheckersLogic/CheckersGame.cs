@@ -21,6 +21,11 @@ namespace CheckersLogic
             ActivePlayer = Player1;
         }
 
+        public void AddBoardResetListener(BoardResetEventHandler i_BoardResetEventHandler)
+        {
+            GameBoard.BoardReset += i_BoardResetEventHandler;
+        }
+
         public void ResetGame()
         {
             GameBoard.resetBoard(GameBoard.Size);
@@ -29,7 +34,7 @@ namespace CheckersLogic
             IsStalemate = false;
             m_ContinueTurnForCurrentPlayer = false;
         }
-
+        
         public void handleGameStateBeforeNextMove()
         {
             if (!m_ContinueTurnForCurrentPlayer)
