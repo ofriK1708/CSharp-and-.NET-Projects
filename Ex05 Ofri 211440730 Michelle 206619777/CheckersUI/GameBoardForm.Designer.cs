@@ -99,7 +99,7 @@
 			this.MaximizeBox = false;
 			this.Name = "GameWindow";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Checkers - By Niv and Jon";
+			this.Text = "Damka";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
