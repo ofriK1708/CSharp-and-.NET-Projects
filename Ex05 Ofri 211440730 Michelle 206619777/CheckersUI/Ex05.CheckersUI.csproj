@@ -37,8 +37,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckersUI.cs" />
-    <Compile Include="GameSettings.cs" />
-    <Compile Include="GameSettings.Designer.cs" />
+    <Compile Include="GameSettingsForm.cs" />
+    <Compile Include="GameSettingsForm.Designer.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,7 +53,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GameSettings.resx" />
+    <EmbeddedResource Include="GameSettingsForm.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,15 +6,12 @@ namespace CheckersUI
 {
     internal class CheckersUI
     {
-        private const char k_InvalidCharInName = ' ';
-        private const int k_MaxNameLength = 20;
         private const string k_BoardStyle = "====";
         private const char k_MoveSplitChar = '>';
         private const int k_MoveInputSize = 5;
         private const string k_QuitChar = "Q";
         private CheckersGame m_CheckersGame;
         private int m_GameNumber = 1;
-        private const string k_ComputerPlayerName = "Computer";
         private bool m_GameQuittedByPlayer = false;
         private bool m_GameFinished = false;
         private readonly Random r_RandomGenerator = new Random();
@@ -38,12 +35,20 @@ namespace CheckersUI
 
         private void initGame()
         {
-            printWelcomeMessage();
-            Player player1 = new Player(getPlayerName(), ePlayerType.Human, eCheckersPieceType.XPiece);
-            Player player2 = initSecondPlayer();
-            m_CheckersGame = new CheckersGame(player1, player2, getBoardSize());
+            GameSettingsForm settingsForm = new GameSettingsForm();
+            Player player1 = new Player(settingsForm.PlayerOneName, ePlayerType.Human, eCheckersPieceType.XPiece);
+            Player player2 = initSecondPlayer(settingsForm.IsPlayerTwoActive, settingsForm.PlayerTwoName);
+            m_CheckersGame = new CheckersGame(player1, player2, settingsForm.BoardSize);
+            
+            
             printStartGameMessage(m_GameNumber, player1.Name, player2.Name);
             printBoard(m_CheckersGame.GameBoard);
+        }
+
+        private Player initSecondPlayer(bool i_SettingsFormIsPlayerTwoActive, string i_SettingsFormPlayerTwoName)
+        {
+            ePlayerType secondPlayerType = i_SettingsFormIsPlayerTwoActive ? ePlayerType.Human : ePlayerType.Computer;
+            return new Player(i_SettingsFormPlayerTwoName, secondPlayerType, eCheckersPieceType.OPiece);
         }
 
         private void playGame()
@@ -111,70 +116,6 @@ namespace CheckersUI
             }
 
             return move;
-        }
-
-        private Player initSecondPlayer()
-        {
-            ePlayerType secondPlayerType = getSecondPlayerType();
-            string secondPlayerName;
-
-            if (secondPlayerType == ePlayerType.Human)
-            {
-                secondPlayerName = getPlayerName();
-            }
-            else
-            {
-                secondPlayerName = k_ComputerPlayerName;
-            }
-
-            return new Player(secondPlayerName, secondPlayerType, eCheckersPieceType.OPiece);
-        }
-
-        private void printWelcomeMessage()
-        {
-            Console.WriteLine("Welcome to checkers game!");
-        }
-
-        private string getPlayerName()
-        {
-            Console.WriteLine("Please enter player name, without spaces and up to 20 characters");
-            string userName = getUserInput();
-
-            while (!isPlayerNameValid(userName))
-            {
-                Console.WriteLine("Invalid name, please make sure the name is without spaces and up to 20 characters");
-                userName = getUserInput();
-            }
-
-            return userName;
-        }
-
-        private eCheckersBoardSize getBoardSize()
-        {
-            Console.WriteLine("Please enter board size, the options are 6, 8, or 10");
-            string boardSize = getUserInput();
-
-            while (!isInputPartOfIntEnum(boardSize, typeof(eCheckersBoardSize)))
-            {
-                Console.WriteLine("Board size is not valid, the options are 6, 8, or 10");
-                boardSize = getUserInput();
-            }
-
-            return (eCheckersBoardSize)Enum.Parse(typeof(eCheckersBoardSize), boardSize);
-        }
-
-        private ePlayerType getSecondPlayerType()
-        {
-            Console.WriteLine("Choose opponent type - for Computer press 0, for second player press 1");
-            string playerType = getUserInput();
-
-            while (!isInputPartOfIntEnum(playerType, typeof(ePlayerType)))
-            {
-                Console.WriteLine("Player type is not valid - for Computer press 0, for second player press 1");
-                playerType = getUserInput();
-            }
-
-            return (ePlayerType)Enum.Parse(typeof(ePlayerType), playerType);
         }
 
         private void printBoard(CheckersBoard i_CheckersBoard)
@@ -276,22 +217,6 @@ namespace CheckersUI
             }
 
             return userInput.Trim();
-        }
-        private bool isPlayerNameValid(string i_UserName)
-        {
-            return !i_UserName.Contains(k_InvalidCharInName) && i_UserName.Length <= k_MaxNameLength;
-        }
-
-        private bool isInputPartOfIntEnum(string i_Input, Type i_EnumType)
-        {
-            bool isValidSize = int.TryParse(i_Input, out int numericValue);
-
-            if (isValidSize)
-            {
-                isValidSize = Enum.IsDefined(i_EnumType, numericValue);
-            }
-
-            return isValidSize;
         }
 
         private bool isValidMoveInput(string i_MoveInput)

@@ -1,48 +1,32 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using CheckersLogic;
 
 namespace CheckersUI
 {
-    internal partial class GameSettings : Form
+    internal partial class GameSettingsForm : Form
     {
-        private int m_PlayerSelectedWindowSize;
-
-        public GameSettings()
+        private const int k_MaxNameLength = 20;
+        private const string k_ComputerPlayerName = "[Computer]";
+        private const string k_Player1DefaultName =   "Player 1";
+        public eCheckersBoardSize BoardSize { get; private set; }
+        public bool IsPlayerTwoActive {get; private set;}
+        public string PlayerOneName { get; private set; }
+        public string PlayerTwoName { get; private set; }
+        
+        public GameSettingsForm()
         {
             InitializeComponent();
             ShowDialog();
         }
 
-        public int PlayerSelectedWindowSize
-        {
-            get { return m_PlayerSelectedWindowSize; }
-            private set { m_PlayerSelectedWindowSize = value; }
-        }
-
-        public bool IsPlayerTwoActive
-        {
-            get { return checkBoxPlayerTwo.Checked; }
-        }
-
-        public string PlayerOneName
-        {
-            get { return textBoxPlayerOneName.Text; }
-            set { textBoxPlayerOneName.Text = value; }
-        }
-
-        public string PlayerTwoName
-        {
-            get { return textBoxPlayerTwoName.Text; }
-            set { textBoxPlayerTwoName.Text = value; }
-        }
-
         private void radioButton_CheckedChanged(object i_Sender, EventArgs i_EventArgs)
         {
-            RadioButton radioButtom = i_Sender as RadioButton;
-            if (i_Sender is RadioButton && radioButtom.Checked)
+            RadioButton radioButton = i_Sender as RadioButton;
+            if (i_Sender is RadioButton && radioButton.Checked)
             {
-                PlayerSelectedWindowSize = int.Parse(radioButtom.Tag.ToString());
+                BoardSize = (eCheckersBoardSize)int.Parse(radioButton.Tag.ToString());
             }
         }
 
@@ -56,7 +40,7 @@ namespace CheckersUI
             }
             else
             {
-                textBoxPlayerTwoName.Text = "[Computer]";
+                textBoxPlayerTwoName.Text = k_ComputerPlayerName;
                 textBoxPlayerTwoName.Enabled = false;
             }
         }
@@ -66,6 +50,9 @@ namespace CheckersUI
             if (validateForm())
             {
                 DialogResult = DialogResult.OK;
+                PlayerOneName = textBoxPlayerOneName.Text;
+                PlayerTwoName = textBoxPlayerTwoName.Text;
+                IsPlayerTwoActive = checkBoxPlayerTwo.Checked;
                 Close();
             }
             else
@@ -81,8 +68,8 @@ namespace CheckersUI
 
         private bool validateName(TextBox i_PlayerName)
         {
-            Regex nameValidation = new Regex("^[A-Za-z]{1,10}$");
-            bool isNameValid = nameValidation.IsMatch(i_PlayerName.Text) || i_PlayerName.Text == "[Computer]";
+            bool isNameValid = i_PlayerName.Text.Equals(k_ComputerPlayerName) || (!i_PlayerName.Text.Contains(" ") && i_PlayerName.Text.Length <= k_MaxNameLength);
+            
             if (!isNameValid)
             {
                 errorProvider.SetError(i_PlayerName, "Please enter a valid name!");
@@ -102,12 +89,12 @@ namespace CheckersUI
 
         private void gameSettings_FormClosed(object i_Sender, FormClosedEventArgs i_FormClosedEventArgs)
         {
-            GameSettings settings = i_Sender as GameSettings;
-            if (settings.DialogResult == DialogResult.Cancel)
+            GameSettingsForm settingsForm = i_Sender as GameSettingsForm;
+            if (settingsForm.DialogResult == DialogResult.Cancel)
             {
-                checkBoxPlayerTwo.Checked = false;
-                textBoxPlayerOneName.Text = "Player 1";
-                radioButton6X6.Checked = true;
+                PlayerOneName = k_Player1DefaultName;
+                PlayerTwoName = k_ComputerPlayerName;
+                IsPlayerTwoActive = false;
             }
         }
     }
