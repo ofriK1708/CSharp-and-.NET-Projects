@@ -18,7 +18,7 @@ namespace CheckersUI
         public event Action<CheckersBoardMove> SecondPositionSelect;
         public event Action NewGame;
         public event Action ComputerTurn;
-        private const int k_ButtonClearTime = 200;
+        private const int k_ButtonClearTime = 300;
         private Timer r_ButtonSkippedTimer;
         private GameSquareButton m_SkippedButton;
         private Timer r_ButtonAddedTimer;
