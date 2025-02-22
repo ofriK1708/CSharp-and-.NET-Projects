@@ -31,6 +31,7 @@ namespace CheckersUI
         private readonly Color r_ActivePlayerColor = Color.LightBlue;
         private readonly Color r_MovingButtonColor = Color.PaleTurquoise;
         private bool m_IsComputerTurn;
+        private Panel m_PanelBoard;
 
         public GameBoardForm(string i_Player1Name, string i_Player2Name, int i_BoardSize, bool i_IsPlayerTwoActive)
         {
@@ -41,6 +42,7 @@ namespace CheckersUI
             labelPlayerOneScore.Left = labelPlayerOneName.Right + 5;
             labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
             r_IsPlayerTwoActive = i_IsPlayerTwoActive;
+            InitializePanelBoard();
             createButtonMatrix();
             initTimersForClearingButtons();
         }
@@ -58,6 +60,14 @@ namespace CheckersUI
             r_ButtonRemovedTimer.Tick += Timer_ClearRemovedButtonColor;
         }
 
+        private void InitializePanelBoard()
+        {
+            m_PanelBoard = new Panel();
+            m_PanelBoard.Location = new Point(k_ButtonStartX, k_ButtonStartY);
+            m_PanelBoard.Size = new Size(r_CheckersBoardSize * GameSquareButton.k_ButtonWidth, r_CheckersBoardSize * GameSquareButton.k_ButtonHeight);
+            Controls.Add(m_PanelBoard);
+        }
+
         private void createButtonMatrix()
         {
             for (int row = 0; row < r_CheckersBoardSize; row++)
@@ -71,10 +81,13 @@ namespace CheckersUI
                         currentSquare.BackColor = Color.Gray;
                     }
 
-                    currentSquare.Top = (row * currentSquare.Height) + k_ButtonStartY;
-                    currentSquare.Left = (col * currentSquare.Width) + k_ButtonStartX;
+                    // Position relative to the panel.
+                    currentSquare.Top = row * currentSquare.Height;
+                    currentSquare.Left = col * currentSquare.Width;
                     currentSquare.Click += gameWindowButton_ButtonClicked;
-                    Controls.Add(currentSquare);
+
+                    // Add the button to the panel.
+                    m_PanelBoard.Controls.Add(currentSquare);
                 }
             }
         }
@@ -91,7 +104,7 @@ namespace CheckersUI
         {
             foreach (BoardPosition boardPosition in i_Positions)
             {
-                Controls[boardPosition.ToString()].Text = i_PieceText;
+                m_PanelBoard.Controls[boardPosition.ToString()].Text = i_PieceText;
             }
         }
 
@@ -104,6 +117,7 @@ namespace CheckersUI
                 if (!r_IsPlayerTwoActive)
                 {
                     m_IsComputerTurn = true;
+                    m_PanelBoard.Enabled = false;
                 }
             }
             else
@@ -111,6 +125,7 @@ namespace CheckersUI
                 labelPlayerOneName.BackColor = r_ActivePlayerColor;
                 labelPlayerTwoName.BackColor = Color.Empty;
                 m_IsComputerTurn = false;
+                m_PanelBoard.Enabled = true;
             }
         }
 
@@ -119,46 +134,46 @@ namespace CheckersUI
             if (i_IsSkipped)
             {
                 r_ButtonSkippedTimer.Start();
-                Controls[i_Position.ToString()].BackColor = r_SkippedButtonColor;
-                m_SkippedButton = Controls[i_Position.ToString()] as GameSquareButton;
+                m_PanelBoard.Controls[i_Position.ToString()].BackColor = r_SkippedButtonColor;
+                m_SkippedButton = m_PanelBoard.Controls[i_Position.ToString()] as GameSquareButton;
             }
             else
             {
                 r_ButtonRemovedTimer.Start();
-                Controls[i_Position.ToString()].BackColor = r_MovingButtonColor;
-                m_RemovedButton = Controls[i_Position.ToString()] as GameSquareButton;
+                m_PanelBoard.Controls[i_Position.ToString()].BackColor = r_MovingButtonColor;
+                m_RemovedButton = m_PanelBoard.Controls[i_Position.ToString()] as GameSquareButton;
             }
         }
 
         private void Timer_ClearSkippedButton(object i_Sender, EventArgs i_EventArgs)
         {
             r_ButtonSkippedTimer.Stop();
-            Controls[m_SkippedButton.BoardPosition.ToString()].Text = string.Empty;
-            Controls[m_SkippedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
+            m_PanelBoard.Controls[m_SkippedButton.BoardPosition.ToString()].Text = string.Empty;
+            m_PanelBoard.Controls[m_SkippedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
             m_SkippedButton = null;
         }
 
         private void Timer_ClearAddedButtonColor(object i_Sender, EventArgs i_EventArgs)
         {
             r_ButtonAddedTimer.Stop();
-            Controls[m_AddedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
+            m_PanelBoard.Controls[m_AddedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
             m_AddedButton = null;
         }
 
         private void Timer_ClearRemovedButtonColor(object i_Sender, EventArgs i_EventArgs)
         {
             r_ButtonRemovedTimer.Stop();
-            Controls[m_RemovedButton.BoardPosition.ToString()].Text = string.Empty;
-            Controls[m_RemovedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
+            m_PanelBoard.Controls[m_RemovedButton.BoardPosition.ToString()].Text = string.Empty;
+            m_PanelBoard.Controls[m_RemovedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
             m_RemovedButton = null;
         }
 
         public void Game_PieceAdded(BoardPosition i_Position, eCheckersPieceType i_PieceType)
         {
             r_ButtonAddedTimer.Start();
-            Controls[i_Position.ToString()].Text = ((char)i_PieceType).ToString();
-            Controls[i_Position.ToString()].BackColor = r_MovingButtonColor;
-            m_AddedButton = Controls[i_Position.ToString()] as GameSquareButton;
+            m_PanelBoard.Controls[i_Position.ToString()].Text = ((char)i_PieceType).ToString();
+            m_PanelBoard.Controls[i_Position.ToString()].BackColor = r_MovingButtonColor;
+            m_AddedButton = m_PanelBoard.Controls[i_Position.ToString()] as GameSquareButton;
         }
 
         private void gameWindowButton_ButtonClicked(object i_Sender, EventArgs i_E)
