@@ -29,7 +29,7 @@ namespace CheckersUI
         private readonly Color r_UnselectedButtonColor = Color.White;
         private readonly Color r_SkippedButtonColor = Color.IndianRed;
         private readonly Color r_ActivePlayerColor = Color.LightBlue;
-        private readonly Color r_MovingButtonColor = Color.PaleTurquoise;
+        private readonly Color r_MovingButtonColor = Color.Cornsilk;
         private bool m_IsComputerTurn;
         private Panel m_PanelBoard;
 
