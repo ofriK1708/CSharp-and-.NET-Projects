@@ -87,10 +87,13 @@ namespace CheckersUI
             if (i_IsSkipped)
             {
                 Controls[i_Position.ToString()].BackColor = Color.Crimson;
+                Controls[i_Position.ToString()].Text = string.Empty;
+                Controls[i_Position.ToString()].BackColor = Color.White;
             }
-
-            Controls[i_Position.ToString()].Text = string.Empty;
-            Controls[i_Position.ToString()].BackColor = Color.White;
+            else
+            {
+                Controls[i_Position.ToString()].Text = string.Empty;
+            }
         }
 
         public void Game_PieceAdded(BoardPosition i_Position, eCheckersPieceType i_PieceType)
