@@ -14,6 +14,8 @@ namespace CheckersUI
         public string PlayerOneName { get; private set; }
         public string PlayerTwoName { get; private set; }
 
+        public bool IsWindowClosedByDone { get; private set; }
+
         public GameSettingsForm()
         {
             InitializeComponent();
@@ -52,6 +54,7 @@ namespace CheckersUI
                 PlayerOneName = textBoxPlayerOneName.Text;
                 PlayerTwoName = textBoxPlayerTwoName.Text;
                 IsPlayerTwoActive = checkBoxPlayerTwo.Checked;
+                IsWindowClosedByDone = true;
                 Close();
             }
             else
@@ -92,9 +95,13 @@ namespace CheckersUI
             GameSettingsForm settingsForm = i_Sender as GameSettingsForm;
             if (settingsForm.DialogResult == DialogResult.Cancel)
             {
-                PlayerOneName = k_Player1DefaultName;
-                PlayerTwoName = k_ComputerPlayerName;
-                IsPlayerTwoActive = false;
+                // option 1
+                IsWindowClosedByDone = false;
+                
+                // option 2
+                //PlayerOneName = k_Player1DefaultName;
+                //PlayerTwoName = k_ComputerPlayerName;
+                //IsPlayerTwoActive = false;
             }
         }
     }
