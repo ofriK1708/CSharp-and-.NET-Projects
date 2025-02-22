@@ -25,8 +25,8 @@ namespace CheckersUI
         private GameSquareButton m_AddedButton;
         private Timer r_ButtonRemovedTimer;
         private GameSquareButton m_RemovedButton;
-        private readonly Color r_SelectedButtonColor = Color.LightSkyBlue;
-        private readonly Color r_UnselectedButtonColor = Color.White;
+        private readonly Color r_SelectedButtonColor = Color.LightBlue;
+        private readonly Color r_UnselectedButtonColor = Color.Gainsboro;
         private readonly Color r_SkippedButtonColor = Color.IndianRed;
         private readonly Color r_ActivePlayerColor = Color.SkyBlue;
         private readonly Color r_MovingButtonColor = Color.Cornsilk;
@@ -79,7 +79,7 @@ namespace CheckersUI
                     if (row % 2 == col % 2)
                     {
                         currentSquare.Enabled = false;
-                        currentSquare.BackColor = Color.Gray;
+                        currentSquare.BackColor = Color.SlateGray;
                     }
 
                     // Position relative to the panel.
@@ -306,7 +306,7 @@ namespace CheckersUI
         {
             if (m_IsComputerTurn)
             {
-                labelPlayerTwoName.BackColor = Color.Plum;
+                labelPlayerTwoName.BackColor = Color.AliceBlue;
                 labelPlayerTwoName.Cursor = Cursors.Hand;
             }
         }
