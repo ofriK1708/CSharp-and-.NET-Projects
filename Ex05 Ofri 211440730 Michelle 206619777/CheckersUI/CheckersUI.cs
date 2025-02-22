@@ -32,7 +32,7 @@ namespace CheckersUI
 
         private void initEvents()
         {
-            ComputerMoveSelected += m_GameBoardForm.Game_ComputerMoveSelected;
+            // ComputerMoveSelected += m_GameBoardForm.Game_ComputerMoveSelected;
             m_CheckersGame.AddBoardActionsListener(m_GameBoardForm.Game_BoardReset, m_GameBoardForm.Game_PieceAdded,
                 m_GameBoardForm.Game_PieceRemoved);
             m_CheckersGame.ActivePlayerChanged += m_GameBoardForm.Game_ActivePlayerChanged;
@@ -54,7 +54,6 @@ namespace CheckersUI
         private void GameForm_PlayComputerMove()
         {
             CheckersBoardMove checkersBoardMove = getComputerMove();
-            OnComputerMoveSelected(checkersBoardMove.From);
             m_CheckersGame.playMove(checkersBoardMove);
         }
 
