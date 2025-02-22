@@ -12,7 +12,6 @@ namespace CheckersUI
         public bool IsPlayerTwoActive { get; private set; }
         public string PlayerOneName { get; private set; }
         public string PlayerTwoName { get; private set; }
-
         public bool IsWindowClosedByDone { get; private set; }
 
         public GameSettingsForm()

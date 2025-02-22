@@ -17,8 +17,11 @@ namespace CheckersUI
 			BoardPosition = i_BoardPosition;
 			Height = k_ButtonHeight;
 			Width = k_ButtonWidth;
-			BackColor = Color.White;
+			BackColor = Color.Gainsboro;
 			Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
+			FlatStyle = FlatStyle.Flat;
+			FlatAppearance.BorderColor = Color.Lavender;
+			FlatAppearance.BorderSize = 1;
 		}
 	}
 }

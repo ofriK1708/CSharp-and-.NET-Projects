@@ -34,9 +34,9 @@
             this.textBoxPlayerTwoName = new System.Windows.Forms.TextBox();
             this.checkBoxPlayerTwo = new System.Windows.Forms.CheckBox();
             this.textBoxPlayerOneName = new System.Windows.Forms.TextBox();
-            this.lablePlayerOne = new System.Windows.Forms.Label();
-            this.lablePlayers = new System.Windows.Forms.Label();
-            this.lableBoardSize = new System.Windows.Forms.Label();
+            this.labelPlayerOne = new System.Windows.Forms.Label();
+            this.labelPlayers = new System.Windows.Forms.Label();
+            this.labelBoardSize = new System.Windows.Forms.Label();
             this.radioButton10X10 = new System.Windows.Forms.RadioButton();
             this.radioButton8X8 = new System.Windows.Forms.RadioButton();
             this.radioButton6X6 = new System.Windows.Forms.RadioButton();
@@ -87,30 +87,30 @@
             // 
             // lablePlayerOne
             // 
-            this.lablePlayerOne.AutoSize = true;
-            this.lablePlayerOne.Location = new System.Drawing.Point(18, 110);
-            this.lablePlayerOne.Name = "lablePlayerOne";
-            this.lablePlayerOne.Size = new System.Drawing.Size(48, 13);
-            this.lablePlayerOne.TabIndex = 15;
-            this.lablePlayerOne.Text = "Player 1:";
+            this.labelPlayerOne.AutoSize = true;
+            this.labelPlayerOne.Location = new System.Drawing.Point(18, 110);
+            this.labelPlayerOne.Name = "labelPlayerOne";
+            this.labelPlayerOne.Size = new System.Drawing.Size(48, 13);
+            this.labelPlayerOne.TabIndex = 15;
+            this.labelPlayerOne.Text = "Player 1:";
             // 
             // lablePlayers
             // 
-            this.lablePlayers.AutoSize = true;
-            this.lablePlayers.Location = new System.Drawing.Point(9, 81);
-            this.lablePlayers.Name = "lablePlayers";
-            this.lablePlayers.Size = new System.Drawing.Size(44, 13);
-            this.lablePlayers.TabIndex = 14;
-            this.lablePlayers.Text = "Players:";
+            this.labelPlayers.AutoSize = true;
+            this.labelPlayers.Location = new System.Drawing.Point(9, 81);
+            this.labelPlayers.Name = "labelPlayers";
+            this.labelPlayers.Size = new System.Drawing.Size(44, 13);
+            this.labelPlayers.TabIndex = 14;
+            this.labelPlayers.Text = "Players:";
             // 
             // lableBoardSize
             // 
-            this.lableBoardSize.AutoSize = true;
-            this.lableBoardSize.Location = new System.Drawing.Point(9, 13);
-            this.lableBoardSize.Name = "lableBoardSize";
-            this.lableBoardSize.Size = new System.Drawing.Size(61, 13);
-            this.lableBoardSize.TabIndex = 13;
-            this.lableBoardSize.Text = "Board Size:";
+            this.labelBoardSize.AutoSize = true;
+            this.labelBoardSize.Location = new System.Drawing.Point(9, 13);
+            this.labelBoardSize.Name = "labelBoardSize";
+            this.labelBoardSize.Size = new System.Drawing.Size(61, 13);
+            this.labelBoardSize.TabIndex = 13;
+            this.labelBoardSize.Text = "Board Size:";
             // 
             // radioButton10X10
             // 
@@ -167,9 +167,9 @@
             this.Controls.Add(this.textBoxPlayerTwoName);
             this.Controls.Add(this.checkBoxPlayerTwo);
             this.Controls.Add(this.textBoxPlayerOneName);
-            this.Controls.Add(this.lablePlayerOne);
-            this.Controls.Add(this.lablePlayers);
-            this.Controls.Add(this.lableBoardSize);
+            this.Controls.Add(this.labelPlayerOne);
+            this.Controls.Add(this.labelPlayers);
+            this.Controls.Add(this.labelBoardSize);
             this.Controls.Add(this.radioButton10X10);
             this.Controls.Add(this.radioButton8X8);
             this.Controls.Add(this.radioButton6X6);
@@ -191,9 +191,9 @@
         private System.Windows.Forms.TextBox textBoxPlayerTwoName;
         private System.Windows.Forms.CheckBox checkBoxPlayerTwo;
         private System.Windows.Forms.TextBox textBoxPlayerOneName;
-        private System.Windows.Forms.Label lablePlayerOne;
-        private System.Windows.Forms.Label lablePlayers;
-        private System.Windows.Forms.Label lableBoardSize;
+        private System.Windows.Forms.Label labelPlayerOne;
+        private System.Windows.Forms.Label labelPlayers;
+        private System.Windows.Forms.Label labelBoardSize;
         private System.Windows.Forms.RadioButton radioButton10X10;
         private System.Windows.Forms.RadioButton radioButton8X8;
         private System.Windows.Forms.RadioButton radioButton6X6;
