@@ -15,8 +15,7 @@ namespace CheckersUI
             m_SettingsForm = new GameSettingsForm();
             if (m_SettingsForm.IsWindowClosedByDone)
             {
-                Player player1 = new Player(m_SettingsForm.PlayerOneName, ePlayerType.Human, eCheckersPieceType.XPiece,
-                    eCheckersPieceType.XKingPiece);
+                Player player1 = new Player(m_SettingsForm.PlayerOneName, ePlayerType.Human, eCheckersPieceType.XPiece, eCheckersPieceType.XKingPiece);
                 Player player2 = initSecondPlayer(m_SettingsForm.IsPlayerTwoActive, m_SettingsForm.PlayerTwoName);
 
                 m_CheckersGame = new CheckersGame(player1, player2, m_SettingsForm.BoardSize);

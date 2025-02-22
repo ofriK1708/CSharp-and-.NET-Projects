@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using CheckersLogic;
@@ -333,6 +334,7 @@ namespace CheckersUI
                 ComputerTurn?.Invoke();
             }
         }
+        
         protected override void OnClosing(CancelEventArgs i_EventArgs)
         {
             DialogResult userChoice = MessageBox.Show(k_GamePausedMessage,k_GamePausedCaption ,MessageBoxButtons.YesNoCancel); 
