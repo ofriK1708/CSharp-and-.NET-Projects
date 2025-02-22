@@ -27,6 +27,7 @@ namespace CheckersUI
         private readonly Color r_UnselectedButtonColor = Color.White;
         private readonly Color r_SkippedButtonColor = Color.IndianRed;
         private readonly Color r_ActivePlayerColor = Color.LightBlue;
+        private readonly Color r_AddedButtonColor = Color.PaleTurquoise;
 
         public GameBoardForm(string i_Player1Name, string i_Player2Name, int i_BoardSize, bool i_IsPlayerTwoActive)
         {
@@ -135,7 +136,7 @@ namespace CheckersUI
         {
             r_ButtonAddedTimer.Start();
             Controls[i_Position.ToString()].Text = ((char)i_PieceType).ToString();
-            Controls[i_Position.ToString()].BackColor = Color.PaleTurquoise;
+            Controls[i_Position.ToString()].BackColor = r_AddedButtonColor;
             m_AddedButton = Controls[i_Position.ToString()] as GameSquareButton;
         }
 
@@ -285,7 +286,7 @@ namespace CheckersUI
 
         public void Game_ComputerMoveSelected(BoardPosition i_Position)
         {
-           Controls[i_Position.ToString()].BackColor = r_SelectedButtonColor;
+            Controls[i_Position.ToString()].BackColor = r_AddedButtonColor;
         }
     }
 }

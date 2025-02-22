@@ -51,7 +51,7 @@ namespace CheckersUI
                 eCheckersPieceType.OKingPiece);
         }
 
-        public void GameForm_PlayComputerMove()
+        private void GameForm_PlayComputerMove()
         {
             CheckersBoardMove checkersBoardMove = getComputerMove();
             OnComputerMoveSelected(checkersBoardMove.From);
