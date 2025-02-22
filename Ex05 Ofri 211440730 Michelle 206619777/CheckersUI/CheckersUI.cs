@@ -15,8 +15,7 @@ namespace CheckersUI
             m_SettingsForm = new GameSettingsForm();
             if (m_SettingsForm.IsWindowClosedByDone)
             {
-                Player player1 = new Player(m_SettingsForm.PlayerOneName, ePlayerType.Human, eCheckersPieceType.XPiece,
-                    eCheckersPieceType.XKingPiece);
+                Player player1 = new Player(m_SettingsForm.PlayerOneName, ePlayerType.Human, eCheckersPieceType.XPiece, eCheckersPieceType.XKingPiece);
                 Player player2 = initSecondPlayer(m_SettingsForm.IsPlayerTwoActive, m_SettingsForm.PlayerTwoName);
 
                 m_CheckersGame = new CheckersGame(player1, player2, m_SettingsForm.BoardSize);
@@ -30,8 +29,7 @@ namespace CheckersUI
 
         private void initEvents()
         {
-            m_CheckersGame.AddBoardActionsListener(m_GameBoardForm.Game_BoardReset, m_GameBoardForm.Game_PieceAdded,
-                m_GameBoardForm.Game_PieceRemoved);
+            m_CheckersGame.AddBoardActionsListener(m_GameBoardForm.Game_BoardReset, m_GameBoardForm.Game_PieceAdded,m_GameBoardForm.Game_PieceRemoved);
             m_CheckersGame.ActivePlayerChanged += m_GameBoardForm.Game_ActivePlayerChanged;
             m_CheckersGame.PlayerWon += m_GameBoardForm.Game_PlayerWon;
             m_CheckersGame.Stalemate += m_GameBoardForm.Game_Stalemate;
@@ -39,6 +37,7 @@ namespace CheckersUI
             m_GameBoardForm.SecondPositionSelect += m_CheckersGame.GameForm_SecondPositionSelected;
             m_GameBoardForm.NewGame += m_CheckersGame.GameForm_NewGame;
             m_GameBoardForm.ComputerTurn += GameForm_PlayComputerMove;
+            m_GameBoardForm.GameRoundQuitByPlayer += m_CheckersGame.GameForm_GameRoundQuitByPlayer;
         }
 
         private Player initSecondPlayer(bool i_SettingsFormIsPlayerTwoActive, string i_SettingsFormPlayerTwoName)

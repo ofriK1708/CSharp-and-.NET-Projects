@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using CheckersLogic;
@@ -11,8 +12,11 @@ namespace CheckersUI
         private const int k_ButtonStartX = 3;
         private const int k_ButtonStartY = 50;
         private const String k_ErrorCaption = "Error";
+        private const string k_GamePausedMessage = "This round has finished. Do you wish to quit it and start a new round?";
+        private const string k_GamePausedCaption = "Game Paused";
         private int r_CheckersBoardSize;
         private readonly bool r_IsPlayerTwoActive;
+        private bool lastRoundQuitByPlayer = false;
         private GameSquareButton m_CurrentPressedButton;
         public event Action<BoardPosition> FirstPositionSelect;
         public event Action<CheckersBoardMove> SecondPositionSelect;
@@ -32,6 +36,7 @@ namespace CheckersUI
         private readonly Color r_MovingButtonColor = Color.Cornsilk;
         private bool m_IsComputerTurn;
         private Panel m_PanelBoard;
+        public event Action GameRoundQuitByPlayer;
 
         public GameBoardForm(string i_Player1Name, string i_Player2Name, int i_BoardSize, bool i_IsPlayerTwoActive)
         {
@@ -270,10 +275,12 @@ namespace CheckersUI
 
         public void Game_PlayerWon(Player i_Winner)
         {
-            DialogResult result = MessageBox.Show($@"{i_Winner.Name} Won! {Environment.NewLine}Another Round?",
-                @"Game Over", MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
+            if(lastRoundQuitByPlayer || MessageBox.Show(
+                   $@"{i_Winner.Name} Won! {Environment.NewLine}Another Round?",
+                   @"Game Over",
+                   MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
+                lastRoundQuitByPlayer = false;
                 changeScore(i_Winner);
                 OnNewGame();
             }
@@ -325,6 +332,24 @@ namespace CheckersUI
             if (m_IsComputerTurn)
             {
                 ComputerTurn?.Invoke();
+            }
+        }
+        
+        protected override void OnClosing(CancelEventArgs i_EventArgs)
+        {
+            DialogResult userChoice = MessageBox.Show(k_GamePausedMessage,k_GamePausedCaption ,MessageBoxButtons.YesNoCancel); 
+            switch(userChoice)
+            {
+                case DialogResult.Yes:
+                    lastRoundQuitByPlayer = true;
+                    i_EventArgs.Cancel = true;
+                    GameRoundQuitByPlayer?.Invoke();
+                    break;
+                case DialogResult.No:
+                    break;
+                case DialogResult.Cancel:
+                    i_EventArgs.Cancel = true;
+                    break;
             }
         }
     }
