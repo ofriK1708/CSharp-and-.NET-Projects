@@ -17,7 +17,7 @@ namespace CheckersUI
         public event Action<CheckersBoardMove> SecondPositionSelect;
         public event Action NewGame;
 
-        public GameBoardForm(String i_Player1Name, String i_Player2Name, int i_BoardSize, bool i_IsGameVSComputer)
+        public GameBoardForm(String i_Player1Name, String i_Player2Name, int i_BoardSize)
         {
             r_CheckersBoardSize = i_BoardSize;
             InitializeComponent();
@@ -25,10 +25,10 @@ namespace CheckersUI
             labelPlayerTwoName.Text = i_Player2Name + ":";
             labelPlayerOneScore.Left = labelPlayerOneName.Right + 5;
             labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
-            createButtonMatrix(i_IsGameVSComputer);
+            createButtonMatrix();
         }
 
-        private void createButtonMatrix(bool i_IsGameVsComputer)
+        private void createButtonMatrix()
         {
             for (int row = 0; row < r_CheckersBoardSize; row++)
             {
@@ -46,12 +46,6 @@ namespace CheckersUI
                     currentSquare.Click += gameWindowButton_ButtonClicked;
                     Controls.Add(currentSquare);
                 }
-            }
-            if (i_IsGameVsComputer) 
-            {
-                ComputerButton computerButton = new ComputerButton(100,100,10,60); // labelPlayerTwoName.Height,labelPlayerTwoName.Width,labelPlayerTwoName.Left,labelPlayerTwoName.Top
-                Controls.Add(computerButton);
-                // todo - create computer clear button
             }
         }
 
