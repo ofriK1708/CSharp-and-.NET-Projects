@@ -16,7 +16,7 @@ namespace CheckersUI
         private const string k_GamePausedCaption = "Game Paused";
         private int r_CheckersBoardSize;
         private readonly bool r_IsPlayerTwoActive;
-        private List<BoardPosition> m_NextValidMoves = new List<BoardPosition>();
+        private List<BoardPosition> m_NextValidPositions = new List<BoardPosition>();
         private bool lastRoundQuitByPlayer = false;
         private GameSquareButton m_CurrentPressedButton;
         public event Func <BoardPosition,List<BoardPosition>> FirstPositionSelect;
@@ -35,6 +35,7 @@ namespace CheckersUI
         private readonly Color r_SkippedButtonColor = Color.IndianRed;
         private readonly Color r_ActivePlayerColor = Color.SkyBlue;
         private readonly Color r_MovingButtonColor = Color.Cornsilk;
+        private readonly Color r_NextValidPositionsColor = Color.FromArgb(130, 50, 50, 50);
         private bool m_IsComputerTurn;
         private Panel m_PanelBoard;
         public event Action GameRoundQuitByPlayer;
@@ -261,7 +262,7 @@ namespace CheckersUI
 
         private void OnFirstPositionSelected(GameSquareButton i_Button)
         {
-            m_NextValidMoves = FirstPositionSelect?.Invoke(i_Button.BoardPosition);
+            m_NextValidPositions = FirstPositionSelect?.Invoke(i_Button.BoardPosition);
         }
 
         private void changeButtonColor(GameSquareButton i_Button)
@@ -269,9 +270,9 @@ namespace CheckersUI
             if (i_Button.BackColor == r_UnselectedButtonColor)
             {
 
-                foreach (BoardPosition position in m_NextValidMoves)
+                foreach (BoardPosition position in m_NextValidPositions)
                 {
-                    m_PanelBoard.Controls[position.ToString()].BackColor = Color.FromArgb(130, 50, 50, 50);
+                    m_PanelBoard.Controls[position.ToString()].BackColor = r_NextValidPositionsColor;
                 }
 
                 i_Button.BackColor = r_SelectedButtonColor;
@@ -283,7 +284,7 @@ namespace CheckersUI
                     i_Button.BackColor = r_UnselectedButtonColor;
                 }
 
-                foreach(BoardPosition position in m_NextValidMoves)
+                foreach(BoardPosition position in m_NextValidPositions)
                 {
                     m_PanelBoard.Controls[position.ToString()].BackColor = r_UnselectedButtonColor;
                 }
@@ -307,7 +308,7 @@ namespace CheckersUI
             if(lastRoundQuitByPlayer || MessageBox.Show(
                    $@"{i_Winner.Name} Won! {Environment.NewLine}Another Round?",
                    @"Game Over",
-                   MessageBoxButtons.YesNo) == DialogResult.Yes)
+                   MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 lastRoundQuitByPlayer = false;
                 changeScore(i_Winner);
@@ -322,7 +323,7 @@ namespace CheckersUI
         public void Game_Stalemate()
         {
             DialogResult result = MessageBox.Show($@"Tie! {Environment.NewLine}Another Round?", @"Game Over",
-                MessageBoxButtons.YesNo);
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 OnNewGame();
@@ -366,7 +367,7 @@ namespace CheckersUI
         
         protected override void OnClosing(CancelEventArgs i_EventArgs)
         {
-            DialogResult userChoice = MessageBox.Show(k_GamePausedMessage,k_GamePausedCaption ,MessageBoxButtons.YesNoCancel); 
+            DialogResult userChoice = MessageBox.Show(k_GamePausedMessage,k_GamePausedCaption ,MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question); 
             switch(userChoice)
             {
                 case DialogResult.Yes:
