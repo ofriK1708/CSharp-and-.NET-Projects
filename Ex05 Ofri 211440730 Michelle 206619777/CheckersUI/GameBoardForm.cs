@@ -28,7 +28,7 @@ namespace CheckersUI
         private readonly Color r_SelectedButtonColor = Color.LightSkyBlue;
         private readonly Color r_UnselectedButtonColor = Color.White;
         private readonly Color r_SkippedButtonColor = Color.IndianRed;
-        private readonly Color r_ActivePlayerColor = Color.LightSkyBlue;
+        private readonly Color r_ActivePlayerColor = Color.SkyBlue;
         private readonly Color r_MovingButtonColor = Color.Cornsilk;
         private bool m_IsComputerTurn;
         private Panel m_PanelBoard;
@@ -306,7 +306,7 @@ namespace CheckersUI
         {
             if (m_IsComputerTurn)
             {
-                labelPlayerTwoName.BackColor = Color.LightBlue;
+                labelPlayerTwoName.BackColor = Color.LightGreen;
                 labelPlayerTwoName.Cursor = Cursors.Hand;
             }
         }
