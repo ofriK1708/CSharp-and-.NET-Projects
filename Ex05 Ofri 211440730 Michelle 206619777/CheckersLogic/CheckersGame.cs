@@ -6,8 +6,8 @@ namespace CheckersLogic
     public class CheckersGame
     {
         private CheckersBoard GameBoard { get; }
-        private Player Player1 { get;}
-        private Player Player2 { get;}
+        private Player Player1 { get; }
+        private Player Player2 { get; }
         private Player ActivePlayer { get; set; }
         public List<CheckersBoardMove> ValidMoves { get; private set; } = new List<CheckersBoardMove>();
         private bool m_ContinueTurnForCurrentPlayer;
@@ -24,7 +24,7 @@ namespace CheckersLogic
 
         public void AddBoardActionsListener(Action<List<BoardPosition>, List<BoardPosition>> i_BoardResetAction,
             Action<BoardPosition, eCheckersPieceType> i_PieceAddedAction,
-            Action<BoardPosition> i_PieceRemovedAction)
+            Action<BoardPosition, bool> i_PieceRemovedAction)
         {
             GameBoard.BoardReset += i_BoardResetAction;
             GameBoard.PieceAdded += i_PieceAddedAction;
@@ -41,7 +41,7 @@ namespace CheckersLogic
 
         public void GameForm_NewGame()
         {
-           ResetGame();
+            ResetGame();
         }
 
         public void GameForm_FirstPositionSelected(BoardPosition i_SelectedPosition)
@@ -65,7 +65,7 @@ namespace CheckersLogic
             playMove(i_BoardMove);
         }
 
-        private void playMove(CheckersBoardMove i_ValidMove)
+        public void playMove(CheckersBoardMove i_ValidMove)
         {
             bool skippedOpponentsPiece = GameBoard.executeMove(i_ValidMove);
 
@@ -119,7 +119,7 @@ namespace CheckersLogic
 
         private void OnStalemate()
         {
-           Stalemate?.Invoke();
+            Stalemate?.Invoke();
         }
 
         private void switchActivePlayer()
@@ -136,17 +136,8 @@ namespace CheckersLogic
 
         private Player getOpponent(Player i_ActivePlayer)
         {
-            Player opponent;
-
-            if (i_ActivePlayer.Equals(Player1))
-            {
-                opponent = Player2;
-            }
-            else
-            {
-                opponent = Player1;
-            }
-
+            Player opponent = i_ActivePlayer.Equals(Player1) ? Player2 : Player1;
+            
             return opponent;
         }
 
@@ -184,7 +175,7 @@ namespace CheckersLogic
             ActivePlayerChanged?.Invoke(ActivePlayer);
         }
 
-        public bool CheckMovePartOfValidMoves(CheckersBoardMove i_Move)
+        private bool CheckMovePartOfValidMoves(CheckersBoardMove i_Move)
         {
             return ValidMoves.Contains(i_Move);
         }

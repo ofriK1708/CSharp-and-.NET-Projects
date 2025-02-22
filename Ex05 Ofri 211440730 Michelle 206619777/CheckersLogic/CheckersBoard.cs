@@ -6,11 +6,11 @@ namespace CheckersLogic
     public class CheckersBoard
     {
         public int Size { get; }
-        public eCheckersPieceType[,] Board { get; }
+        private eCheckersPieceType[,] Board { get; }
         internal List<BoardPosition> XPositions { get; } = new List<BoardPosition>();
         internal List<BoardPosition> OPositions { get; } = new List<BoardPosition>();
         public event Action<List<BoardPosition>,List<BoardPosition>> BoardReset;
-        public event Action<BoardPosition> PieceRemoved;
+        public event Action<BoardPosition, bool> PieceRemoved;
         public event Action<BoardPosition, eCheckersPieceType> PieceAdded;
 
         internal CheckersBoard(int i_Size)
@@ -59,7 +59,7 @@ namespace CheckersLogic
             OnBoardReset();
         }
 
-        protected virtual void OnBoardReset()
+        private void OnBoardReset()
         {
             BoardReset?.Invoke(XPositions, OPositions);
         }
@@ -82,19 +82,19 @@ namespace CheckersLogic
 
         internal bool IsOpponentPiece(eCheckersPieceType i_OpponentPiece, int i_NewRow, int i_NewColRight)
         {
-            eCheckersPieceType oponentKingPiece;
+            eCheckersPieceType opponentKingPiece;
 
             if (i_OpponentPiece.Equals(eCheckersPieceType.XPiece))
             {
-                oponentKingPiece = eCheckersPieceType.XKingPiece;
+                opponentKingPiece = eCheckersPieceType.XKingPiece;
             }
             else
             {
-                oponentKingPiece = eCheckersPieceType.OKingPiece;
+                opponentKingPiece = eCheckersPieceType.OKingPiece;
             }
 
             return Board[i_NewRow, i_NewColRight] == i_OpponentPiece ||
-                   Board[i_NewRow, i_NewColRight] == oponentKingPiece;
+                   Board[i_NewRow, i_NewColRight] == opponentKingPiece;
         }
 
         internal bool executeMove(CheckersBoardMove i_ValidMove)
@@ -110,20 +110,21 @@ namespace CheckersLogic
             Board[startPosition.Row, startPosition.Column] = eCheckersPieceType.EmptyPlace;
             removePieceFromBoard(startPosition, pieceTypeInStartPos);
             addPieceToBoard(nextPosition, pieceTypeInNextPos);
+            
             if (rowDiff == 2)
             {
                 int skippedColl = (nextPosition.Column + startPosition.Column) / 2;
                 int skippedRow = (nextPosition.Row + startPosition.Row) / 2;
                 eCheckersPieceType removedPieceType = Board[skippedRow, skippedColl];
                 Board[skippedRow, skippedColl] = eCheckersPieceType.EmptyPlace;
-                removePieceFromBoard(new BoardPosition(skippedRow, skippedColl), removedPieceType);
+                removePieceFromBoard(new BoardPosition(skippedRow, skippedColl), removedPieceType,true);
                 isSkipMove = true;
             }
 
             return isSkipMove;
         }
 
-        private void removePieceFromBoard(BoardPosition i_PositionToRemove, eCheckersPieceType i_PieceType)
+        private void removePieceFromBoard(BoardPosition i_PositionToRemove, eCheckersPieceType i_PieceType, bool i_IsSkipped = false)
         {
             switch (i_PieceType)
             {
@@ -137,12 +138,12 @@ namespace CheckersLogic
                     break;
             }
             
-            OnPieceRemoved(i_PositionToRemove);
+            OnPieceRemoved(i_PositionToRemove, i_IsSkipped);
         }
 
-        public void OnPieceRemoved(BoardPosition i_PositionToRemove)
+        private void OnPieceRemoved(BoardPosition i_PositionToRemove, bool i_IsSkipped)
         {
-            PieceRemoved?.Invoke(i_PositionToRemove);
+            PieceRemoved?.Invoke(i_PositionToRemove, i_IsSkipped);
         }
 
         private void addPieceToBoard(BoardPosition i_PositionToAdd, eCheckersPieceType i_PieceType)
@@ -162,7 +163,7 @@ namespace CheckersLogic
             OnPieceAdded(i_PositionToAdd, i_PieceType);
         }
 
-        public void OnPieceAdded(BoardPosition i_PositionToAdd, eCheckersPieceType i_PieceType)
+        private void OnPieceAdded(BoardPosition i_PositionToAdd, eCheckersPieceType i_PieceType)
         {
             PieceAdded?.Invoke(i_PositionToAdd, i_PieceType);
         }
