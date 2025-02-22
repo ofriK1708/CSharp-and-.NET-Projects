@@ -16,9 +16,10 @@ namespace CheckersUI
         private const string k_GamePausedCaption = "Game Paused";
         private int r_CheckersBoardSize;
         private readonly bool r_IsPlayerTwoActive;
+        private List<BoardPosition> m_NextValidMoves = new List<BoardPosition>();
         private bool lastRoundQuitByPlayer = false;
         private GameSquareButton m_CurrentPressedButton;
-        public event Action<BoardPosition> FirstPositionSelect;
+        public event Func <BoardPosition,List<BoardPosition>> FirstPositionSelect;
         public event Action<CheckersBoardMove> SecondPositionSelect;
         public event Action NewGame;
         public event Action ComputerTurn;
@@ -196,6 +197,7 @@ namespace CheckersUI
         private void gameWindowButton_ButtonClicked(object i_Sender, EventArgs i_E)
         {
             GameSquareButton button = i_Sender as GameSquareButton;
+            
             if (m_CurrentPressedButton == null)
             {
                 selectFirstPosition(button);
@@ -248,27 +250,43 @@ namespace CheckersUI
                 OnFirstPositionSelected(i_Button);
                 m_CurrentPressedButton = i_Button;
                 changeButtonColor(i_Button);
+                
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, k_ErrorCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
         }
 
         private void OnFirstPositionSelected(GameSquareButton i_Button)
         {
-            FirstPositionSelect?.Invoke(i_Button.BoardPosition);
+            m_NextValidMoves = FirstPositionSelect?.Invoke(i_Button.BoardPosition);
         }
 
         private void changeButtonColor(GameSquareButton i_Button)
         {
             if (i_Button.BackColor == r_UnselectedButtonColor)
             {
+
+                foreach (BoardPosition position in m_NextValidMoves)
+                {
+                    m_PanelBoard.Controls[position.ToString()].BackColor = Color.FromArgb(130, 50, 50, 50);
+                }
+
                 i_Button.BackColor = r_SelectedButtonColor;
             }
-            else if (i_Button.BackColor == r_SelectedButtonColor)
+            else
             {
-                i_Button.BackColor = r_UnselectedButtonColor;
+                if(i_Button.BackColor == r_SelectedButtonColor)
+                {
+                    i_Button.BackColor = r_UnselectedButtonColor;
+                }
+
+                foreach(BoardPosition position in m_NextValidMoves)
+                {
+                    m_PanelBoard.Controls[position.ToString()].BackColor = r_UnselectedButtonColor;
+                }
             }
         }
 
