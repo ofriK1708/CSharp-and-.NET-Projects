@@ -176,7 +176,8 @@ namespace CheckersUI
             {
                 if (button.Text == String.Empty)
                 {
-                    CheckersBoardMove move = new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, button.BoardPosition);
+                    CheckersBoardMove move =
+                        new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, button.BoardPosition);
                     OnSecondPositionSelected(move);
                     changeButtonColor(m_CurrentPressedButton);
                     m_CurrentPressedButton = null;
@@ -205,11 +206,11 @@ namespace CheckersUI
             changeButtonColor(i_Button);
             m_CurrentPressedButton = null;
         }
-        
+
         private void reselectFirstPosition(GameSquareButton i_Button)
         {
-           undoPositionSelection(m_CurrentPressedButton);
-           selectFirstPosition(i_Button);
+            undoPositionSelection(m_CurrentPressedButton);
+            selectFirstPosition(i_Button);
         }
 
         private void selectFirstPosition(GameSquareButton i_Button)
@@ -299,7 +300,10 @@ namespace CheckersUI
 
         private void PlayerTwo_MouseLeave(object i_Sender, EventArgs i_EventArgs)
         {
-            labelPlayerTwoName.BackColor = m_IsComputerTurn ? r_ActivePlayerColor : Color.Empty;
+            if (m_IsComputerTurn)
+            {
+                labelPlayerTwoName.BackColor = r_ActivePlayerColor;
+            }
         }
 
         private void PlayerTwo_Clicked(object i_Sender, EventArgs i_EventArgs)
