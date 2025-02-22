@@ -100,10 +100,21 @@ namespace CheckersUI
 
         public void Game_BoardReset(List<BoardPosition> i_XPositions, List<BoardPosition> i_OPositions)
         {
+            foreach (Control control in m_PanelBoard.Controls)
+            {
+                control.Text = string.Empty;
+            }
             resetBoardForPieceType(i_OPositions, ((char)eCheckersPieceType.OPiece).ToString());
             resetBoardForPieceType(i_XPositions, ((char)eCheckersPieceType.XPiece).ToString());
             labelPlayerOneName.BackColor = r_ActivePlayerColor;
+            m_IsComputerTurn = false;
+            m_PanelBoard.Enabled = true;
             labelPlayerTwoName.BackColor = Color.Empty;
+            if (m_CurrentPressedButton != null)
+            {
+                m_CurrentPressedButton.BackColor = r_UnselectedButtonColor;
+                m_CurrentPressedButton = null;
+            }
         }
 
         private void resetBoardForPieceType(List<BoardPosition> i_Positions, string i_PieceText)
