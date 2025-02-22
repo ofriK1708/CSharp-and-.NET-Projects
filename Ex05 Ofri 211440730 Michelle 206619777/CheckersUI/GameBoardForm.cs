@@ -142,7 +142,7 @@ namespace CheckersUI
         private void Timer_ClearRemovedButtonColor(object i_Sender, EventArgs i_EventArgs)
         {
             r_ButtonRemovedTimer.Stop();
-            Controls[m_AddedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
+            Controls[m_RemovedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
             m_RemovedButton = null;
         }
 
