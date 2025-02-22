@@ -118,9 +118,9 @@ namespace CheckersUI
             }
             else
             {
+                r_ButtonRemovedTimer.Start();
                 Controls[i_Position.ToString()].BackColor = r_MovingButtonColor;
                 m_RemovedButton = Controls[i_Position.ToString()] as GameSquareButton;
-                Controls[i_Position.ToString()].Text = string.Empty;
             }
         }
 
@@ -142,6 +142,7 @@ namespace CheckersUI
         private void Timer_ClearRemovedButtonColor(object i_Sender, EventArgs i_EventArgs)
         {
             r_ButtonRemovedTimer.Stop();
+            Controls[m_RemovedButton.ToString()].Text = string.Empty;
             Controls[m_RemovedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
             m_RemovedButton = null;
         }
