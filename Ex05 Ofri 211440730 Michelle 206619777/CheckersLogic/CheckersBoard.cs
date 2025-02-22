@@ -141,7 +141,7 @@ namespace CheckersLogic
             OnPieceRemoved(i_PositionToRemove, i_IsSkipped);
         }
 
-        public void OnPieceRemoved(BoardPosition i_PositionToRemove, bool i_IsSkipped)
+        private void OnPieceRemoved(BoardPosition i_PositionToRemove, bool i_IsSkipped)
         {
             PieceRemoved?.Invoke(i_PositionToRemove, i_IsSkipped);
         }
@@ -163,7 +163,7 @@ namespace CheckersLogic
             OnPieceAdded(i_PositionToAdd, i_PieceType);
         }
 
-        public void OnPieceAdded(BoardPosition i_PositionToAdd, eCheckersPieceType i_PieceType)
+        private void OnPieceAdded(BoardPosition i_PositionToAdd, eCheckersPieceType i_PieceType)
         {
             PieceAdded?.Invoke(i_PositionToAdd, i_PieceType);
         }
