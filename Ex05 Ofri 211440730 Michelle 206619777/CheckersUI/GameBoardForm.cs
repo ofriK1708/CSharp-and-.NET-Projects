@@ -53,7 +53,7 @@ namespace CheckersUI
             r_ButtonAddedTimer.Interval = k_ButtonClearTime;
             r_ButtonAddedTimer.Tick += Timer_ClearAddedButtonColor;
             r_ButtonRemovedTimer = new Timer();
-            r_ButtonRemovedTimer.Interval = k_ButtonClearTime;
+            r_ButtonRemovedTimer.Interval = k_ButtonClearTime / 2;
             r_ButtonRemovedTimer.Tick += Timer_ClearRemovedButtonColor;
         }
 
@@ -179,7 +179,6 @@ namespace CheckersUI
                 {
                     reselectFirstPosition(button);
                 }
-             
             }
         }
 
