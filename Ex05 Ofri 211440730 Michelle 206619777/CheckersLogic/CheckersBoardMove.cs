@@ -9,8 +9,8 @@ namespace CheckersLogic
 
         public CheckersBoardMove(BoardPosition i_From, BoardPosition i_To)
         {
-            this.From = i_From;
-            this.To = i_To;
+            From = i_From;
+            To = i_To;
         }
 
         public void SetMove(String i_MoveInput)
