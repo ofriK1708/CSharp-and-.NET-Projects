@@ -34,7 +34,7 @@ namespace CheckersUI
                 for (int col = 0; col < r_CheckersBoardSize; col++)
                 {
                     GameSquareButton currentSquare = new GameSquareButton(new BoardPosition(row, col));
-                    if ((row % 2 == 0 && col % 2 == 0) || (row % 2 == 1 && col % 2 == 1))
+                    if (row % 2 == col % 2) // (row % 2 == 0 && col % 2 == 0) || (row % 2 == 1 && col % 2 == 1)
                     {
                         currentSquare.Enabled = false;
                         currentSquare.BackColor = Color.Gray;
