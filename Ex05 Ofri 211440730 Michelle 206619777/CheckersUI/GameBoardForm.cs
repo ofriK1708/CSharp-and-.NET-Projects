@@ -168,11 +168,18 @@ namespace CheckersUI
             }
             else
             {
-                CheckersBoardMove move =
-                    new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, button.BoardPosition);
-                OnSecondPositionSelected(move);
-                // changeButtonColor(m_CurrentPressedButton);
-                m_CurrentPressedButton = null;
+                if (button.Text == String.Empty)
+                {
+                    CheckersBoardMove move = new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, button.BoardPosition);
+                    OnSecondPositionSelected(move);
+                    changeButtonColor(m_CurrentPressedButton);
+                    m_CurrentPressedButton = null;
+                }
+                else
+                {
+                    reselectFirstPosition(button);
+                }
+             
             }
         }
 
@@ -192,6 +199,12 @@ namespace CheckersUI
         {
             changeButtonColor(i_Button);
             m_CurrentPressedButton = null;
+        }
+        
+        private void reselectFirstPosition(GameSquareButton i_Button)
+        {
+           undoPositionSelection(m_CurrentPressedButton);
+           selectFirstPosition(i_Button);
         }
 
         private void selectFirstPosition(GameSquareButton i_Button)
