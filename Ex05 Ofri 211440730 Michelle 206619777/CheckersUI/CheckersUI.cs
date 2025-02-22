@@ -15,15 +15,19 @@ namespace CheckersUI
         internal void StartGame()
         {
             m_SettingsForm = new GameSettingsForm();
-            Player player1 = new Player(m_SettingsForm.PlayerOneName, ePlayerType.Human, eCheckersPieceType.XPiece, eCheckersPieceType.XKingPiece);
-            Player player2 = initSecondPlayer(m_SettingsForm.IsPlayerTwoActive, m_SettingsForm.PlayerTwoName);
-            
-            m_CheckersGame = new CheckersGame(player1, player2, m_SettingsForm.BoardSize);
-            m_GameBoardForm = new GameBoardForm(player1.Name, player2.Name, m_SettingsForm.BoardSize, m_SettingsForm.IsPlayerTwoActive);
-            
-            initEvents();
-            m_CheckersGame.ResetGame();
-            m_GameBoardForm.ShowDialog();
+            if (m_SettingsForm.IsWindowClosedByDone)
+            {
+
+                Player player1 = new Player(m_SettingsForm.PlayerOneName, ePlayerType.Human, eCheckersPieceType.XPiece, eCheckersPieceType.XKingPiece);
+                Player player2 = initSecondPlayer(m_SettingsForm.IsPlayerTwoActive, m_SettingsForm.PlayerTwoName);
+
+                m_CheckersGame = new CheckersGame(player1, player2, m_SettingsForm.BoardSize);
+                m_GameBoardForm = new GameBoardForm(player1.Name, player2.Name, m_SettingsForm.BoardSize,m_SettingsForm.IsPlayerTwoActive);
+
+                initEvents();
+                m_CheckersGame.ResetGame();
+                m_GameBoardForm.ShowDialog();
+            }
         }
 
         private void initEvents()

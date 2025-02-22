@@ -4,7 +4,7 @@
     {
         public string Name { get;}
         public ePlayerType PlayerType { get; set; }
-        public uint Score { get; set; }
+        public uint Score { get; private set; }
         public eCheckersPieceType PieceType { get; }
         public eCheckersPieceType KingPieceType { get;}
         public Player(string i_Name, ePlayerType i_PlayerType, eCheckersPieceType i_PieceType, eCheckersPieceType i_KingPieceType)

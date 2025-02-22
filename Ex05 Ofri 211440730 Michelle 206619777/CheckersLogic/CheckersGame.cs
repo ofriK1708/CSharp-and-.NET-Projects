@@ -5,10 +5,10 @@ namespace CheckersLogic
 {
     public class CheckersGame
     {
-        public CheckersBoard GameBoard { get; private set; }
-        public Player Player1 { get; set; }
-        public Player Player2 { get; set; }
-        public Player ActivePlayer { get; private set; }
+        private CheckersBoard GameBoard { get; }
+        private Player Player1 { get;}
+        private Player Player2 { get;}
+        private Player ActivePlayer { get; set; }
         public List<CheckersBoardMove> ValidMoves { get; private set; } = new List<CheckersBoardMove>();
         private bool m_ContinueTurnForCurrentPlayer;
         public event Action<Player> ActivePlayerChanged;
