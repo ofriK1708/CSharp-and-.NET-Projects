@@ -61,6 +61,7 @@ namespace CheckersUI
 			this.labelPlayerTwoName.Text = "Player 2:";
 			this.labelPlayerTwoName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.labelPlayerTwoName.MouseHover += new EventHandler(this.PlayerTwo_MouseHover);
+			this.labelPlayerTwoName.MouseLeave += new EventHandler(this.PlayerTwo_MouseLeave);
 			this.labelPlayerTwoName.Click += new EventHandler(this.PlayerTwo_Clicked);
 			// 
 			// labelPlayerOneScore

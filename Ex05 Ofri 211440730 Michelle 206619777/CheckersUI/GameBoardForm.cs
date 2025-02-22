@@ -23,6 +23,10 @@ namespace CheckersUI
         private const int k_ButtonClearTime = 200;
         private Timer r_ButtonAddedTimer;
         private GameSquareButton m_AddedButton;
+        private readonly Color r_SelectedButtonColor = Color.LightSkyBlue;
+        private readonly Color r_UnselectedButtonColor = Color.White;
+        private readonly Color r_SkippedButtonColor = Color.IndianRed;
+        private readonly Color r_ActivePlayerColor = Color.LightBlue;
 
         public GameBoardForm(string i_Player1Name, string i_Player2Name, int i_BoardSize, bool i_IsPlayerTwoActive)
         {
@@ -72,7 +76,7 @@ namespace CheckersUI
         {
             resetBoardForPieceType(i_OPositions, ((char)eCheckersPieceType.OPiece).ToString());
             resetBoardForPieceType(i_XPositions, ((char)eCheckersPieceType.XPiece).ToString());
-            labelPlayerOneName.BackColor = Color.LightBlue;
+            labelPlayerOneName.BackColor = r_ActivePlayerColor;
             labelPlayerTwoName.BackColor = Color.Empty;
         }
 
@@ -86,14 +90,14 @@ namespace CheckersUI
 
         public void Game_ActivePlayerChanged(Player i_ActivePlayer)
         {
-            if (labelPlayerOneName.BackColor == Color.LightBlue)
+            if (labelPlayerOneName.BackColor == r_ActivePlayerColor)
             {
-                labelPlayerTwoName.BackColor = Color.LightBlue;
+                labelPlayerTwoName.BackColor = r_ActivePlayerColor;
                 labelPlayerOneName.BackColor = Color.Empty;
             }
             else
             {
-                labelPlayerOneName.BackColor = Color.LightBlue;
+                labelPlayerOneName.BackColor = r_ActivePlayerColor;
                 labelPlayerTwoName.BackColor = Color.Empty;
             }
         }
@@ -103,7 +107,7 @@ namespace CheckersUI
             if (i_IsSkipped)
             {
                 r_ButtonSkippedTimer.Start();
-                Controls[i_Position.ToString()].BackColor = Color.IndianRed;
+                Controls[i_Position.ToString()].BackColor = r_SkippedButtonColor;
                 m_SkippedButton = Controls[i_Position.ToString()] as GameSquareButton;
             }
             else
@@ -116,14 +120,14 @@ namespace CheckersUI
         {
             r_ButtonSkippedTimer.Stop();
             Controls[m_SkippedButton.BoardPosition.ToString()].Text = string.Empty;
-            Controls[m_SkippedButton.BoardPosition.ToString()].BackColor = Color.White;
+            Controls[m_SkippedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
             m_SkippedButton = null;
         }
 
         private void Timer_ClearAddedButtonColor(object i_Sender, EventArgs i_EventArgs)
         {
             r_ButtonAddedTimer.Stop();
-            Controls[m_AddedButton.BoardPosition.ToString()].BackColor = Color.White;
+            Controls[m_AddedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
             m_AddedButton = null;
         }
 
@@ -131,7 +135,7 @@ namespace CheckersUI
         {
             r_ButtonAddedTimer.Start();
             Controls[i_Position.ToString()].Text = ((char)i_PieceType).ToString();
-            Controls[i_Position.ToString()].BackColor = Color.DarkSeaGreen;
+            Controls[i_Position.ToString()].BackColor = Color.PaleTurquoise;
             m_AddedButton = Controls[i_Position.ToString()] as GameSquareButton;
         }
 
@@ -147,8 +151,9 @@ namespace CheckersUI
                 undoPositionSelection(button);
             }
             else
-            { 
-                CheckersBoardMove move = new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, button.BoardPosition);
+            {
+                CheckersBoardMove move =
+                    new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, button.BoardPosition);
                 OnSecondPositionSelected(move);
                 changeButtonColor(m_CurrentPressedButton);
                 m_CurrentPressedButton = null;
@@ -194,13 +199,13 @@ namespace CheckersUI
 
         private void changeButtonColor(GameSquareButton i_Button)
         {
-            if (i_Button.BackColor == Color.White)
+            if (i_Button.BackColor == r_UnselectedButtonColor)
             {
-                i_Button.BackColor = Color.LightSkyBlue;
+                i_Button.BackColor = r_SelectedButtonColor;
             }
-            else if (i_Button.BackColor == Color.LightSkyBlue)
+            else if (i_Button.BackColor == r_SelectedButtonColor)
             {
-                i_Button.BackColor = Color.White;
+                i_Button.BackColor = r_UnselectedButtonColor;
             }
         }
 
@@ -247,9 +252,21 @@ namespace CheckersUI
 
         private void PlayerTwo_MouseHover(object i_Sender, EventArgs i_EventArgs)
         {
-            if (!r_IsPlayerTwoActive && labelPlayerTwoName.BackColor != Color.Empty)
+            if (!r_IsPlayerTwoActive && labelPlayerTwoName.BackColor == r_ActivePlayerColor)
             {
                 labelPlayerTwoName.BackColor = Color.CadetBlue;
+            }
+        }
+        
+        private void PlayerTwo_MouseLeave(object i_Sender, EventArgs i_EventArgs)
+        {
+            if (!r_IsPlayerTwoActive && labelPlayerOneName.BackColor == r_ActivePlayerColor)
+            {
+                labelPlayerTwoName.BackColor = Color.Empty;
+            }
+            else
+            {
+                labelPlayerTwoName.BackColor = r_ActivePlayerColor;
             }
         }
 
