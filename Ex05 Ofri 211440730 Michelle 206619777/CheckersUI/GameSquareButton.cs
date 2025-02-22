@@ -6,9 +6,9 @@ namespace CheckersUI
 {
 	public class GameSquareButton : Button
 	{
-		public const int k_ButtonHeight = 50;
-		public const int k_ButtonWidth = 50;
-		public BoardPosition BoardPosition { get; set; }
+		public static int k_ButtonHeight = 50;
+		public static int k_ButtonWidth = 50; // todo- rename static
+		public BoardPosition BoardPosition { get;}
 
 		public GameSquareButton(BoardPosition i_BoardPosition)
 		{

@@ -4,8 +4,8 @@ namespace CheckersLogic
 {
     public struct CheckersBoardMove
     {
-        public BoardPosition From { get; set; }
-        public BoardPosition To { get; set; }
+        public BoardPosition From { get; private set; }
+        public BoardPosition To { get; private set; }
 
         public CheckersBoardMove(BoardPosition i_From, BoardPosition i_To)
         {
@@ -13,10 +13,10 @@ namespace CheckersLogic
             To = i_To;
         }
 
-        public void SetMove(String i_MoveInput)
+        public void SetMove(String i_MoveInput) //todo-delete
         {
-            this.From = new BoardPosition(i_MoveInput[0], i_MoveInput[1]);
-            this.To = new BoardPosition(i_MoveInput[3], i_MoveInput[4]);
+            From = new BoardPosition(i_MoveInput[0], i_MoveInput[1]);
+            To = new BoardPosition(i_MoveInput[3], i_MoveInput[4]);
         }
     }
 }
