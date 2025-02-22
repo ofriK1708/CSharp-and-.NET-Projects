@@ -90,7 +90,7 @@ namespace CheckersUI
             }
 
             Controls[i_Position.ToString()].Text = string.Empty;
-            Controls[i_Position.ToString()].BackColor = Color.Gray;
+            Controls[i_Position.ToString()].BackColor = Color.White;
         }
 
         public void Game_PieceAdded(BoardPosition i_Position, eCheckersPieceType i_PieceType)
