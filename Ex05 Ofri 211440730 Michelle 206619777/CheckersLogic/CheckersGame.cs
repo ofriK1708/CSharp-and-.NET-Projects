@@ -24,7 +24,7 @@ namespace CheckersLogic
 
         public void AddBoardActionsListener(Action<List<BoardPosition>, List<BoardPosition>> i_BoardResetAction,
             Action<BoardPosition, eCheckersPieceType> i_PieceAddedAction,
-            Action<BoardPosition> i_PieceRemovedAction)
+            Action<BoardPosition, bool> i_PieceRemovedAction)
         {
             GameBoard.BoardReset += i_BoardResetAction;
             GameBoard.PieceAdded += i_PieceAddedAction;

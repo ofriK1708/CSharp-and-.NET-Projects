@@ -10,7 +10,7 @@ namespace CheckersLogic
         internal List<BoardPosition> XPositions { get; } = new List<BoardPosition>();
         internal List<BoardPosition> OPositions { get; } = new List<BoardPosition>();
         public event Action<List<BoardPosition>,List<BoardPosition>> BoardReset;
-        public event Action<BoardPosition> PieceRemoved;
+        public event Action<BoardPosition, bool> PieceRemoved;
         public event Action<BoardPosition, eCheckersPieceType> PieceAdded;
 
         internal CheckersBoard(int i_Size)
@@ -110,20 +110,21 @@ namespace CheckersLogic
             Board[startPosition.Row, startPosition.Column] = eCheckersPieceType.EmptyPlace;
             removePieceFromBoard(startPosition, pieceTypeInStartPos);
             addPieceToBoard(nextPosition, pieceTypeInNextPos);
+            
             if (rowDiff == 2)
             {
                 int skippedColl = (nextPosition.Column + startPosition.Column) / 2;
                 int skippedRow = (nextPosition.Row + startPosition.Row) / 2;
                 eCheckersPieceType removedPieceType = Board[skippedRow, skippedColl];
                 Board[skippedRow, skippedColl] = eCheckersPieceType.EmptyPlace;
-                removePieceFromBoard(new BoardPosition(skippedRow, skippedColl), removedPieceType);
+                removePieceFromBoard(new BoardPosition(skippedRow, skippedColl), removedPieceType,true);
                 isSkipMove = true;
             }
 
             return isSkipMove;
         }
 
-        private void removePieceFromBoard(BoardPosition i_PositionToRemove, eCheckersPieceType i_PieceType)
+        private void removePieceFromBoard(BoardPosition i_PositionToRemove, eCheckersPieceType i_PieceType, bool i_IsSkipped = false)
         {
             switch (i_PieceType)
             {
@@ -137,12 +138,12 @@ namespace CheckersLogic
                     break;
             }
             
-            OnPieceRemoved(i_PositionToRemove);
+            OnPieceRemoved(i_PositionToRemove, i_IsSkipped);
         }
 
-        public void OnPieceRemoved(BoardPosition i_PositionToRemove)
+        public void OnPieceRemoved(BoardPosition i_PositionToRemove, bool i_IsSkipped)
         {
-            PieceRemoved?.Invoke(i_PositionToRemove);
+            PieceRemoved?.Invoke(i_PositionToRemove, i_IsSkipped);
         }
 
         private void addPieceToBoard(BoardPosition i_PositionToAdd, eCheckersPieceType i_PieceType)

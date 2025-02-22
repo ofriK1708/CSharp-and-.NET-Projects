@@ -12,12 +12,14 @@ namespace CheckersUI
         private const int k_ButtonStartY = 50;
         private const String k_ErrorCaption = "Error";
         private int r_CheckersBoardSize;
+        private readonly bool r_IsPlayerTwoActive;
         private GameSquareButton m_CurrentPressedButton;
         public event Action<BoardPosition> FirstPositionSelect;
         public event Action<CheckersBoardMove> SecondPositionSelect;
         public event Action NewGame;
+        public event Action ComputerTurn;
 
-        public GameBoardForm(String i_Player1Name, String i_Player2Name, int i_BoardSize)
+        public GameBoardForm(string i_Player1Name, string i_Player2Name, int i_BoardSize, bool i_IsPlayerTwoActive)
         {
             r_CheckersBoardSize = i_BoardSize;
             InitializeComponent();
@@ -25,6 +27,7 @@ namespace CheckersUI
             labelPlayerTwoName.Text = i_Player2Name + ":";
             labelPlayerOneScore.Left = labelPlayerOneName.Right + 5;
             labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
+            r_IsPlayerTwoActive = i_IsPlayerTwoActive;
             createButtonMatrix();
         }
 
@@ -67,10 +70,10 @@ namespace CheckersUI
 
         public void Game_ActivePlayerChanged(Player i_ActivePlayer)
         {
-            if (labelPlayerOneName.BackColor  ==  Color.LightBlue)
+            if (labelPlayerOneName.BackColor == Color.LightBlue)
             {
                 labelPlayerTwoName.BackColor = Color.LightBlue;
-                labelPlayerOneName.BackColor= Color.Empty;
+                labelPlayerOneName.BackColor = Color.Empty;
             }
             else
             {
@@ -79,9 +82,15 @@ namespace CheckersUI
             }
         }
 
-        public void Game_PieceRemoved(BoardPosition i_Position)
+        public void Game_PieceRemoved(BoardPosition i_Position, bool i_IsSkipped)
         {
+            if (i_IsSkipped)
+            {
+                Controls[i_Position.ToString()].BackColor = Color.Crimson;
+            }
+
             Controls[i_Position.ToString()].Text = string.Empty;
+            Controls[i_Position.ToString()].BackColor = Color.Gray;
         }
 
         public void Game_PieceAdded(BoardPosition i_Position, eCheckersPieceType i_PieceType)
@@ -184,10 +193,11 @@ namespace CheckersUI
                 Close();
             }
         }
-        
+
         public void Game_Stalemate()
         {
-            DialogResult result = MessageBox.Show($@"Tie! {Environment.NewLine}Another Round?", @"Game Over", MessageBoxButtons.YesNo);
+            DialogResult result = MessageBox.Show($@"Tie! {Environment.NewLine}Another Round?", @"Game Over",
+                MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
                 NewGame?.Invoke();
@@ -195,6 +205,22 @@ namespace CheckersUI
             else
             {
                 Close();
+            }
+        }
+
+        private void PlayerTwo_MouseHover(object i_Sender, EventArgs i_EventArgs)
+        {
+            if (!r_IsPlayerTwoActive && labelPlayerTwoName.BackColor != Color.Empty)
+            {
+                labelPlayerTwoName.BackColor = Color.CadetBlue;
+            }
+        }
+
+        private void PlayerTwo_Clicked(object i_Sender, EventArgs i_EventArgs)
+        {
+            if (!r_IsPlayerTwoActive && labelPlayerTwoName.BackColor != Color.Empty)
+            {
+                ComputerTurn?.Invoke();
             }
         }
     }
