@@ -9,7 +9,6 @@ namespace CheckersUI
         private GameBoardForm m_GameBoardForm;
         private CheckersGame m_CheckersGame;
         private readonly Random r_RandomGenerator = new Random();
-        public event Action<BoardPosition> ComputerMoveSelected;
 
         internal void StartGame()
         {
@@ -31,7 +30,6 @@ namespace CheckersUI
 
         private void initEvents()
         {
-            // ComputerMoveSelected += m_GameBoardForm.Game_ComputerMoveSelected;
             m_CheckersGame.AddBoardActionsListener(m_GameBoardForm.Game_BoardReset, m_GameBoardForm.Game_PieceAdded,
                 m_GameBoardForm.Game_PieceRemoved);
             m_CheckersGame.ActivePlayerChanged += m_GameBoardForm.Game_ActivePlayerChanged;
@@ -54,11 +52,6 @@ namespace CheckersUI
         {
             CheckersBoardMove checkersBoardMove = getComputerMove();
             m_CheckersGame.playMove(checkersBoardMove);
-        }
-
-        private void OnComputerMoveSelected(BoardPosition i_From)
-        {
-            ComputerMoveSelected?.Invoke(i_From);
         }
 
         private CheckersBoardMove getComputerMove()
