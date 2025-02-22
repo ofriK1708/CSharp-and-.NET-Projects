@@ -30,6 +30,7 @@ namespace CheckersUI
         private readonly Color r_SkippedButtonColor = Color.IndianRed;
         private readonly Color r_ActivePlayerColor = Color.LightBlue;
         private readonly Color r_MovingButtonColor = Color.PaleTurquoise;
+        private bool m_IsComputerTurn;
 
         public GameBoardForm(string i_Player1Name, string i_Player2Name, int i_BoardSize, bool i_IsPlayerTwoActive)
         {
@@ -64,7 +65,7 @@ namespace CheckersUI
                 for (int col = 0; col < r_CheckersBoardSize; col++)
                 {
                     GameSquareButton currentSquare = new GameSquareButton(new BoardPosition(row, col));
-                    if (row % 2 == col % 2) // (row % 2 == 0 && col % 2 == 0) || (row % 2 == 1 && col % 2 == 1)
+                    if (row % 2 == col % 2)
                     {
                         currentSquare.Enabled = false;
                         currentSquare.BackColor = Color.Gray;
@@ -100,11 +101,16 @@ namespace CheckersUI
             {
                 labelPlayerTwoName.BackColor = r_ActivePlayerColor;
                 labelPlayerOneName.BackColor = Color.Empty;
+                if (!r_IsPlayerTwoActive)
+                {
+                    m_IsComputerTurn = true;
+                }
             }
             else
             {
                 labelPlayerOneName.BackColor = r_ActivePlayerColor;
                 labelPlayerTwoName.BackColor = Color.Empty;
+                m_IsComputerTurn = false;
             }
         }
 
@@ -285,7 +291,7 @@ namespace CheckersUI
 
         private void PlayerTwo_MouseHover(object i_Sender, EventArgs i_EventArgs)
         {
-            if (!r_IsPlayerTwoActive && labelPlayerTwoName.BackColor == r_ActivePlayerColor)
+            if (m_IsComputerTurn)
             {
                 labelPlayerTwoName.BackColor = Color.CadetBlue;
             }
@@ -293,19 +299,12 @@ namespace CheckersUI
 
         private void PlayerTwo_MouseLeave(object i_Sender, EventArgs i_EventArgs)
         {
-            if (!r_IsPlayerTwoActive && labelPlayerOneName.BackColor == r_ActivePlayerColor)
-            {
-                labelPlayerTwoName.BackColor = Color.Empty;
-            }
-            else
-            {
-                labelPlayerTwoName.BackColor = r_ActivePlayerColor;
-            }
+            labelPlayerTwoName.BackColor = m_IsComputerTurn ? r_ActivePlayerColor : Color.Empty;
         }
 
         private void PlayerTwo_Clicked(object i_Sender, EventArgs i_EventArgs)
         {
-            if (!r_IsPlayerTwoActive && labelPlayerTwoName.BackColor != Color.Empty)
+            if (m_IsComputerTurn)
             {
                 ComputerTurn?.Invoke();
             }
