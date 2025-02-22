@@ -59,7 +59,7 @@ namespace CheckersLogic
             OnBoardReset();
         }
 
-        protected virtual void OnBoardReset()
+        private void OnBoardReset()
         {
             BoardReset?.Invoke(XPositions, OPositions);
         }
