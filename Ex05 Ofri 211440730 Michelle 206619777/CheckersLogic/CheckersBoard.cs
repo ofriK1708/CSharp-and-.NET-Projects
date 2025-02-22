@@ -82,19 +82,19 @@ namespace CheckersLogic
 
         internal bool IsOpponentPiece(eCheckersPieceType i_OpponentPiece, int i_NewRow, int i_NewColRight)
         {
-            eCheckersPieceType oponentKingPiece;
+            eCheckersPieceType opponentKingPiece;
 
             if (i_OpponentPiece.Equals(eCheckersPieceType.XPiece))
             {
-                oponentKingPiece = eCheckersPieceType.XKingPiece;
+                opponentKingPiece = eCheckersPieceType.XKingPiece;
             }
             else
             {
-                oponentKingPiece = eCheckersPieceType.OKingPiece;
+                opponentKingPiece = eCheckersPieceType.OKingPiece;
             }
 
             return Board[i_NewRow, i_NewColRight] == i_OpponentPiece ||
-                   Board[i_NewRow, i_NewColRight] == oponentKingPiece;
+                   Board[i_NewRow, i_NewColRight] == opponentKingPiece;
         }
 
         internal bool executeMove(CheckersBoardMove i_ValidMove)

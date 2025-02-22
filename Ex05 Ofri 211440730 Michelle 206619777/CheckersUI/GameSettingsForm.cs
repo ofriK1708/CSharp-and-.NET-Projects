@@ -8,7 +8,6 @@ namespace CheckersUI
     {
         private const int k_MaxNameLength = 20;
         private const string k_ComputerPlayerName = "[Computer]";
-        private const string k_Player1DefaultName = "Player 1";
         public int BoardSize { get; private set; }
         public bool IsPlayerTwoActive { get; private set; }
         public string PlayerOneName { get; private set; }
