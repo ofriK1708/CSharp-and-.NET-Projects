@@ -15,6 +15,7 @@ namespace CheckersUI
         private GameSquareButton m_CurrentPressedButton;
         public event Action<BoardPosition> FirstPositionSelect;
         public event Action<CheckersBoardMove> SecondPositionSelect;
+        public event Action NewGame;
 
         public GameBoardForm(String i_Player1Name, String i_Player2Name, int i_BoardSize)
         {
@@ -93,7 +94,6 @@ namespace CheckersUI
             GameSquareButton button = i_Sender as GameSquareButton;
             if (m_CurrentPressedButton == null)
             {
-                // resetComputerActions();
                 selectFirstPosition(button);
             }
             else if (m_CurrentPressedButton == button)
@@ -177,7 +177,7 @@ namespace CheckersUI
             if (result == DialogResult.Yes)
             {
                 changeScore(i_Winner);
-                //todo - new game
+                NewGame?.Invoke();
             }
             else
             {
@@ -190,7 +190,7 @@ namespace CheckersUI
             DialogResult result = MessageBox.Show($@"Tie! {Environment.NewLine}Another Round?", @"Game Over", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                //todo - new game
+                NewGame?.Invoke();
             }
             else
             {

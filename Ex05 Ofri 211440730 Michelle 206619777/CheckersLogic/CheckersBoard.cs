@@ -6,7 +6,7 @@ namespace CheckersLogic
     public class CheckersBoard
     {
         public int Size { get; }
-        public eCheckersPieceType[,] Board { get; }
+        private eCheckersPieceType[,] Board { get; }
         internal List<BoardPosition> XPositions { get; } = new List<BoardPosition>();
         internal List<BoardPosition> OPositions { get; } = new List<BoardPosition>();
         public event Action<List<BoardPosition>,List<BoardPosition>> BoardReset;

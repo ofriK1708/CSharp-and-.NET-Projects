@@ -10,7 +10,6 @@ namespace CheckersUI
         private GameSettingsForm m_SettingsForm;
         private GameBoardForm m_GameBoardForm;
         private CheckersGame m_CheckersGame;
-        // private int m_GameNumber = 1; // todo - show ?
         private readonly Random r_RandomGenerator = new Random();
 
         internal void StartGame()
@@ -35,6 +34,7 @@ namespace CheckersUI
             m_CheckersGame.Stalemate += m_GameBoardForm.Game_Stalemate;
             m_GameBoardForm.FirstPositionSelect += m_CheckersGame.GameForm_FirstPositionSelected;
             m_GameBoardForm.SecondPositionSelect += m_CheckersGame.GameForm_SecondPositionSelected;
+            m_GameBoardForm.NewGame += m_CheckersGame.GameForm_NewGame;
         }
 
         private Player initSecondPlayer(bool i_SettingsFormIsPlayerTwoActive, string i_SettingsFormPlayerTwoName)
