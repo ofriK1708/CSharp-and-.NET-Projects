@@ -156,6 +156,11 @@ namespace CheckersLogic
             i_Player.addToScore(addedScore);
             PlayerWon?.Invoke(i_Player);
         }
+        public void GameForm_GameRoundQuitByPlayer()
+        {
+            switchActivePlayer();
+            OnPlayerWon(ActivePlayer);
+        }
 
         private bool checkIfPlayerWon(Player i_ActivePlayer)
         {

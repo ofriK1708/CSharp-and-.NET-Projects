@@ -23,7 +23,7 @@ namespace CheckersUI
                 Player player2 = initSecondPlayer(m_SettingsForm.IsPlayerTwoActive, m_SettingsForm.PlayerTwoName);
 
                 m_CheckersGame = new CheckersGame(player1, player2, m_SettingsForm.BoardSize);
-                m_GameBoardForm = new GameBoardForm(player1.Name, player2.Name, m_SettingsForm.BoardSize,!m_SettingsForm.IsPlayerTwoActive); // maybe change the name to gameVSComputer ? 
+                m_GameBoardForm = new GameBoardForm(player1.Name, player2.Name, m_SettingsForm.BoardSize); // maybe change the name to gameVSComputer ? 
 
                 initEvents();
                 m_CheckersGame.ResetGame();
@@ -40,6 +40,7 @@ namespace CheckersUI
             m_GameBoardForm.FirstPositionSelect += m_CheckersGame.GameForm_FirstPositionSelected;
             m_GameBoardForm.SecondPositionSelect += m_CheckersGame.GameForm_SecondPositionSelected;
             m_GameBoardForm.NewGame += m_CheckersGame.GameForm_NewGame;
+            m_GameBoardForm.GameRoundQuitByPlayer += m_CheckersGame.GameForm_GameRoundQuitByPlayer;
         }
 
         private Player initSecondPlayer(bool i_SettingsFormIsPlayerTwoActive, string i_SettingsFormPlayerTwoName)
