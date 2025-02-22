@@ -306,7 +306,7 @@ namespace CheckersUI
         {
             if (m_IsComputerTurn)
             {
-                labelPlayerTwoName.BackColor = Color.LightGreen;
+                labelPlayerTwoName.BackColor = Color.Plum;
                 labelPlayerTwoName.Cursor = Cursors.Hand;
             }
         }
