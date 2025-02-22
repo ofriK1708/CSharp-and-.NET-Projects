@@ -75,5 +75,10 @@
       <DependentUpon>GameBoardForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ComputerButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

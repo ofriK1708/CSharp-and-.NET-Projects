@@ -23,7 +23,7 @@ namespace CheckersUI
                 Player player2 = initSecondPlayer(m_SettingsForm.IsPlayerTwoActive, m_SettingsForm.PlayerTwoName);
 
                 m_CheckersGame = new CheckersGame(player1, player2, m_SettingsForm.BoardSize);
-                m_GameBoardForm = new GameBoardForm(player1.Name, player2.Name, m_SettingsForm.BoardSize);
+                m_GameBoardForm = new GameBoardForm(player1.Name, player2.Name, m_SettingsForm.BoardSize,!m_SettingsForm.IsPlayerTwoActive); // maybe change the name to gameVSComputer ? 
 
                 initEvents();
                 m_CheckersGame.ResetGame();
