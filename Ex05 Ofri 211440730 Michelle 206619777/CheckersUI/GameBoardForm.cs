@@ -18,8 +18,9 @@ namespace CheckersUI
         public event Action<CheckersBoardMove> SecondPositionSelect;
         public event Action NewGame;
         public event Action ComputerTurn;
-        private Timer m_ButtonSkippedTimer;
+        private Timer r_ButtonSkippedTimer;
         private GameSquareButton m_SkippedButton;
+        private const int k_ButtonSkipTime = 300;
 
         public GameBoardForm(string i_Player1Name, string i_Player2Name, int i_BoardSize, bool i_IsPlayerTwoActive)
         {
@@ -31,9 +32,14 @@ namespace CheckersUI
             labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
             r_IsPlayerTwoActive = i_IsPlayerTwoActive;
             createButtonMatrix();
-            m_ButtonSkippedTimer = new Timer();
-            m_ButtonSkippedTimer.Interval = 1000;
-            m_ButtonSkippedTimer.Tick += Timer_ClearButton;
+            initTimerForSkippedButtons();
+        }
+
+        private void initTimerForSkippedButtons()
+        {
+            r_ButtonSkippedTimer = new Timer();
+            r_ButtonSkippedTimer.Interval = k_ButtonSkipTime;
+            r_ButtonSkippedTimer.Tick += Timer_ClearButton;
         }
 
         private void createButtonMatrix()
@@ -91,7 +97,7 @@ namespace CheckersUI
         {
             if (i_IsSkipped)
             {
-                m_ButtonSkippedTimer.Start();
+                r_ButtonSkippedTimer.Start();
                 Controls[i_Position.ToString()].BackColor = Color.Crimson;
                 m_SkippedButton = Controls[i_Position.ToString()] as GameSquareButton;
             }
@@ -103,7 +109,7 @@ namespace CheckersUI
 
         public void Timer_ClearButton(object i_Sender, EventArgs i_EventArgs)
         {
-            m_ButtonSkippedTimer.Stop();
+            r_ButtonSkippedTimer.Stop();
             Controls[m_SkippedButton.BoardPosition.ToString()].Text = string.Empty;
             Controls[m_SkippedButton.BoardPosition.ToString()].BackColor = Color.White;
             m_SkippedButton = null;
