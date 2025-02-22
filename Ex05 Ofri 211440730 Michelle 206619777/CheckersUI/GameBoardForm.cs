@@ -316,6 +316,7 @@ namespace CheckersUI
             if (m_IsComputerTurn)
             {
                 labelPlayerTwoName.BackColor = r_ActivePlayerColor;
+                labelPlayerTwoName.Cursor = Cursors.Default;
             }
         }
 
