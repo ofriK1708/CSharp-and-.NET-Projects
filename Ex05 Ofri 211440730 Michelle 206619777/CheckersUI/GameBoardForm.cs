@@ -228,7 +228,7 @@ namespace CheckersUI
             if (result == DialogResult.Yes)
             {
                 changeScore(i_Winner);
-                NewGame?.Invoke();
+                OnNewGame();
             }
             else
             {
@@ -242,12 +242,17 @@ namespace CheckersUI
                 MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                NewGame?.Invoke();
+                OnNewGame();
             }
             else
             {
                 Close();
             }
+        }
+
+        private void OnNewGame()
+        {
+            NewGame?.Invoke();
         }
 
         private void PlayerTwo_MouseHover(object i_Sender, EventArgs i_EventArgs)
@@ -257,7 +262,7 @@ namespace CheckersUI
                 labelPlayerTwoName.BackColor = Color.CadetBlue;
             }
         }
-        
+
         private void PlayerTwo_MouseLeave(object i_Sender, EventArgs i_EventArgs)
         {
             if (!r_IsPlayerTwoActive && labelPlayerOneName.BackColor == r_ActivePlayerColor)
@@ -276,6 +281,11 @@ namespace CheckersUI
             {
                 ComputerTurn?.Invoke();
             }
+        }
+
+        public void Game_ComputerMoveSelected(BoardPosition i_Position)
+        {
+           Controls[i_Position.ToString()].BackColor = r_SelectedButtonColor;
         }
     }
 }

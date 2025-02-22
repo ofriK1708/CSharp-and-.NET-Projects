@@ -65,7 +65,7 @@ namespace CheckersLogic
             playMove(i_BoardMove);
         }
 
-        private void playMove(CheckersBoardMove i_ValidMove)
+        public void playMove(CheckersBoardMove i_ValidMove)
         {
             bool skippedOpponentsPiece = GameBoard.executeMove(i_ValidMove);
 
