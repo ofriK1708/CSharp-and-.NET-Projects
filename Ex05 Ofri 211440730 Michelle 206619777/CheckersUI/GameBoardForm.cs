@@ -28,7 +28,7 @@ namespace CheckersUI
         private readonly Color r_SelectedButtonColor = Color.LightSkyBlue;
         private readonly Color r_UnselectedButtonColor = Color.White;
         private readonly Color r_SkippedButtonColor = Color.IndianRed;
-        private readonly Color r_ActivePlayerColor = Color.LightBlue;
+        private readonly Color r_ActivePlayerColor = Color.LightSkyBlue;
         private readonly Color r_MovingButtonColor = Color.Cornsilk;
         private bool m_IsComputerTurn;
         private Panel m_PanelBoard;
@@ -64,7 +64,8 @@ namespace CheckersUI
         {
             m_PanelBoard = new Panel();
             m_PanelBoard.Location = new Point(k_ButtonStartX, k_ButtonStartY);
-            m_PanelBoard.Size = new Size(r_CheckersBoardSize * GameSquareButton.k_ButtonWidth, r_CheckersBoardSize * GameSquareButton.k_ButtonHeight);
+            m_PanelBoard.Size = new Size(r_CheckersBoardSize * GameSquareButton.k_ButtonWidth,
+                r_CheckersBoardSize * GameSquareButton.k_ButtonHeight);
             Controls.Add(m_PanelBoard);
         }
 
@@ -75,7 +76,7 @@ namespace CheckersUI
                 for (int col = 0; col < r_CheckersBoardSize; col++)
                 {
                     GameSquareButton currentSquare = new GameSquareButton(new BoardPosition(row, col));
-                    if (row % 2 == col % 2) 
+                    if (row % 2 == col % 2)
                     {
                         currentSquare.Enabled = false;
                         currentSquare.BackColor = Color.Gray;
@@ -187,20 +188,16 @@ namespace CheckersUI
             {
                 undoPositionSelection(button);
             }
+            else if (button.Text == string.Empty)
+            {
+                CheckersBoardMove move = new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, button.BoardPosition);
+                OnSecondPositionSelected(move);
+                changeButtonColor(m_CurrentPressedButton);
+                m_CurrentPressedButton = null;
+            }
             else
             {
-                if (button.Text == String.Empty)
-                {
-                    CheckersBoardMove move =
-                        new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, button.BoardPosition);
-                    OnSecondPositionSelected(move);
-                    changeButtonColor(m_CurrentPressedButton);
-                    m_CurrentPressedButton = null;
-                }
-                else
-                {
-                    reselectFirstPosition(button);
-                }
+                reselectFirstPosition(button);
             }
         }
 
@@ -309,7 +306,8 @@ namespace CheckersUI
         {
             if (m_IsComputerTurn)
             {
-                labelPlayerTwoName.BackColor = Color.CadetBlue;
+                labelPlayerTwoName.BackColor = Color.LightBlue;
+                labelPlayerTwoName.Cursor = Cursors.Hand;
             }
         }
 
