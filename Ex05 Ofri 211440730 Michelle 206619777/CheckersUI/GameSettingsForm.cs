@@ -68,7 +68,7 @@ namespace CheckersUI
 
         private bool validateName(TextBox i_PlayerName)
         {
-            bool isNameValid =  (!i_PlayerName.Text.Contains(" ") && i_PlayerName.Text.Length <= k_MaxNameLength);
+            bool isNameValid =  (!i_PlayerName.Text.Contains(" ") && i_PlayerName.Text.Length <= k_MaxNameLength && !string.IsNullOrEmpty(i_PlayerName.Text));
             bool isNameUnique = textBoxPlayerTwoName.Enabled ? !textBoxPlayerOneName.Text.Equals(textBoxPlayerTwoName.Text) : !(i_PlayerName.Text.Equals(k_ComputerPlayerName));
 
             if (!isNameValid || !isNameUnique)
@@ -80,12 +80,15 @@ namespace CheckersUI
                 errorProvider.SetError(i_PlayerName, string.Empty);
             }
 
-            return isNameValid;
+            return isNameValid&isNameUnique;
         }
 
         private bool validateForm()
         {
-            return validateName(textBoxPlayerOneName) && validateName(textBoxPlayerTwoName);
+            bool firstPlayerNameValid = validateName(textBoxPlayerOneName);
+            bool secondPlayerNameValid = !checkBoxPlayerTwo.Checked || validateName(textBoxPlayerTwoName);
+            
+            return firstPlayerNameValid && secondPlayerNameValid;
         }
 
         private void gameSettings_FormClosed(object i_Sender, FormClosedEventArgs i_FormClosedEventArgs)

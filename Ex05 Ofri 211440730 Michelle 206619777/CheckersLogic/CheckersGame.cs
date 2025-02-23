@@ -44,7 +44,7 @@ namespace CheckersLogic
             ResetGame();
         }
 
-        public void GameForm_FirstPositionSelected(BoardPosition i_SelectedPosition)
+        public List<BoardPosition> GameForm_FirstPositionSelected(BoardPosition i_SelectedPosition)
         {
             eCheckersPieceType eCheckersPieceType = GameBoard.GetPieceType(i_SelectedPosition);
 
@@ -52,6 +52,7 @@ namespace CheckersLogic
             {
                 throw new ArgumentException("Illegal selection!, please choose a valid position!");
             }
+            return getAllValidNextPoistions(i_SelectedPosition);
         }
 
         public void GameForm_SecondPositionSelected(CheckersBoardMove i_BoardMove)
@@ -335,6 +336,18 @@ namespace CheckersLogic
             }
 
             return validBoardPositions;
+        }
+        private List<BoardPosition> getAllValidNextPoistions(BoardPosition i_Position)
+        {
+            List<BoardPosition> validMovesFromPos = new List<BoardPosition>();
+            foreach(CheckersBoardMove position in ValidMoves)
+            {
+                if (position.From.Equals(i_Position))
+                {
+                    validMovesFromPos.Add(position.To);
+                }
+            }
+            return validMovesFromPos;
         }
     }
 }
