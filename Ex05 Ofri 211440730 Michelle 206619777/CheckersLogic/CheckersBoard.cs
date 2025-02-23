@@ -82,16 +82,7 @@ namespace CheckersLogic
 
         internal bool IsOpponentPiece(eCheckersPieceType i_OpponentPiece, int i_NewRow, int i_NewColRight)
         {
-            eCheckersPieceType opponentKingPiece;
-
-            if (i_OpponentPiece.Equals(eCheckersPieceType.XPiece))
-            {
-                opponentKingPiece = eCheckersPieceType.XKingPiece;
-            }
-            else
-            {
-                opponentKingPiece = eCheckersPieceType.OKingPiece;
-            }
+            eCheckersPieceType  opponentKingPiece = i_OpponentPiece.Equals(eCheckersPieceType.XPiece) ? eCheckersPieceType.XKingPiece : eCheckersPieceType.OKingPiece;
 
             return Board[i_NewRow, i_NewColRight] == i_OpponentPiece ||
                    Board[i_NewRow, i_NewColRight] == opponentKingPiece;
@@ -177,7 +168,7 @@ namespace CheckersLogic
             {
                 pieceTypeForNextPos = eCheckersPieceType.XKingPiece;
             }
-            else if (i_PieceTypeFromStartPos.Equals(eCheckersPieceType.OPiece) && (int)Size - 1 == i_NextMoveRowNum)
+            else if (i_PieceTypeFromStartPos.Equals(eCheckersPieceType.OPiece) && Size - 1 == i_NextMoveRowNum)
             {
                 pieceTypeForNextPos = eCheckersPieceType.OKingPiece;
             }
@@ -191,7 +182,7 @@ namespace CheckersLogic
 
         internal bool isAllPiecesRemoved(eCheckersPieceType i_PieceType)
         {
-            bool isAllPiecesRemoved = false;
+            bool isAllPiecesRemoved;
 
             if (i_PieceType.Equals(eCheckersPieceType.XPiece))
             {

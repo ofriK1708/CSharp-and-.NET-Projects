@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using CheckersLogic;
 
 namespace CheckersUI
 {
@@ -8,6 +7,8 @@ namespace CheckersUI
     {
         private const int k_MaxNameLength = 20;
         private const string k_ComputerPlayerName = "[Computer]";
+        private const string k_InvalidDataMessage = "Please enter valid data!";
+        private const string k_InvalidDataCaption = "Error";
         public int BoardSize { get; private set; }
         public bool IsPlayerTwoActive { get; private set; }
         public string PlayerOneName { get; private set; }
@@ -57,7 +58,7 @@ namespace CheckersUI
             }
             else
             {
-                MessageBox.Show("Please enter valid data!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(k_InvalidDataMessage, k_InvalidDataCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -93,16 +94,12 @@ namespace CheckersUI
 
         private void gameSettings_FormClosed(object i_Sender, FormClosedEventArgs i_FormClosedEventArgs)
         {
-            GameSettingsForm settingsForm = i_Sender as GameSettingsForm;
-            if (settingsForm.DialogResult == DialogResult.Cancel)
+            if (i_Sender is GameSettingsForm settingsForm)
             {
-                // option 1
-                IsWindowClosedByDone = false;
-                
-                // option 2
-                //PlayerOneName = k_Player1DefaultName;
-                //PlayerTwoName = k_ComputerPlayerName;
-                //IsPlayerTwoActive = false;
+                if (settingsForm.DialogResult == DialogResult.Cancel)
+                {
+                    IsWindowClosedByDone = false;
+                }
             }
         }
     }

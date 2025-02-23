@@ -1,5 +1,4 @@
-﻿
-namespace CheckersLogic
+﻿namespace CheckersLogic
 {
     public enum eCheckersPieceType
     { 

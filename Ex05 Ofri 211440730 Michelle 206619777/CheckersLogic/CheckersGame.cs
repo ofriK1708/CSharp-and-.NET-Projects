@@ -52,13 +52,13 @@ namespace CheckersLogic
             {
                 throw new ArgumentException("Illegal selection!, please choose a valid position!");
             }
-            return getAllValidNextPoistions(i_SelectedPosition);
+            return getAllValidNextPositions(i_SelectedPosition);
         }
 
         public void GameForm_SecondPositionSelected(CheckersBoardMove i_BoardMove)
         {
             eCheckersPieceType eCheckersPieceType = GameBoard.GetPieceType(i_BoardMove.To);
-            if (eCheckersPieceType != eCheckersPieceType.EmptyPlace || !CheckMovePartOfValidMoves(i_BoardMove))
+            if (eCheckersPieceType != eCheckersPieceType.EmptyPlace || !checkMovePartOfValidMoves(i_BoardMove))
             {
                 throw new ArgumentException("Illegal move!");
             }
@@ -125,14 +125,7 @@ namespace CheckersLogic
 
         private void switchActivePlayer()
         {
-            if (ActivePlayer.Equals(Player1))
-            {
-                ActivePlayer = Player2;
-            }
-            else
-            {
-                ActivePlayer = Player1;
-            }
+            ActivePlayer = ActivePlayer.Equals(Player1) ? Player2 : Player1;
         }
 
         private Player getOpponent(Player i_ActivePlayer)
@@ -177,7 +170,7 @@ namespace CheckersLogic
             ActivePlayerChanged?.Invoke(ActivePlayer);
         }
 
-        private bool CheckMovePartOfValidMoves(CheckersBoardMove i_Move)
+        private bool checkMovePartOfValidMoves(CheckersBoardMove i_Move)
         {
             return ValidMoves.Contains(i_Move);
         }
@@ -233,9 +226,6 @@ namespace CheckersLogic
             List<BoardPosition> positionsToCheck = i_ActivePlayer.PieceType == eCheckersPieceType.XPiece
                 ? GameBoard.XPositions
                 : GameBoard.OPositions;
-            eCheckersPieceType opponentPiece = i_ActivePlayer.PieceType == eCheckersPieceType.XPiece
-                ? eCheckersPieceType.OPiece
-                : eCheckersPieceType.XPiece;
             int directionToMoveInRow = i_ActivePlayer.PieceType == eCheckersPieceType.XPiece ? -1 : 1;
 
             foreach (BoardPosition position in positionsToCheck)
@@ -337,7 +327,7 @@ namespace CheckersLogic
 
             return validBoardPositions;
         }
-        private List<BoardPosition> getAllValidNextPoistions(BoardPosition i_Position)
+        private List<BoardPosition> getAllValidNextPositions(BoardPosition i_Position)
         {
             List<BoardPosition> validMovesFromPos = new List<BoardPosition>();
             foreach(CheckersBoardMove position in ValidMoves)

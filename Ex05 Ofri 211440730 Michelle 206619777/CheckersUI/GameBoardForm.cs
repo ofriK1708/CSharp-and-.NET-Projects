@@ -11,24 +11,25 @@ namespace CheckersUI
     {
         private const int k_ButtonStartX = 3;
         private const int k_ButtonStartY = 50;
-        private const String k_ErrorCaption = "Error";
+        private const string k_ErrorCaption = "Error";
         private const string k_GamePausedMessage = "This round has finished. Do you wish to quit it and start a new round?";
         private const string k_GamePausedCaption = "Game Paused";
-        private int r_CheckersBoardSize;
+        private const string k_LabelNameSuffix = ":";
+        private readonly int r_CheckersBoardSize;
         private readonly bool r_IsPlayerTwoActive;
         private List<BoardPosition> m_NextValidPositions = new List<BoardPosition>();
-        private bool lastRoundQuitByPlayer = false;
+        private bool m_LastRoundQuitByPlayer;
         private GameSquareButton m_CurrentPressedButton;
         public event Func <BoardPosition,List<BoardPosition>> FirstPositionSelect;
         public event Action<CheckersBoardMove> SecondPositionSelect;
         public event Action NewGame;
         public event Action ComputerTurn;
         private const int k_ButtonClearTime = 300;
-        private Timer r_ButtonSkippedTimer;
+        private Timer m_ButtonSkippedTimer;
         private GameSquareButton m_SkippedButton;
-        private Timer r_ButtonAddedTimer;
+        private Timer m_ButtonAddedTimer;
         private GameSquareButton m_AddedButton;
-        private Timer r_ButtonRemovedTimer;
+        private Timer m_ButtonRemovedTimer;
         private GameSquareButton m_RemovedButton;
         private readonly Color r_SelectedButtonColor = Color.LightBlue;
         private readonly Color r_UnselectedButtonColor = Color.Gainsboro;
@@ -44,35 +45,35 @@ namespace CheckersUI
         {
             r_CheckersBoardSize = i_BoardSize;
             InitializeComponent();
-            labelPlayerOneName.Text = i_Player1Name + ":";
-            labelPlayerTwoName.Text = i_Player2Name + ":";
+            labelPlayerOneName.Text = i_Player1Name + k_LabelNameSuffix;
+            labelPlayerTwoName.Text = i_Player2Name + k_LabelNameSuffix;
             labelPlayerOneScore.Left = labelPlayerOneName.Right + 5;
             labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
             r_IsPlayerTwoActive = i_IsPlayerTwoActive;
-            InitializePanelBoard();
+            initializePanelBoard();
             createButtonMatrix();
             initTimersForClearingButtons();
         }
 
         private void initTimersForClearingButtons()
         {
-            r_ButtonSkippedTimer = new Timer();
-            r_ButtonSkippedTimer.Interval = k_ButtonClearTime;
-            r_ButtonSkippedTimer.Tick += Timer_ClearSkippedButton;
-            r_ButtonAddedTimer = new Timer();
-            r_ButtonAddedTimer.Interval = k_ButtonClearTime;
-            r_ButtonAddedTimer.Tick += Timer_ClearAddedButtonColor;
-            r_ButtonRemovedTimer = new Timer();
-            r_ButtonRemovedTimer.Interval = k_ButtonClearTime / 2;
-            r_ButtonRemovedTimer.Tick += Timer_ClearRemovedButtonColor;
+            m_ButtonSkippedTimer = new Timer();
+            m_ButtonSkippedTimer.Interval = k_ButtonClearTime;
+            m_ButtonSkippedTimer.Tick += Timer_ClearSkippedButton;
+            m_ButtonAddedTimer = new Timer();
+            m_ButtonAddedTimer.Interval = k_ButtonClearTime;
+            m_ButtonAddedTimer.Tick += Timer_ClearAddedButtonColor;
+            m_ButtonRemovedTimer = new Timer();
+            m_ButtonRemovedTimer.Interval = k_ButtonClearTime / 2;
+            m_ButtonRemovedTimer.Tick += Timer_ClearRemovedButtonColor;
         }
 
-        private void InitializePanelBoard()
+        private void initializePanelBoard()
         {
             m_PanelBoard = new Panel();
             m_PanelBoard.Location = new Point(k_ButtonStartX, k_ButtonStartY);
-            m_PanelBoard.Size = new Size(r_CheckersBoardSize * GameSquareButton.k_ButtonWidth,
-                r_CheckersBoardSize * GameSquareButton.k_ButtonHeight);
+            m_PanelBoard.Size = new Size(r_CheckersBoardSize * GameSquareButton.sr_ButtonWidth,
+                r_CheckersBoardSize * GameSquareButton.sr_ButtonHeight);
             Controls.Add(m_PanelBoard);
         }
 
@@ -115,7 +116,13 @@ namespace CheckersUI
             if (m_CurrentPressedButton != null)
             {
                 m_CurrentPressedButton.BackColor = r_UnselectedButtonColor;
+
+                foreach (BoardPosition position in m_NextValidPositions)
+                {
+                    m_PanelBoard.Controls[position.ToString()].BackColor = r_UnselectedButtonColor;
+                }
                 m_CurrentPressedButton = null;
+                m_NextValidPositions.Clear();
             }
         }
 
@@ -152,13 +159,13 @@ namespace CheckersUI
         {
             if (i_IsSkipped)
             {
-                r_ButtonSkippedTimer.Start();
+                m_ButtonSkippedTimer.Start();
                 m_PanelBoard.Controls[i_Position.ToString()].BackColor = r_SkippedButtonColor;
                 m_SkippedButton = m_PanelBoard.Controls[i_Position.ToString()] as GameSquareButton;
             }
             else
             {
-                r_ButtonRemovedTimer.Start();
+                m_ButtonRemovedTimer.Start();
                 m_PanelBoard.Controls[i_Position.ToString()].BackColor = r_MovingButtonColor;
                 m_RemovedButton = m_PanelBoard.Controls[i_Position.ToString()] as GameSquareButton;
             }
@@ -166,7 +173,7 @@ namespace CheckersUI
 
         private void Timer_ClearSkippedButton(object i_Sender, EventArgs i_EventArgs)
         {
-            r_ButtonSkippedTimer.Stop();
+            m_ButtonSkippedTimer.Stop();
             m_PanelBoard.Controls[m_SkippedButton.BoardPosition.ToString()].Text = string.Empty;
             m_PanelBoard.Controls[m_SkippedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
             m_SkippedButton = null;
@@ -174,14 +181,14 @@ namespace CheckersUI
 
         private void Timer_ClearAddedButtonColor(object i_Sender, EventArgs i_EventArgs)
         {
-            r_ButtonAddedTimer.Stop();
+            m_ButtonAddedTimer.Stop();
             m_PanelBoard.Controls[m_AddedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
             m_AddedButton = null;
         }
 
         private void Timer_ClearRemovedButtonColor(object i_Sender, EventArgs i_EventArgs)
         {
-            r_ButtonRemovedTimer.Stop();
+            m_ButtonRemovedTimer.Stop();
             m_PanelBoard.Controls[m_RemovedButton.BoardPosition.ToString()].Text = string.Empty;
             m_PanelBoard.Controls[m_RemovedButton.BoardPosition.ToString()].BackColor = r_UnselectedButtonColor;
             m_RemovedButton = null;
@@ -189,7 +196,7 @@ namespace CheckersUI
 
         public void Game_PieceAdded(BoardPosition i_Position, eCheckersPieceType i_PieceType)
         {
-            r_ButtonAddedTimer.Start();
+            m_ButtonAddedTimer.Start();
             m_PanelBoard.Controls[i_Position.ToString()].Text = ((char)i_PieceType).ToString();
             m_PanelBoard.Controls[i_Position.ToString()].BackColor = r_MovingButtonColor;
             m_AddedButton = m_PanelBoard.Controls[i_Position.ToString()] as GameSquareButton;
@@ -207,7 +214,7 @@ namespace CheckersUI
             {
                 undoPositionSelection(button);
             }
-            else if (button.Text == string.Empty)
+            else if (button?.Text == string.Empty)
             {
                 CheckersBoardMove move = new CheckersBoardMove(m_CurrentPressedButton.BoardPosition, button.BoardPosition);
                 OnSecondPositionSelected(move);
@@ -267,26 +274,29 @@ namespace CheckersUI
 
         private void changeButtonColor(GameSquareButton i_Button)
         {
-            if (i_Button.BackColor == r_UnselectedButtonColor)
+            if (i_Button != null)
             {
-
-                foreach (BoardPosition position in m_NextValidPositions)
+                if (i_Button.BackColor == r_UnselectedButtonColor)
                 {
-                    m_PanelBoard.Controls[position.ToString()].BackColor = r_NextValidPositionsColor;
+
+                    foreach (BoardPosition position in m_NextValidPositions)
+                    {
+                        m_PanelBoard.Controls[position.ToString()].BackColor = r_NextValidPositionsColor;
+                    }
+
+                    i_Button.BackColor = r_SelectedButtonColor;
                 }
-
-                i_Button.BackColor = r_SelectedButtonColor;
-            }
-            else
-            {
-                if(i_Button.BackColor == r_SelectedButtonColor)
+                else
                 {
-                    i_Button.BackColor = r_UnselectedButtonColor;
-                }
+                    if (i_Button.BackColor == r_SelectedButtonColor)
+                    {
+                        i_Button.BackColor = r_UnselectedButtonColor;
+                    }
 
-                foreach(BoardPosition position in m_NextValidPositions)
-                {
-                    m_PanelBoard.Controls[position.ToString()].BackColor = r_UnselectedButtonColor;
+                    foreach (BoardPosition position in m_NextValidPositions)
+                    {
+                        m_PanelBoard.Controls[position.ToString()].BackColor = r_UnselectedButtonColor;
+                    }
                 }
             }
         }
@@ -305,12 +315,12 @@ namespace CheckersUI
 
         public void Game_PlayerWon(Player i_Winner)
         {
-            if(lastRoundQuitByPlayer || MessageBox.Show(
+            if(m_LastRoundQuitByPlayer || MessageBox.Show(
                    $@"{i_Winner.Name} Won! {Environment.NewLine}Another Round?",
                    @"Game Over",
                    MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                lastRoundQuitByPlayer = false;
+                m_LastRoundQuitByPlayer = false;
                 changeScore(i_Winner);
                 OnNewGame();
             }
@@ -371,7 +381,7 @@ namespace CheckersUI
             switch(userChoice)
             {
                 case DialogResult.Yes:
-                    lastRoundQuitByPlayer = true;
+                    m_LastRoundQuitByPlayer = true;
                     i_EventArgs.Cancel = true;
                     GameRoundQuitByPlayer?.Invoke();
                     break;

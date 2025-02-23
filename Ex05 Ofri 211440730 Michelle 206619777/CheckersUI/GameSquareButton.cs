@@ -4,10 +4,10 @@ using CheckersLogic;
 
 namespace CheckersUI
 {
-	public class GameSquareButton : Button
+	public sealed class GameSquareButton : Button
 	{
-		public static int k_ButtonHeight = 50;
-		public static int k_ButtonWidth = 50; // todo- rename static
+		public static readonly int sr_ButtonHeight = 50;
+		public static readonly int sr_ButtonWidth = 50;
 		public BoardPosition BoardPosition { get;}
 
 		public GameSquareButton(BoardPosition i_BoardPosition)
@@ -15,8 +15,8 @@ namespace CheckersUI
 			Name = i_BoardPosition.ToString();
 			Text = string.Empty;
 			BoardPosition = i_BoardPosition;
-			Height = k_ButtonHeight;
-			Width = k_ButtonWidth;
+			Height = sr_ButtonHeight;
+			Width = sr_ButtonWidth;
 			BackColor = Color.Gainsboro;
 			Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
 			FlatStyle = FlatStyle.Flat;

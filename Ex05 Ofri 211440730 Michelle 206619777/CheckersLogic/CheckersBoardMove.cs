@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CheckersLogic
+﻿namespace CheckersLogic
 {
     public struct CheckersBoardMove
     {
@@ -11,12 +9,6 @@ namespace CheckersLogic
         {
             From = i_From;
             To = i_To;
-        }
-
-        public void SetMove(String i_MoveInput) //todo-delete
-        {
-            From = new BoardPosition(i_MoveInput[0], i_MoveInput[1]);
-            To = new BoardPosition(i_MoveInput[3], i_MoveInput[4]);
         }
     }
 }

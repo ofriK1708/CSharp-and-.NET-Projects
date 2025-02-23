@@ -85,7 +85,7 @@
             this.textBoxPlayerOneName.TabIndex = 16;
             this.textBoxPlayerOneName.TextChanged += new System.EventHandler(this.textBoxPlayerName_TextChanged);
             // 
-            // lablePlayerOne
+            // labelPlayerOne
             // 
             this.labelPlayerOne.AutoSize = true;
             this.labelPlayerOne.Location = new System.Drawing.Point(18, 110);
@@ -94,7 +94,7 @@
             this.labelPlayerOne.TabIndex = 15;
             this.labelPlayerOne.Text = "Player 1:";
             // 
-            // lablePlayers
+            // labelPlayers
             // 
             this.labelPlayers.AutoSize = true;
             this.labelPlayers.Location = new System.Drawing.Point(9, 81);
@@ -103,7 +103,7 @@
             this.labelPlayers.TabIndex = 14;
             this.labelPlayers.Text = "Players:";
             // 
-            // lableBoardSize
+            // labelBoardSize
             // 
             this.labelBoardSize.AutoSize = true;
             this.labelBoardSize.Location = new System.Drawing.Point(9, 13);
