@@ -45,14 +45,19 @@ namespace CheckersUI
         {
             r_CheckersBoardSize = i_BoardSize;
             InitializeComponent();
-            labelPlayerOneName.Text = i_Player1Name + k_LabelNameSuffix;
-            labelPlayerTwoName.Text = i_Player2Name + k_LabelNameSuffix;
-            labelPlayerOneScore.Left = labelPlayerOneName.Right + 5;
-            labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
+            initalisePlayersLabelNamesAndPositions(i_Player1Name, i_Player2Name);
             r_IsPlayerTwoActive = i_IsPlayerTwoActive;
             initializePanelBoard();
             createButtonMatrix();
             initTimersForClearingButtons();
+        }
+
+        private void initalisePlayersLabelNamesAndPositions(string i_Player1Name, string i_Player2Name)
+        {
+            labelPlayerOneName.Text = i_Player1Name + k_LabelNameSuffix;
+            labelPlayerTwoName.Text = i_Player2Name + k_LabelNameSuffix;
+            labelPlayerOneScore.Left = labelPlayerOneName.Right + 5;
+            labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
         }
 
         private void initTimersForClearingButtons()
@@ -90,12 +95,9 @@ namespace CheckersUI
                         currentSquare.BackColor = Color.SlateGray;
                     }
 
-                    // Position relative to the panel.
                     currentSquare.Top = row * currentSquare.Height;
                     currentSquare.Left = col * currentSquare.Width;
                     currentSquare.Click += gameWindowButton_ButtonClicked;
-
-                    // Add the button to the panel.
                     m_PanelBoard.Controls.Add(currentSquare);
                 }
             }
@@ -113,6 +115,7 @@ namespace CheckersUI
             m_IsComputerTurn = false;
             m_PanelBoard.Enabled = true;
             labelPlayerTwoName.BackColor = Color.Empty;
+            
             if (m_CurrentPressedButton != null)
             {
                 m_CurrentPressedButton.BackColor = r_UnselectedButtonColor;
@@ -140,6 +143,7 @@ namespace CheckersUI
             {
                 labelPlayerTwoName.BackColor = r_ActivePlayerColor;
                 labelPlayerOneName.BackColor = Color.Empty;
+                
                 if (!r_IsPlayerTwoActive)
                 {
                     m_IsComputerTurn = true;
@@ -334,6 +338,7 @@ namespace CheckersUI
         {
             DialogResult result = MessageBox.Show($@"Tie! {Environment.NewLine}Another Round?", @"Game Over",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            
             if (result == DialogResult.Yes)
             {
                 OnNewGame();
@@ -378,6 +383,7 @@ namespace CheckersUI
         protected override void OnClosing(CancelEventArgs i_EventArgs)
         {
             DialogResult userChoice = MessageBox.Show(k_GamePausedMessage,k_GamePausedCaption ,MessageBoxButtons.YesNoCancel,MessageBoxIcon.Question); 
+            
             switch(userChoice)
             {
                 case DialogResult.Yes:

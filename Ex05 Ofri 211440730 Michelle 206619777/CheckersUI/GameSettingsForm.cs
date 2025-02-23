@@ -24,6 +24,7 @@ namespace CheckersUI
         private void radioButton_CheckedChanged(object i_Sender, EventArgs i_EventArgs)
         {
             RadioButton radioButton = i_Sender as RadioButton;
+            
             if (i_Sender is RadioButton && radioButton.Checked)
             {
                 BoardSize = int.Parse(radioButton.Tag.ToString());
@@ -33,6 +34,7 @@ namespace CheckersUI
         private void checkBoxPlayerTwo_CheckedChanged(object i_Sender, EventArgs i_EventArgs)
         {
             CheckBox checkBox = i_Sender as CheckBox;
+            
             if (i_Sender is CheckBox && checkBox.Checked)
             {
                 textBoxPlayerTwoName.Text = string.Empty;

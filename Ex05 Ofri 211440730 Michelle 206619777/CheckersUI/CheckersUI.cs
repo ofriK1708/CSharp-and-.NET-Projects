@@ -13,6 +13,7 @@ namespace CheckersUI
         internal void StartGame()
         {
             m_SettingsForm = new GameSettingsForm();
+            
             if (m_SettingsForm.IsWindowClosedByDone)
             {
                 Player player1 = new Player(m_SettingsForm.PlayerOneName, ePlayerType.Human, eCheckersPieceType.XPiece, eCheckersPieceType.XKingPiece);
@@ -43,6 +44,7 @@ namespace CheckersUI
         private Player initSecondPlayer(bool i_SettingsFormIsPlayerTwoActive, string i_SettingsFormPlayerTwoName)
         {
             ePlayerType secondPlayerType = i_SettingsFormIsPlayerTwoActive ? ePlayerType.Human : ePlayerType.Computer;
+            
             return new Player(i_SettingsFormPlayerTwoName, secondPlayerType, eCheckersPieceType.OPiece,
                 eCheckersPieceType.OKingPiece);
         }
@@ -56,6 +58,7 @@ namespace CheckersUI
         private CheckersBoardMove getComputerMove()
         {
             uint randomIndex = (uint)r_RandomGenerator.Next(m_CheckersGame.ValidMoves.Count);
+            
             return m_CheckersGame.ValidMoves[(int)randomIndex];
         }
     }

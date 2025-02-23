@@ -28,6 +28,7 @@ namespace CheckersLogic
         {
             OPositions.Clear();
             XPositions.Clear();
+            
             for (int row = 0; row < i_BoardSize; row++)
             {
                 for (int col = 0; col < i_BoardSize; col++)
@@ -96,7 +97,6 @@ namespace CheckersLogic
             eCheckersPieceType pieceTypeInNextPos = getPieceTypeForNextPos(pieceTypeInStartPos, nextPosition.Row);
             bool isSkipMove = false;
             int rowDiff = Math.Abs(nextPosition.Row - startPosition.Row);
-
             Board[nextPosition.Row, nextPosition.Column] = pieceTypeInNextPos;
             Board[startPosition.Row, startPosition.Column] = eCheckersPieceType.EmptyPlace;
             removePieceFromBoard(startPosition, pieceTypeInStartPos);
