@@ -41,11 +41,11 @@
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ex04.Menus. Interfaces\Ex04.Menus. Interfaces.csproj">
+    <ProjectReference Include="..\Menus. Interfaces\Menus. Interfaces.csproj">
       <Project>{ff6f5f62-393f-40ce-872f-9bed651ea196}</Project>
       <Name>Ex04.Menus. Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ex04.Menus.Events\Ex04.Menus.Events.csproj">
+    <ProjectReference Include="..\Menus.Events\Menus.Events.csproj">
       <Project>{2ff71e4e-baa6-42d3-8e84-a5b4df450d0c}</Project>
       <Name>Ex04.Menus.Events</Name>
     </ProjectReference>
