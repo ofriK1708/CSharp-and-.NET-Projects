@@ -53,7 +53,7 @@ namespace ex03
 
         public void ChargeBattery(string i_LicensePlate, float i_MinutesToCharge)
         {
-            m_Vehicles[i_LicensePlate].ChargeBattery(i_MinutesToCharge * ElectricMotor.k_MinutesInHour);
+            m_Vehicles[i_LicensePlate].ChargeBattery(i_MinutesToCharge / ElectricMotor.k_MinutesInHour);
         }
 
         public string GetFullVehicleDetails(string i_LicensePlate)
